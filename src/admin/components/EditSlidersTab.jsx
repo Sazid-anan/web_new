@@ -14,22 +14,21 @@ export default function EditSlidersTab() {
   const dispatch = useDispatch();
   const { sliders } = useSelector((state) => state.content);
   const [slidersList, setSlidersList] = useState(sliders || []);
-  const [newImageUrl, setNewImageUrl] = useState("");
   const [newImageFile, setNewImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [saveError, setSaveError] = useState("");
 
   const handleAddSlider = async () => {
     try {
       setSaveError("");
-      let url = newImageUrl && newImageUrl.trim() ? newImageUrl.trim() : null;
 
-      if (!url && newImageFile) {
-        // upload file and get URL
-        url = await uploadImage(newImageFile, "sliders");
+      if (!newImageFile) {
+        return alert("Please select a file to upload");
       }
 
-      if (!url) return alert("Provide an image URL or select a file to upload");
+      // Upload file and get URL
+      const url = await uploadImage(newImageFile, "sliders");
 
       const newSlider = {
         id: Math.random(),
@@ -58,8 +57,8 @@ export default function EditSlidersTab() {
 
       // persist to Firebase
       await dispatch(saveSliders(serverPayload)).unwrap();
-      setNewImageUrl("");
       setNewImageFile(null);
+      setImagePreview("");
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
     } catch (err) {
@@ -189,26 +188,50 @@ export default function EditSlidersTab() {
       <div className="admin-section p-6">
         <h3 className="font-bold text-brand-black mb-4">Add New Image</h3>
         <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-brand-black mb-2">
-              Image URL
-            </label>
-            <input
-              type="url"
-              value={newImageUrl}
-              onChange={(e) => setNewImageUrl(e.target.value)}
-              placeholder="https://example.com/image.jpg"
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-brand-orange focus:ring-2 focus:ring-brand-orange/20 transition-all duration-300 shadow-sm hover:shadow-md orange-pop-hover"
-            />
-            <div className="mt-2">
+          {imagePreview && (
+            <div className="mb-4">
               <label className="block text-sm font-medium text-brand-black mb-2">
-                Or upload file
+                Image Preview
+              </label>
+              <div className="relative w-full h-48 rounded overflow-hidden">
+                <img
+                  src={imagePreview}
+                  alt="preview"
+                  className="w-full h-full object-cover"
+                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setImagePreview("");
+                    setNewImageFile(null);
+                  }}
+                  className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg text-sm font-medium transition-colors"
+                >
+                  Remove Image
+                </button>
+              </div>
+            </div>
+          )}
+          <div>
+            <div>
+              <label className="block text-sm font-medium text-brand-black mb-2">
+                Upload file
               </label>
               <div className="relative">
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => setNewImageFile(e.target.files?.[0] || null)}
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setNewImageFile(file);
+                      const reader = new FileReader();
+                      reader.onload = (event) => {
+                        setImagePreview(event.target.result);
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                   id="slider-file-input"
                 />
@@ -224,11 +247,7 @@ export default function EditSlidersTab() {
               </div>
             </div>
           </div>
-          <Button
-            onClick={handleAddSlider}
-            size="md"
-            disabled={!newImageUrl.trim() && !newImageFile}
-          >
+          <Button onClick={handleAddSlider} size="md" disabled={!newImageFile}>
             Add Image
           </Button>
         </div>
@@ -270,9 +289,6 @@ export default function EditSlidersTab() {
                 <div className="flex-1">
                   <p className="font-semibold text-brand-black mb-1">
                     Image {index + 1}
-                  </p>
-                  <p className="text-gray-600 text-sm break-all mb-3">
-                    {slider.image_url}
                   </p>
 
                   {/* Action Buttons */}

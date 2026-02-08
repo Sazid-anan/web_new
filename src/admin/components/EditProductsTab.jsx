@@ -21,28 +21,48 @@ export default function EditProductsTab() {
     details: "",
     image_url: "",
     contact_info: "",
+    category: "",
   });
   const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState("");
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [productQuery, setProductQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
   const [lastSavedAt, setLastSavedAt] = useState("");
+
+  // Get unique categories from products
+  const categories = Array.from(
+    new Set((products || []).map((p) => p.category).filter((c) => c)),
+  ).sort();
 
   const filteredProducts = useMemo(() => {
     const safeProducts = products || [];
     const query = productQuery.trim().toLowerCase();
-    if (!query) return safeProducts;
-    return safeProducts.filter((product) => {
-      const name = String(product.name || "").toLowerCase();
-      const description = String(product.description || "").toLowerCase();
-      const contact = String(product.contact_info || "").toLowerCase();
-      return (
-        name.includes(query) ||
-        description.includes(query) ||
-        contact.includes(query)
-      );
-    });
-  }, [productQuery, products]);
+
+    let filtered = safeProducts;
+
+    // Filter by category
+    if (categoryFilter) {
+      filtered = filtered.filter((p) => p.category === categoryFilter);
+    }
+
+    // Filter by search query
+    if (query) {
+      filtered = filtered.filter((product) => {
+        const name = String(product.name || "").toLowerCase();
+        const description = String(product.description || "").toLowerCase();
+        const contact = String(product.contact_info || "").toLowerCase();
+        return (
+          name.includes(query) ||
+          description.includes(query) ||
+          contact.includes(query)
+        );
+      });
+    }
+
+    return filtered;
+  }, [productQuery, categoryFilter, products]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -86,8 +106,10 @@ export default function EditProductsTab() {
         details: "",
         image_url: "",
         contact_info: "",
+        category: "",
       });
       setImageFile(null);
+      setImagePreview("");
       setShowForm(false);
       setEditingId(null);
       setSaveSuccess(true);
@@ -106,7 +128,10 @@ export default function EditProductsTab() {
       details: product.details || "",
       image_url: product.image_url || "",
       contact_info: product.contact_info || "",
+      category: product.category || "",
     });
+    setImagePreview(product.image_url || "");
+    setImageFile(null);
     setEditingId(product.id);
     setShowForm(true);
   };
@@ -121,7 +146,10 @@ export default function EditProductsTab() {
       details: "",
       image_url: "",
       contact_info: "",
+      category: "",
     });
+    setImageFile(null);
+    setImagePreview("");
   };
 
   return (
@@ -240,28 +268,52 @@ export default function EditProductsTab() {
               </div>
             </div>
 
-            {/* Image URL */}
+            {/* Image Upload */}
             <div>
-              <label className="block text-sm font-medium text-brand-black mb-2">
-                Image URL
-              </label>
-              <input
-                type="url"
-                name="image_url"
-                value={formData.image_url}
-                onChange={handleChange}
-                placeholder="https://example.com/image.jpg"
-                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-brand-orange focus:ring-2 focus:ring-brand-orange/20 transition-all duration-300 shadow-sm hover:shadow-md orange-pop-hover"
-              />
-              <div className="mt-2">
+              {imagePreview && (
+                <div className="mb-4">
+                  <label className="block text-sm font-medium text-brand-black mb-2">
+                    Image Preview
+                  </label>
+                  <div className="relative w-full h-48 rounded overflow-hidden">
+                    <img
+                      src={imagePreview}
+                      alt="preview"
+                      className="w-full h-full object-cover"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setImagePreview("");
+                        setImageFile(null);
+                        setFormData((prev) => ({ ...prev, image_url: "" }));
+                      }}
+                      className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg text-sm font-medium transition-colors"
+                    >
+                      Remove Image
+                    </button>
+                  </div>
+                </div>
+              )}
+              <div>
                 <label className="block text-sm font-medium text-brand-black mb-2">
-                  Or upload file
+                  Upload file
                 </label>
                 <div className="relative">
                   <input
                     type="file"
                     accept="image/*"
-                    onChange={(e) => setImageFile(e.target.files?.[0] || null)}
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setImageFile(file);
+                        const reader = new FileReader();
+                        reader.onload = (event) => {
+                          setImagePreview(event.target.result);
+                        };
+                        reader.readAsDataURL(file);
+                      }
+                    }}
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                     id="product-file-input"
                   />
@@ -295,6 +347,40 @@ export default function EditProductsTab() {
               />
             </div>
 
+            {/* Category */}
+            <div>
+              <label className="block text-sm font-medium text-brand-black mb-2">
+                Category
+              </label>
+              <select
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-brand-orange focus:ring-2 focus:ring-brand-orange/20 transition-all duration-300 shadow-sm hover:shadow-md orange-pop-hover"
+              >
+                <option value="">Select or create category</option>
+                {categories.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
+                {formData.category &&
+                  !categories.includes(formData.category) && (
+                    <option value={formData.category} selected>
+                      {formData.category} (new)
+                    </option>
+                  )}
+              </select>
+              <input
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                placeholder="Or type a new category"
+                className="w-full px-4 py-2 mt-2 border-2 border-gray-200 rounded-xl focus:outline-none focus:border-brand-orange focus:ring-2 focus:ring-brand-orange/20 transition-all duration-300 shadow-sm hover:shadow-md orange-pop-hover text-sm"
+              />
+            </div>
+
             {/* Buttons */}
             <div className="flex gap-4 pt-4">
               <Button onClick={handleAddProduct} size="md">
@@ -317,13 +403,27 @@ export default function EditProductsTab() {
           <h3 className="font-bold text-brand-black">
             Current Products ({filteredProducts.length})
           </h3>
-          <input
-            type="search"
-            value={productQuery}
-            onChange={(e) => setProductQuery(e.target.value)}
-            placeholder="Search products"
-            className="w-full sm:w-64 px-4 py-2 border rounded-lg text-sm"
-          />
+          <div className="flex flex-wrap gap-3 flex-1 sm:flex-none">
+            <input
+              type="search"
+              value={productQuery}
+              onChange={(e) => setProductQuery(e.target.value)}
+              placeholder="Search products"
+              className="flex-1 sm:flex-none sm:w-48 px-4 py-2 border rounded-lg text-sm"
+            />
+            <select
+              value={categoryFilter}
+              onChange={(e) => setCategoryFilter(e.target.value)}
+              className="px-4 py-2 border rounded-lg text-sm"
+            >
+              <option value="">All Categories</option>
+              {categories.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
 
         {products.length === 0 ? (

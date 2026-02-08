@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { fetchContent } from "../redux/slices/contentSlice";
 import Container from "../components/common/Container";
 import Button from "../components/common/Button";
+import TestimonialsSection from "../components/TestimonialsSection";
 import { Link } from "react-router-dom";
 
 /**
@@ -27,30 +28,8 @@ export default function About() {
     }),
   };
 
-  // Use Redux teamMembers, fallback to defaults if empty
-  const team =
-    teamMembers && teamMembers.length > 0
-      ? teamMembers
-      : [
-          {
-            name: "Team Member 1",
-            role: "Chief Technology Officer",
-            image:
-              "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop",
-          },
-          {
-            name: "Team Member 2",
-            role: "Principal AI Engineer",
-            image:
-              "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&h=300&fit=crop",
-          },
-          {
-            name: "Team Member 3",
-            role: "Product Manager",
-            image:
-              "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop",
-          },
-        ];
+  // Use Redux teamMembers only (no fallback placeholders)
+  const team = teamMembers || [];
 
   return (
     <div className="min-h-screen bg-white">
@@ -258,35 +237,46 @@ export default function About() {
           </motion.h2>
 
           <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {team.map((member, i) => (
-              <motion.div
-                key={i}
-                custom={i}
-                variants={contentVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                whileHover={{ y: -10, scale: 1.02 }}
-                className="text-center relative group cursor-pointer"
-              >
-                <div className="rounded-2xl overflow-hidden mb-4 shadow-lg border-2 border-gray-200 relative">
-                  {/* Glass effect overlay on hover */}
-                  <span className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/30 to-gray-100/50 opacity-0 group-hover:opacity-100 backdrop-blur-sm border border-white/40 shadow-2xl transition-all duration-300 z-10"></span>
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-64 object-cover"
-                  />
-                </div>
-                <h3 className="text-xl font-bold text-brand-black mb-1">
-                  {member.name}
-                </h3>
-                <p className="text-brand-orange font-semibold">{member.role}</p>
-              </motion.div>
-            ))}
+            {team.length > 0 ? (
+              team.map((member, i) => (
+                <motion.div
+                  key={member.id || i}
+                  custom={i}
+                  variants={contentVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  whileHover={{ y: -10, scale: 1.02 }}
+                  className="text-center relative group cursor-pointer"
+                >
+                  <div className="rounded-2xl overflow-hidden mb-4 shadow-lg border-2 border-gray-200 relative">
+                    {/* Glass effect overlay on hover */}
+                    <span className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/30 to-gray-100/50 opacity-0 group-hover:opacity-100 backdrop-blur-sm border border-white/40 shadow-2xl transition-all duration-300 z-10"></span>
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="w-full h-64 object-cover"
+                    />
+                  </div>
+                  <h3 className="text-xl font-bold text-brand-black mb-1">
+                    {member.name}
+                  </h3>
+                  <p className="text-brand-orange font-semibold">
+                    {member.role}
+                  </p>
+                </motion.div>
+              ))
+            ) : (
+              <div className="md:col-span-3 text-center text-gray-600">
+                Team updates coming soon.
+              </div>
+            )}
           </div>
         </Container>
       </div>
+
+      {/* Testimonials Section */}
+      <TestimonialsSection />
 
       {/* CTA Section */}
       <div className="bg-brand-orange text-brand-black py-20">

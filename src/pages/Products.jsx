@@ -16,6 +16,7 @@ export default function Products() {
   const { products } = useSelector((state) => state.content);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [dismissedProductId, setDismissedProductId] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const location = useLocation();
 
   useEffect(() => {
@@ -26,6 +27,14 @@ export default function Products() {
     const params = new URLSearchParams(location.search);
     return params.get("productId");
   }, [location.search]);
+
+  // Get unique categories from products
+  const categories = useMemo(() => {
+    if (!products || products.length === 0) return [];
+    return Array.from(
+      new Set(products.map((p) => p.category).filter((c) => c)),
+    ).sort();
+  }, [products]);
 
   const autoSelectedProduct = useMemo(() => {
     if (!productId || !products || products.length === 0) return null;
@@ -42,6 +51,7 @@ export default function Products() {
   const normalizedDetails = activeProduct?.details?.trim() || "";
   const hasDetails =
     normalizedDetails && normalizedDetails !== normalizedDescription;
+
   const buildContactLink = (productName, intent) => {
     const base = "/contact";
     const params = new URLSearchParams();
@@ -50,6 +60,13 @@ export default function Products() {
     const query = params.toString();
     return query ? `${base}?${query}` : base;
   };
+
+  // Filter products by category
+  const filteredProducts = useMemo(() => {
+    if (!products) return [];
+    if (!selectedCategory) return products;
+    return products.filter((p) => p.category === selectedCategory);
+  }, [products, selectedCategory]);
 
   const contentVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -61,7 +78,8 @@ export default function Products() {
   };
 
   // Fallback products for demo
-  const displayProducts = products && products.length > 0 ? products : []; // Empty array - use admin panel to add products
+  const displayProducts =
+    filteredProducts && filteredProducts.length > 0 ? filteredProducts : []; // Empty array - use admin panel to add products
 
   return (
     <div className="min-h-screen bg-white">
@@ -87,6 +105,55 @@ export default function Products() {
 
       {/* Products Grid */}
       <Container className="py-20">
+        {/* Category Filter */}
+        {categories.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-8 flex flex-wrap items-center gap-3"
+          >
+            <span className="font-semibold text-brand-black text-sm uppercase tracking-wide">
+              Filter by Category:
+            </span>
+            <button
+              onClick={() => setSelectedCategory("")}
+              className={`px-5 py-2 rounded-full font-medium transition-all text-sm ${
+                selectedCategory === ""
+                  ? "bg-brand-orange text-brand-black shadow-lg"
+                  : "bg-gray-100 text-brand-black hover:bg-gray-200"
+              }`}
+            >
+              All Products
+            </button>
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setSelectedCategory(cat)}
+                className={`px-5 py-2 rounded-full font-medium transition-all text-sm orange-pop-hover ${
+                  selectedCategory === cat
+                    ? "bg-brand-orange text-brand-black shadow-lg"
+                    : "bg-gray-100 text-brand-black hover:bg-gray-200"
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </motion.div>
+        )}
+
+        {displayProducts.length === 0 && products.length > 0 ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-12 text-gray-600"
+          >
+            <p className="text-lg">
+              No products found in this category. Try selecting a different one.
+            </p>
+          </motion.div>
+        ) : null}
+
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {displayProducts.map((product, i) => (
             <motion.div

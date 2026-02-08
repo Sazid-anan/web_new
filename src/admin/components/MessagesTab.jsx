@@ -119,6 +119,63 @@ export default function MessagesTab() {
     }
   };
 
+  const handleToggleRead = async (id, currentReadStatus) => {
+    try {
+      const newReadStatus = !currentReadStatus;
+      await setDoc(
+        doc(db, "contact_messages", id),
+        { is_read: newReadStatus },
+        { merge: true },
+      );
+      setMessages((prev) =>
+        prev.map((msg) =>
+          msg.id === id ? { ...msg, is_read: newReadStatus } : msg,
+        ),
+      );
+    } catch (err) {
+      setError(err?.message || "Failed to update message status");
+    }
+  };
+
+  const handleExportCSV = () => {
+    if (messages.length === 0) {
+      alert("No messages to export");
+      return;
+    }
+
+    const headers = [
+      "Date",
+      "Name",
+      "Email",
+      "Phone",
+      "Company",
+      "Message",
+      "Status",
+    ];
+    const rows = messages.map((msg) => [
+      formatDate(msg.created_at),
+      msg.name || "",
+      msg.email || "",
+      msg.phone || "",
+      msg.company || "",
+      `"${(msg.message || "").replace(/"/g, '""')}"`,
+      msg.is_read ? "Read" : "Unread",
+    ]);
+
+    const csvContent = [
+      headers.join(","),
+      ...rows.map((row) => row.join(",")),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `danvion-messages-${new Date().toISOString().split("T")[0]}.csv`;
+    link.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -150,6 +207,14 @@ export default function MessagesTab() {
           />
           <Button onClick={loadMessages} size="md" disabled={loading}>
             {loading ? "Refreshing..." : "Refresh"}
+          </Button>
+          <Button
+            onClick={handleExportCSV}
+            size="md"
+            variant="outline"
+            disabled={messages.length === 0}
+          >
+            📥 Export CSV
           </Button>
         </div>
       </div>
@@ -189,12 +254,15 @@ export default function MessagesTab() {
                 key={message.id}
                 type="button"
                 onClick={() => setSelectedId(message.id)}
-                className={`admin-card-lite w-full text-left p-4 transition-all ${
+                className={`admin-card-lite w-full text-left p-4 transition-all relative ${
                   selectedId === message.id
                     ? "border-brand-orange shadow-lg"
                     : "hover:shadow-md"
                 }`}
               >
+                {!message.is_read && (
+                  <div className="absolute top-2 left-2 w-2 h-2 bg-brand-orange rounded-full"></div>
+                )}
                 <div className="flex items-center justify-between gap-3">
                   <h3 className="font-semibold text-brand-black text-sm">
                     {message.name || "Anonymous"}
@@ -225,16 +293,30 @@ export default function MessagesTab() {
                       {formatDate(selectedMessage.created_at)}
                     </p>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(selectedMessage.id)}
-                    disabled={deletingId === selectedMessage.id}
-                    className="px-4 py-2 text-sm bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors disabled:opacity-60"
-                  >
-                    {deletingId === selectedMessage.id
-                      ? "Deleting..."
-                      : "Delete"}
-                  </button>
+                  <div className="flex flex-wrap gap-2">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        handleToggleRead(
+                          selectedMessage.id,
+                          selectedMessage.is_read,
+                        )
+                      }
+                      className="px-4 py-2 text-sm bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors"
+                    >
+                      {selectedMessage.is_read ? "Mark Unread" : "Mark Read"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(selectedMessage.id)}
+                      disabled={deletingId === selectedMessage.id}
+                      className="px-4 py-2 text-sm bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors disabled:opacity-60"
+                    >
+                      {deletingId === selectedMessage.id
+                        ? "Deleting..."
+                        : "Delete"}
+                    </button>
+                  </div>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-4">

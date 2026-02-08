@@ -26,6 +26,8 @@ import AdminDashboard from "./admin/pages/AdminDashboard";
 // Layout
 import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
+import BackToTop from "./components/common/BackToTop";
+import ScrollToTop from "./components/common/ScrollToTop";
 
 /**
  * App Component
@@ -89,6 +91,7 @@ function App() {
         </div>
       )}
       <Router>
+        <ScrollToTop />
         <Routes>
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
@@ -125,6 +128,7 @@ function App() {
             }
           />
         </Routes>
+        <BackToTop />
       </Router>
     </>
   );

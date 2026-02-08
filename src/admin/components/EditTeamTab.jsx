@@ -322,18 +322,6 @@ export default function EditTeamTab() {
               </div>
             )}
             <div className="space-y-3">
-              <input
-                type="url"
-                placeholder="Or paste image URL"
-                value={formData.image}
-                onChange={(e) => {
-                  setFormData({ ...formData, image: e.target.value });
-                  if (e.target.value && !imageFile) {
-                    setImagePreview(e.target.value);
-                  }
-                }}
-                className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:border-brand-orange focus:ring-1 focus:ring-brand-orange"
-              />
               <div>
                 <label className="block text-sm font-medium text-brand-black mb-2">
                   Or upload file

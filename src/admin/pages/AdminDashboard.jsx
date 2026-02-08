@@ -12,6 +12,8 @@ import EditSlidersTab from "../components/EditSlidersTab";
 import EditTeamTab from "../components/EditTeamTab";
 import EditServicesPageTab from "../components/EditServicesPageTab";
 import MessagesTab from "../components/MessagesTab";
+import AnalyticsWidget from "../components/AnalyticsWidget";
+import TestimonialsTab from "../components/TestimonialsTab";
 
 /**
  * Admin Dashboard
@@ -44,23 +46,29 @@ export default function AdminDashboard() {
   };
 
   const tabs = [
+    { id: "analytics", label: "Analytics", icon: "📊" },
     { id: "home", label: "Home Page", icon: "🏠" },
     { id: "services", label: "Services", icon: "🛠️" },
     { id: "about", label: "About Us", icon: "ℹ️" },
     { id: "sliders", label: "Image Sliders", icon: "🖼️" },
     { id: "products", label: "Products", icon: "📦" },
     { id: "team", label: "Leadership Team", icon: "👥" },
+    { id: "testimonials", label: "Testimonials", icon: "⭐" },
     { id: "messages", label: "Messages", icon: "✉️" },
   ];
 
   const tabGroups = [
+    {
+      title: "Dashboard",
+      items: ["analytics"],
+    },
     {
       title: "Pages",
       items: ["home", "services", "about"],
     },
     {
       title: "Content",
-      items: ["sliders", "products", "team", "messages"],
+      items: ["sliders", "products", "team", "testimonials", "messages"],
     },
   ];
 
@@ -208,12 +216,14 @@ export default function AdminDashboard() {
               transition={{ duration: 0.3 }}
               className="admin-panel rounded-3xl p-8 md:p-12"
             >
+              {activeTab === "analytics" && <AnalyticsWidget />}
               {activeTab === "home" && <EditHomePageTab />}
               {activeTab === "services" && <EditServicesPageTab />}
               {activeTab === "sliders" && <EditSlidersTab />}
               {activeTab === "products" && <EditProductsTab />}
               {activeTab === "about" && <EditAboutPageTab />}
               {activeTab === "team" && <EditTeamTab />}
+              {activeTab === "testimonials" && <TestimonialsTab />}
               {activeTab === "messages" && <MessagesTab />}
             </motion.div>
           </div>

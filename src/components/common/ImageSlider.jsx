@@ -13,14 +13,7 @@ export default function ImageSlider({
 }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Default demo images if none provided
-  const defaultImages = [
-    "https://images.unsplash.com/photo-1633356122544-f134324ef6db?q=80&w=1200",
-    "https://images.unsplash.com/photo-1625948515291-69613efd103f?q=80&w=1200",
-    "https://images.unsplash.com/photo-1676887720413-e4da6b4bdca3?q=80&w=1200",
-  ];
-
-  const displayImages = images && images.length > 0 ? images : defaultImages;
+  const displayImages = images && images.length > 0 ? images : [];
 
   // Auto-play functionality
   useEffect(() => {

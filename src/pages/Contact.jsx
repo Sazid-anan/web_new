@@ -37,22 +37,22 @@ export default function Contact() {
   const contactInfo = [
     {
       title: "Email",
-      value: homePage?.footer_email || "info@danvion.com",
+      value: homePage?.footer_email || "",
       icon: "✉️",
-      href: `mailto:${homePage?.footer_email || "info@danvion.com"}`,
+      href: homePage?.footer_email ? `mailto:${homePage.footer_email}` : "",
     },
     {
       title: "Phone",
-      value: homePage?.footer_phone || "+1 (234) 567-890",
+      value: homePage?.footer_phone || "",
       icon: "📞",
-      href: `tel:${homePage?.footer_phone || "+1 (234) 567-890"}`,
+      href: homePage?.footer_phone ? `tel:${homePage.footer_phone}` : "",
     },
     {
       title: "Address",
-      value: homePage?.footer_address || "Global Presence",
+      value: homePage?.footer_address || "",
       icon: "📍",
     },
-  ];
+  ].filter((info) => info.value);
 
   return (
     <div className="min-h-screen bg-white">
@@ -204,8 +204,8 @@ export default function Contact() {
           className="bg-gray-50 rounded-lg overflow-hidden"
         >
           <iframe
-            title="Global map"
-            src="https://www.openstreetmap.org/export/embed.html?bbox=-180%2C-85%2C180%2C85&layer=mapnik"
+            title="Company Location"
+            src={`https://maps.google.com/maps?q=${encodeURIComponent(homePage?.footer_address || "Global")}&output=embed`}
             className="w-full h-96"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"

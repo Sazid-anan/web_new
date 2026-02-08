@@ -5,6 +5,7 @@ import { fetchContent } from "../redux/slices/contentSlice";
 import ImageSlider from "../components/common/ImageSlider";
 import Container from "../components/common/Container";
 import Button from "../components/common/Button";
+import CompanyStatsSection from "../components/CompanyStatsSection";
 import { Link } from "react-router-dom";
 
 /**
@@ -250,6 +251,9 @@ export default function Home() {
             </motion.div>
           </div>
         )}
+
+        {/* Company Stats Section */}
+        <CompanyStatsSection />
 
         {/* CTA Section */}
         <motion.div

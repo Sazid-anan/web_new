@@ -237,6 +237,7 @@ export default function EditAboutPageTab() {
                 type="button"
                 onClick={() => {
                   setAboutPreview("");
+                  setAboutPreview("");
                   setAboutImageFile(null);
                 }}
                 className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg text-sm font-medium transition-colors"
@@ -245,13 +246,6 @@ export default function EditAboutPageTab() {
               </button>
             </div>
           )}
-          <input
-            type="url"
-            placeholder="Or paste image URL"
-            value={aboutPreview}
-            onChange={(e) => setAboutPreview(e.target.value)}
-            className="w-full px-4 py-3 border rounded-lg"
-          />
           <div>
             <label className="block text-sm font-medium text-brand-black mb-2">
               Or upload file
@@ -260,7 +254,17 @@ export default function EditAboutPageTab() {
               <input
                 type="file"
                 accept="image/*"
-                onChange={(e) => setAboutImageFile(e.target.files?.[0] || null)}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    setAboutImageFile(file);
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                      setAboutPreview(event.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                  }
+                }}
                 className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                 id="about-file-input"
               />

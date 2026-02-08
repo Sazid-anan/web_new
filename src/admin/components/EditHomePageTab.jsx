@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { saveHomePage } from "../../redux/slices/contentSlice";
@@ -15,6 +15,8 @@ export default function EditHomePageTab() {
   const [draft, setDraft] = useState({});
   const [heroImageFile, setHeroImageFile] = useState(null);
   const [hero2ImageFile, setHero2ImageFile] = useState(null);
+  const [heroPreview, setHeroPreview] = useState("");
+  const [hero2Preview, setHero2Preview] = useState("");
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [saveError, setSaveError] = useState("");
 
@@ -24,7 +26,17 @@ export default function EditHomePageTab() {
     }
     return homePage?.[key] ?? fallback;
   };
-  const heroPreview = getValue("hero_image_url");
+
+  // Set initial previews when homePage data loads
+  useEffect(() => {
+    if (homePage?.hero_image_url && !heroPreview) {
+      setHeroPreview(homePage.hero_image_url);
+    }
+    if (homePage?.hero2_image_url && !hero2Preview) {
+      setHero2Preview(homePage.hero2_image_url);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [homePage]);
 
   const handleSave = async () => {
     try {
@@ -221,10 +233,10 @@ export default function EditHomePageTab() {
         <div className="border-b pb-6">
           <h4 className="font-semibold text-brand-black mb-4">Hero Image</h4>
           <div className="space-y-4">
-            {heroPreview && (
+            {(heroPreview || getValue("hero_image_url")) && (
               <div className="relative w-full h-48 rounded overflow-hidden mb-2">
                 <img
-                  src={heroPreview}
+                  src={heroPreview || getValue("hero_image_url")}
                   alt="hero preview"
                   className="w-full h-full object-cover"
                 />
@@ -236,6 +248,7 @@ export default function EditHomePageTab() {
                       hero_image_url: "",
                     }));
                     setHeroImageFile(null);
+                    setHeroPreview("");
                   }}
                   className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg text-sm font-medium transition-colors"
                 >
@@ -243,18 +256,7 @@ export default function EditHomePageTab() {
                 </button>
               </div>
             )}
-            <input
-              type="url"
-              placeholder="Or paste image URL"
-              value={heroPreview}
-              onChange={(e) =>
-                setDraft((prev) => ({
-                  ...prev,
-                  hero_image_url: e.target.value,
-                }))
-              }
-              className="w-full px-4 py-3 border rounded-lg"
-            />
+
             <div>
               <label className="block text-sm font-medium text-brand-black mb-2">
                 Or upload file
@@ -263,9 +265,17 @@ export default function EditHomePageTab() {
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={(e) =>
-                    setHeroImageFile(e.target.files?.[0] || null)
-                  }
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setHeroImageFile(file);
+                      const reader = new FileReader();
+                      reader.onload = (event) => {
+                        setHeroPreview(event.target.result);
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                   id="hero-file-input"
                 />
@@ -282,15 +292,10 @@ export default function EditHomePageTab() {
             </div>
             <textarea
               value={getValue("hero_image_details")}
-              onChange={(e) =>
-                setDraft((prev) => ({
-                  ...prev,
-                  hero_image_details: e.target.value,
-                }))
-              }
+              readOnly
               rows="3"
-              className="w-full px-4 py-3 border rounded-lg resize-none"
-              placeholder="Hero image details (optional)"
+              className="w-full px-4 py-3 border rounded-lg resize-none bg-gray-50 text-gray-600"
+              placeholder="Auto-filled from selected product"
             ></textarea>
           </div>
         </div>
@@ -350,13 +355,22 @@ export default function EditHomePageTab() {
               Button Link
             </label>
             <select
-              value=""
+              value={(() => {
+                const link = getValue("section_cta_link");
+                return link && link.includes("productId=")
+                  ? link.split("productId=")[1]
+                  : "";
+              })()}
               onChange={(e) => {
                 const nextId = e.target.value;
                 if (!nextId) return;
+                const selectedProduct = (products || []).find(
+                  (product) => product.id === nextId,
+                );
                 setDraft((prev) => ({
                   ...prev,
                   section_cta_link: `/products?productId=${nextId}`,
+                  hero_image_details: selectedProduct?.name || "",
                 }));
               }}
               className="w-full px-4 py-3 border rounded-lg mb-3"
@@ -368,22 +382,6 @@ export default function EditHomePageTab() {
                 </option>
               ))}
             </select>
-            <input
-              type="text"
-              value={getValue("section_cta_link")}
-              onChange={(e) =>
-                setDraft((prev) => ({
-                  ...prev,
-                  section_cta_link: e.target.value,
-                }))
-              }
-              className="w-full px-4 py-3 border rounded-lg"
-              placeholder="/products"
-            />
-            <p className="text-xs text-gray-500 mt-2">
-              Selecting a product sets the link to open its details on the
-              Products page.
-            </p>
           </div>
         </div>
       </div>
@@ -509,10 +507,10 @@ export default function EditHomePageTab() {
         <div className="border-b pb-6">
           <h4 className="font-semibold text-brand-black mb-4">Hero Image</h4>
           <div className="space-y-4">
-            {getValue("hero2_image_url") && (
+            {(hero2Preview || getValue("hero2_image_url")) && (
               <div className="relative w-full h-48 rounded overflow-hidden mb-2">
                 <img
-                  src={getValue("hero2_image_url")}
+                  src={hero2Preview || getValue("hero2_image_url")}
                   alt="hero 2 preview"
                   className="w-full h-full object-cover"
                 />
@@ -524,6 +522,7 @@ export default function EditHomePageTab() {
                       hero2_image_url: "",
                     }));
                     setHero2ImageFile(null);
+                    setHero2Preview("");
                   }}
                   className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg text-sm font-medium transition-colors"
                 >
@@ -531,18 +530,7 @@ export default function EditHomePageTab() {
                 </button>
               </div>
             )}
-            <input
-              type="url"
-              placeholder="Or paste image URL"
-              value={getValue("hero2_image_url")}
-              onChange={(e) =>
-                setDraft((prev) => ({
-                  ...prev,
-                  hero2_image_url: e.target.value,
-                }))
-              }
-              className="w-full px-4 py-3 border rounded-lg"
-            />
+
             <div>
               <label className="block text-sm font-medium text-brand-black mb-2">
                 Or upload file
@@ -551,9 +539,17 @@ export default function EditHomePageTab() {
                 <input
                   type="file"
                   accept="image/*"
-                  onChange={(e) =>
-                    setHero2ImageFile(e.target.files?.[0] || null)
-                  }
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setHero2ImageFile(file);
+                      const reader = new FileReader();
+                      reader.onload = (event) => {
+                        setHero2Preview(event.target.result);
+                      };
+                      reader.readAsDataURL(file);
+                    }
+                  }}
                   className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
                   id="hero2-file-input"
                 />
@@ -570,15 +566,10 @@ export default function EditHomePageTab() {
             </div>
             <textarea
               value={getValue("hero2_image_details")}
-              onChange={(e) =>
-                setDraft((prev) => ({
-                  ...prev,
-                  hero2_image_details: e.target.value,
-                }))
-              }
+              readOnly
               rows="3"
-              className="w-full px-4 py-3 border rounded-lg resize-none"
-              placeholder="Hero image details (optional)"
+              className="w-full px-4 py-3 border rounded-lg resize-none bg-gray-50 text-gray-600"
+              placeholder="Auto-filled from selected product"
             ></textarea>
           </div>
         </div>
@@ -641,13 +632,22 @@ export default function EditHomePageTab() {
               Button Link
             </label>
             <select
-              value=""
+              value={(() => {
+                const link = getValue("section2_cta_link");
+                return link && link.includes("productId=")
+                  ? link.split("productId=")[1]
+                  : "";
+              })()}
               onChange={(e) => {
                 const nextId = e.target.value;
                 if (!nextId) return;
+                const selectedProduct = (products || []).find(
+                  (product) => product.id === nextId,
+                );
                 setDraft((prev) => ({
                   ...prev,
                   section2_cta_link: `/products?productId=${nextId}`,
+                  hero2_image_details: selectedProduct?.name || "",
                 }));
               }}
               className="w-full px-4 py-3 border rounded-lg mb-3"
@@ -659,22 +659,6 @@ export default function EditHomePageTab() {
                 </option>
               ))}
             </select>
-            <input
-              type="text"
-              value={getValue("section2_cta_link")}
-              onChange={(e) =>
-                setDraft((prev) => ({
-                  ...prev,
-                  section2_cta_link: e.target.value,
-                }))
-              }
-              className="w-full px-4 py-3 border rounded-lg"
-              placeholder="/products"
-            />
-            <p className="text-xs text-gray-500 mt-2">
-              Selecting a product sets the link to open its details on the
-              Products page.
-            </p>
           </div>
         </div>
       </div>
@@ -756,23 +740,11 @@ export default function EditHomePageTab() {
         </div>
       </div>
 
-      {/* Info Box */}
-      <div className="admin-section admin-section--soft p-6">
-        <h3 className="font-bold text-brand-black mb-2">💡 Tip</h3>
-        <p className="text-gray-600 text-sm">
-          These changes will reflect on the home page hero section. For managing
-          slider images, go to the "Image Sliders" tab.
-        </p>
-      </div>
-
       {/* Save Button */}
       <div className="flex gap-4 pt-6">
         <Button onClick={handleSave} size="lg">
           Save Changes
         </Button>
-        <p className="text-sm text-gray-600 flex items-center">
-          Changes are saved to the content manager
-        </p>
       </div>
     </motion.div>
   );
