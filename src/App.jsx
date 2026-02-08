@@ -28,6 +28,7 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import BackToTop from "./components/common/BackToTop";
 import ScrollToTop from "./components/common/ScrollToTop";
+import BackgroundParticles from "./components/common/BackgroundParticles";
 
 /**
  * App Component
@@ -111,6 +112,7 @@ function App() {
             path="/*"
             element={
               <>
+                <BackgroundParticles />
                 <Header />
                 <Routes>
                   <Route path="/" element={<Home />} />

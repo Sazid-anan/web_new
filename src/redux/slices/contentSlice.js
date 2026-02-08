@@ -19,6 +19,28 @@ const sanitizePayload = (payload) => {
   );
 };
 
+const normalizeHomePageBranding = (homePage) => {
+  if (!homePage) return homePage;
+
+  const legacyToNew = "Alchemy for the Intelligent Age";
+  const legacyHeadlineValues = new Set([
+    "Edge AI Solutions",
+    "Edge AI Excellence",
+  ]);
+
+  const normalized = { ...homePage };
+
+  if (legacyHeadlineValues.has(normalized.headline)) {
+    normalized.headline = legacyToNew;
+  }
+
+  if (legacyHeadlineValues.has(normalized.section_title)) {
+    normalized.section_title = legacyToNew;
+  }
+
+  return normalized;
+};
+
 /**
  * Async thunk to fetch content from Firebase
  * Fetches home page, products, and about us content
@@ -291,18 +313,14 @@ const contentSlice = createSlice({
   name: "content",
   initialState: {
     homePage: {
-      headline: "Edge AI Solutions",
+      headline: "Alchemy for the Intelligent Age",
       description: "Transform your products with intelligent edge computing",
       heroImages: [],
       hero_image_details: "",
       product_image_url: "",
       product_image_caption: "",
       product_image_link: "",
-      section_title: "",
-      section_text_one: "",
-      section_text_two: "",
-      section_cta_text: "",
-      section_cta_link: "",
+      // Removed main section fields
       capabilities_title: "",
       capability_1_title: "",
       capability_1_desc: "",
@@ -406,7 +424,8 @@ const contentSlice = createSlice({
       .addCase(fetchContent.fulfilled, (state, action) => {
         state.loading = false;
         state.lastFetched = Date.now();
-        state.homePage = action.payload.homePage[0] || state.homePage;
+        const fetchedHomePage = action.payload.homePage[0] || state.homePage;
+        state.homePage = normalizeHomePageBranding(fetchedHomePage);
         state.products = action.payload.products;
         state.aboutPage = action.payload.aboutPage[0] || state.aboutPage;
         const rawSliders = action.payload.sliders || [];

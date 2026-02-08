@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchContent } from "../redux/slices/contentSlice";
 import Container from "../components/common/Container";
-import Button from "../components/common/Button";
+import Button from "../components/ui/Button";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { renderMarkdown } from "../utils/markdown";
@@ -92,10 +92,10 @@ export default function Products() {
             transition={{ duration: 0.6 }}
             className="text-center"
           >
-            <h1 className="text-5xl font-bold text-brand-black mb-6">
+            <h1 className="text-5xl lg:text-6xl font-bold text-brand-black mb-6">
               Our Products
             </h1>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            <p className="text-base lg:text-lg text-gray-600 max-w-2xl mx-auto">
               Discover our range of Edge AI solutions designed to enhance your
               products and operations.
             </p>
@@ -113,7 +113,7 @@ export default function Products() {
             transition={{ duration: 0.5 }}
             className="mb-8 flex flex-wrap items-center gap-3"
           >
-            <span className="font-semibold text-brand-black text-sm uppercase tracking-wide">
+            <span className="font-medium text-brand-black text-sm uppercase tracking-wide">
               Filter by Category:
             </span>
             <button

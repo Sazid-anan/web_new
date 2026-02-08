@@ -5,12 +5,9 @@ import { motion } from "framer-motion";
 import { logoutAdmin } from "../../redux/slices/authSlice";
 import { setActiveTab } from "../../redux/slices/adminSlice";
 import { fetchContent } from "../../redux/slices/contentSlice";
-import EditHomePageTab from "../components/EditHomePageTab";
 import EditProductsTab from "../components/EditProductsTab";
-import EditAboutPageTab from "../components/EditAboutPageTab";
 import EditSlidersTab from "../components/EditSlidersTab";
 import EditTeamTab from "../components/EditTeamTab";
-import EditServicesPageTab from "../components/EditServicesPageTab";
 import MessagesTab from "../components/MessagesTab";
 import AnalyticsWidget from "../components/AnalyticsWidget";
 import TestimonialsTab from "../components/TestimonialsTab";
@@ -47,9 +44,6 @@ export default function AdminDashboard() {
 
   const tabs = [
     { id: "analytics", label: "Analytics", icon: "📊" },
-    { id: "home", label: "Home Page", icon: "🏠" },
-    { id: "services", label: "Services", icon: "🛠️" },
-    { id: "about", label: "About Us", icon: "ℹ️" },
     { id: "sliders", label: "Image Sliders", icon: "🖼️" },
     { id: "products", label: "Products", icon: "📦" },
     { id: "team", label: "Leadership Team", icon: "👥" },
@@ -61,10 +55,6 @@ export default function AdminDashboard() {
     {
       title: "Dashboard",
       items: ["analytics"],
-    },
-    {
-      title: "Pages",
-      items: ["home", "services", "about"],
     },
     {
       title: "Content",
@@ -217,11 +207,8 @@ export default function AdminDashboard() {
               className="admin-panel rounded-3xl p-8 md:p-12"
             >
               {activeTab === "analytics" && <AnalyticsWidget />}
-              {activeTab === "home" && <EditHomePageTab />}
-              {activeTab === "services" && <EditServicesPageTab />}
               {activeTab === "sliders" && <EditSlidersTab />}
               {activeTab === "products" && <EditProductsTab />}
-              {activeTab === "about" && <EditAboutPageTab />}
               {activeTab === "team" && <EditTeamTab />}
               {activeTab === "testimonials" && <TestimonialsTab />}
               {activeTab === "messages" && <MessagesTab />}
