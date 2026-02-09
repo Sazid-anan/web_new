@@ -2,15 +2,25 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import {
+  BarChart3,
+  Package,
+  FileText,
+  Users,
+  Star,
+  Mail,
+  User,
+  LogOut,
+} from "lucide-react";
 import { logoutAdmin } from "../../redux/slices/authSlice";
 import { setActiveTab } from "../../redux/slices/adminSlice";
 import { fetchContent } from "../../redux/slices/contentSlice";
 import EditProductsTab from "../components/EditProductsTab";
-import EditSlidersTab from "../components/EditSlidersTab";
 import EditTeamTab from "../components/EditTeamTab";
 import MessagesTab from "../components/MessagesTab";
 import AnalyticsWidget from "../components/AnalyticsWidget";
 import TestimonialsTab from "../components/TestimonialsTab";
+import BlogsTab from "../components/BlogsTab";
 
 /**
  * Admin Dashboard
@@ -43,12 +53,12 @@ export default function AdminDashboard() {
   };
 
   const tabs = [
-    { id: "analytics", label: "Analytics", icon: "📊" },
-    { id: "sliders", label: "Image Sliders", icon: "🖼️" },
-    { id: "products", label: "Products", icon: "📦" },
-    { id: "team", label: "Leadership Team", icon: "👥" },
-    { id: "testimonials", label: "Testimonials", icon: "⭐" },
-    { id: "messages", label: "Messages", icon: "✉️" },
+    { id: "analytics", label: "Analytics", icon: BarChart3 },
+    { id: "products", label: "Products", icon: Package },
+    { id: "blogs", label: "Blog Posts", icon: FileText },
+    { id: "team", label: "Leadership Team", icon: Users },
+    { id: "testimonials", label: "Testimonials", icon: Star },
+    { id: "messages", label: "Messages", icon: Mail },
   ];
 
   const tabGroups = [
@@ -58,7 +68,7 @@ export default function AdminDashboard() {
     },
     {
       title: "Content",
-      items: ["sliders", "products", "team", "testimonials", "messages"],
+      items: ["products", "blogs", "team", "testimonials", "messages"],
     },
   ];
 
@@ -136,7 +146,7 @@ export default function AdminDashboard() {
                                 : "bg-white text-brand-orange border-gray-200 hover:bg-gray-50 hover:border-brand-orange"
                             }`}
                           >
-                            <span className="text-lg">{tab.icon}</span>
+                            <tab.icon className="h-5 w-5" />
                             <span className="text-sm">{tab.label}</span>
                           </motion.button>
                         );
@@ -153,7 +163,7 @@ export default function AdminDashboard() {
                   </span>
                 </div>
                 <div className="flex items-center gap-3 bg-white/80 border border-gray-200 px-3 py-2 rounded-xl">
-                  <span className="text-sm">👤</span>
+                  <User className="h-4 w-4 text-brand-orange" />
                   <span className="text-xs text-brand-black truncate">
                     {adminEmail}
                   </span>
@@ -162,9 +172,10 @@ export default function AdminDashboard() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   onClick={handleLogout}
-                  className="w-full px-4 py-2 bg-white border-2 border-brand-orange text-brand-orange hover:bg-brand-orange hover:text-brand-black text-sm font-semibold rounded-xl transition-colors"
+                  className="w-full px-4 py-2 bg-white border-2 border-brand-orange text-brand-orange hover:bg-brand-orange hover:text-brand-black text-sm font-semibold rounded-xl transition-colors flex items-center justify-center gap-2"
                 >
-                  ↪ Logout
+                  <LogOut className="h-4 w-4" />
+                  Logout
                 </motion.button>
               </div>
             </div>
@@ -191,7 +202,7 @@ export default function AdminDashboard() {
                       : "bg-white text-brand-orange border-gray-200 hover:shadow-lg hover:border-brand-orange"
                   }`}
                 >
-                  <span className="text-lg">{tab.icon}</span>
+                  <tab.icon className="h-5 w-5" />
                   <span>{tab.label}</span>
                 </motion.button>
               ))}
@@ -207,8 +218,8 @@ export default function AdminDashboard() {
               className="admin-panel rounded-3xl p-8 md:p-12"
             >
               {activeTab === "analytics" && <AnalyticsWidget />}
-              {activeTab === "sliders" && <EditSlidersTab />}
               {activeTab === "products" && <EditProductsTab />}
+              {activeTab === "blogs" && <BlogsTab />}
               {activeTab === "team" && <EditTeamTab />}
               {activeTab === "testimonials" && <TestimonialsTab />}
               {activeTab === "messages" && <MessagesTab />}

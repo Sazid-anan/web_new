@@ -152,6 +152,78 @@ a:hover {
   opacity: 1;
 }
 
+button.orange-pop-hover::before,
+a.orange-pop-hover::before {
+  transform: translateX(40%);
+  transition:
+    opacity 320ms ease,
+    transform 700ms cubic-bezier(0.12, 0.9, 0.2, 1);
+}
+
+button.orange-pop-hover:hover::before,
+a.orange-pop-hover:hover::before {
+  transform: translateX(0%);
+}
+
+.glass-orange,
+.glass-orange-outline {
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+}
+
+.glass-orange {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 150, 90, 0.55),
+    rgba(255, 150, 90, 0.25)
+  );
+  color: #1a1a1a;
+  border: 1px solid rgba(255, 150, 90, 0.35);
+  box-shadow: 0 10px 24px rgba(255, 150, 90, 0.2);
+}
+
+.glass-orange-outline {
+  background: rgba(255, 255, 255, 0.5);
+  color: #1a1a1a;
+  border: 1px solid rgba(120, 120, 120, 0.25);
+  box-shadow: 0 14px 28px rgba(17, 17, 17, 0.12);
+}
+
+.glass-orange::before,
+.glass-orange-outline::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.35),
+    rgba(255, 255, 255, 0.03)
+  );
+  opacity: 0;
+  transform: translateX(40%);
+  transition:
+    opacity 320ms ease,
+    transform 700ms cubic-bezier(0.12, 0.9, 0.2, 1);
+  pointer-events: none;
+}
+
+.glass-orange:hover::before,
+.glass-orange-outline:hover::before {
+  opacity: 0.7;
+  transform: translateX(0%);
+}
+
+.glass-orange:hover {
+  box-shadow: 0 12px 24px rgba(255, 150, 90, 0.18);
+}
+
+.glass-orange-outline:hover {
+  background: rgba(255, 150, 90, 0.08);
+  border-color: rgba(255, 150, 90, 0.28);
+  box-shadow: 0 12px 24px rgba(255, 150, 90, 0.12);
+}
+
 button,
 input,
 select,

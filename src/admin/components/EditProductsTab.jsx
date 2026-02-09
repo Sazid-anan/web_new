@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import { Upload } from "lucide-react";
 import { saveProduct, deleteProduct } from "../../redux/slices/contentSlice";
 import { uploadImage } from "../../services/storage";
 import Button from "../../components/common/Button";
@@ -95,8 +96,6 @@ export default function EditProductsTab() {
         ...formData,
         image_url: url,
       };
-
-      console.log("Saving product:", newProduct);
 
       // persist via thunk
       await dispatch(saveProduct(newProduct)).unwrap();
@@ -321,8 +320,9 @@ export default function EditProductsTab() {
                     htmlFor="product-file-input"
                     className="block w-full px-4 py-3 border-2 border-dashed border-brand-orange rounded-lg text-center cursor-pointer hover:bg-brand-orange/5 transition-colors"
                   >
-                    <span className="text-brand-orange font-medium">
-                      📦 Choose file
+                    <span className="text-brand-orange font-medium inline-flex items-center gap-2">
+                      <Upload className="h-4 w-4" />
+                      Choose file
                     </span>
                     <p className="text-xs text-gray-500 mt-1">
                       or drag and drop

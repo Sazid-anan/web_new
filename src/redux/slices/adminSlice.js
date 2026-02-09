@@ -7,7 +7,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const adminSlice = createSlice({
   name: "admin",
   initialState: {
-    activeTab: "home", // 'home', 'products', 'about', 'sliders'
+    activeTab: "analytics", // 'analytics', 'products', 'team', 'testimonials', 'messages'
   },
   reducers: {
     setActiveTab: (state, action) => {

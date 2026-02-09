@@ -1,5 +1,17 @@
 import { motion } from "framer-motion";
 import Container from "./common/Container";
+import { Card } from "./ui/Card";
+import Badge from "./ui/Badge";
+import {
+  CircuitBoard,
+  Cpu,
+  Code,
+  Brain,
+  Wifi,
+  Shield,
+  Activity,
+  Battery,
+} from "lucide-react";
 
 /**
  * CapabilitiesSection Component
@@ -12,81 +24,72 @@ export default function CapabilitiesSection({ homePage }) {
       category: "Hardware",
       description:
         "Custom circuit board design from concept to production. Multi-layer PCBs, high-speed signals, and power-efficient layouts.",
-      icon: "📐",
+      icon: CircuitBoard,
     },
     {
       title: "Embedded Systems",
       category: "Hardware",
       description:
         "Complete embedded system development with ARM, RISC-V, and custom ASIC solutions tailored to your requirements.",
-      icon: "⚙️",
+      icon: Cpu,
     },
     {
       title: "Firmware Development",
       category: "Firmware",
       description:
         "Real-time firmware for microcontrollers and processors. RTOS, bare-metal, and custom bootloader development.",
-      icon: "⚡",
+      icon: Code,
     },
     {
       title: "Edge AI Integration",
       category: "AI",
       description:
         "Deploy machine learning models on edge devices. TensorFlow Lite, optimized neural networks, and custom accelerators.",
-      icon: "🧠",
+      icon: Brain,
     },
     {
       title: "Wireless Connectivity",
       category: "Hardware",
       description:
         "Integrate WiFi, Bluetooth, LoRa, Zigbee, and cellular connectivity. From protocol selection to antenna design.",
-      icon: "📡",
+      icon: Wifi,
     },
     {
       title: "Security & Encryption",
       category: "Firmware",
       description:
         "Hardware security modules, secure boot, encrypted communication, and compliance with industry standards.",
-      icon: "🔒",
+      icon: Shield,
     },
     {
       title: "Sensor Integration",
       category: "Hardware",
       description:
         "Multi-sensor fusion, calibration, and signal processing. Environmental, motion, and custom sensor solutions.",
-      icon: "📊",
+      icon: Activity,
     },
     {
       title: "Power Management",
       category: "Hardware",
       description:
         "Ultra-low power designs, battery management systems, energy harvesting, and power optimization strategies.",
-      icon: "🔋",
+      icon: Battery,
     },
   ];
 
-  const getCategoryColor = (category) => {
-    const colors = {
-      Hardware: "bg-blue-100 text-blue-700 border-blue-200",
-      Firmware: "bg-purple-100 text-purple-700 border-purple-200",
-      AI: "bg-orange-100 text-orange-700 border-orange-200",
+  const getCategoryVariant = (category) => {
+    const variants = {
+      Hardware: "default",
+      Firmware: "secondary",
+      AI: "outline",
     };
-    return colors[category] || "bg-slate-100 text-slate-700 border-slate-200";
-  };
-
-  const getCategoryIconBg = (category) => {
-    const colors = {
-      Hardware: "bg-blue-50 border-blue-100",
-      Firmware: "bg-purple-50 border-purple-100",
-      AI: "bg-orange-50 border-orange-100",
-    };
-    return colors[category] || "bg-slate-50 border-slate-100";
+    return variants[category] || "secondary";
   };
 
   return (
-    <section className="py-20 bg-transparent">
+    <section className="py-20 bg-gradient-to-b from-slate-50 to-slate-100/50">
       <Container>
-        <div className="max-w-3xl mx-auto text-center mb-16">
+        <div className="text-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -102,7 +105,7 @@ export default function CapabilitiesSection({ homePage }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.05 }}
-            className="text-3xl lg:text-4xl font-semibold mb-5 text-foreground"
+            className="text-3xl md:text-4xl lg:text-5xl tracking-tight mb-4 text-foreground"
           >
             {homePage?.capabilities_title ||
               "End-to-end engineering capabilities"}
@@ -112,49 +115,42 @@ export default function CapabilitiesSection({ homePage }) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-base lg:text-lg text-muted-foreground leading-relaxed"
+            className="max-w-2xl mx-auto text-lg text-muted-foreground"
           >
             {homePage?.capabilities_subtitle ||
               "From hardware design to edge AI deployment, we deliver complete engineering solutions that bring intelligent products to life."}
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {capabilities.map((capability, i) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {capabilities.map((capability, index) => (
             <motion.div
-              key={i}
+              key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.06, duration: 0.4 }}
-              whileHover={{ translateY: -6 }}
-              className="group"
+              transition={{ delay: index * 0.06, duration: 0.4 }}
+              whileHover={{ y: -4, scale: 1.02 }}
             >
-              <div className="h-full rounded-xl bg-white border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-slate-300 transition-all duration-300 p-6 flex flex-col">
-                {/* Icon */}
-                <div
-                  className={`w-12 h-12 rounded-lg border flex items-center justify-center text-2xl mb-4 ${getCategoryIconBg(capability.category)}`}
-                >
-                  {capability.icon}
+              <Card className="relative h-full hover:shadow-2xl transition-all duration-300 bg-white/40 backdrop-blur-lg border border-white/60 shadow-lg hover:bg-white/50 hover:border-white/80">
+                <div className="p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <capability.icon className="h-6 w-6 text-primary" />
+                    <Badge
+                      variant={getCategoryVariant(capability.category)}
+                      className="text-[10px]"
+                    >
+                      {capability.category}
+                    </Badge>
+                  </div>
+                  <h3 className="text-sm font-semibold mb-1.5 text-foreground">
+                    {capability.title}
+                  </h3>
+                  <p className="text-xs text-muted-foreground leading-relaxed">
+                    {capability.description}
+                  </p>
                 </div>
-
-                {/* Category Badge */}
-                <span
-                  className={`self-start text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full border mb-3 ${getCategoryColor(capability.category)}`}
-                >
-                  {capability.category}
-                </span>
-
-                {/* Title */}
-                <h3 className="text-base font-semibold mb-2 text-foreground leading-tight">
-                  {capability.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-sm text-muted-foreground leading-relaxed flex-grow">
-                  {capability.description}
-                </p>
-              </div>
+              </Card>
             </motion.div>
           ))}
         </div>

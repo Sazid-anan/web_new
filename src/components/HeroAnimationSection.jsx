@@ -1,4 +1,12 @@
 import React, { useEffect, useState, useMemo } from "react";
+import {
+  MousePointer2,
+  FileText,
+  Type,
+  GitBranch,
+  Palette,
+  Layers,
+} from "lucide-react";
 
 /**
  * Hero Animation Section
@@ -13,13 +21,13 @@ export default function HeroAnimationSection() {
   }, []);
 
   return (
-    <section className="relative w-full h-[50vh] min-h-[350px] bg-transparent overflow-hidden flex items-center justify-center font-sans text-slate-600 -mt-16">
+    <section className="relative w-full h-[25vh] min-h-[120px] bg-transparent overflow-hidden flex items-center justify-center font-sans text-slate-600 -mt-4">
       {/* Background Floating Dots */}
       <BackgroundParticles />
 
       {/* Main Container */}
       <div
-        className={`relative w-full max-w-6xl h-full max-h-[800px] transition-opacity duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+        className={`relative w-full max-w-xl h-full max-h-[300px] transition-opacity duration-1000 ${isLoaded ? "opacity-100" : "opacity-0"}`}
       >
         {/* SVG Connector Lines */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none z-0">
@@ -31,7 +39,6 @@ export default function HeroAnimationSection() {
             </linearGradient>
           </defs>
           <ConnectorLine x1="50%" y1="50%" x2="20%" y2="25%" delay="0.2s" />
-          <ConnectorLine x1="50%" y1="50%" x2="28%" y2="45%" delay="0.3s" />
           <ConnectorLine x1="50%" y1="50%" x2="25%" y2="75%" delay="0.4s" />
           <ConnectorLine x1="50%" y1="50%" x2="80%" y2="20%" delay="0.5s" />
           <ConnectorLine x1="50%" y1="50%" x2="82%" y2="40%" delay="0.6s" />
@@ -41,104 +48,122 @@ export default function HeroAnimationSection() {
         {/* Central Hub */}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
           <div className="relative group cursor-pointer">
-            <div className="absolute inset-0 bg-slate-900 rounded-[2rem] opacity-20 animate-ping-slow"></div>
-            <div className="w-32 h-32 bg-slate-900 rounded-[2rem] shadow-2xl flex items-center justify-center relative z-10 transition-transform duration-500 hover:scale-105 hover:rotate-3">
-              <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-inner">
-                <div className="w-6 h-6 bg-slate-900 rounded-full"></div>
+            <div className="absolute inset-0 bg-slate-900 rounded-lg opacity-20 animate-ping-slow"></div>
+            <div className="w-12 h-12 bg-slate-900 rounded-lg shadow-md flex items-center justify-center relative z-10 transition-transform duration-500 hover:scale-105 hover:rotate-3">
+              <div className="w-5 h-5 bg-white rounded-md flex items-center justify-center shadow-inner">
+                <div className="w-2.5 h-2.5 bg-slate-900 rounded-full"></div>
               </div>
-              <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
+              <div className="absolute inset-0 rounded-lg bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
             </div>
           </div>
         </div>
 
         {/* Floating Cards */}
-        <FloatingCard className="top-[15%] left-[10%] md:left-[15%]" delay="0s">
-          <CardHeader title="Button" />
-          <div className="space-y-3 mt-2">
-            <div className="h-7 w-20 bg-slate-900 rounded-full shadow-lg"></div>
-            <div className="h-7 w-20 bg-slate-100 rounded-full"></div>
+        {/* Floating Cards - repositioned and font sizes improved */}
+        <FloatingCard className="top-[10%] left-[5%] md:left-[10%]" delay="0s">
+          <CardHeader
+            title="Button"
+            icon={<MousePointer2 className="h-2.5 w-2.5 text-slate-600" />}
+          />
+          <div className="space-y-1 mt-1">
+            <div className="h-3 w-10 bg-slate-900 rounded-full shadow-sm"></div>
+            <div className="h-3 w-10 bg-slate-100 rounded-full"></div>
           </div>
         </FloatingCard>
 
-        <FloatingCard className="top-[40%] left-[5%] md:left-[18%]" delay="1s">
-          <CardHeader title="Docs" />
-          <div className="space-y-2 mt-1">
-            <div className="h-2 w-full bg-slate-200 rounded-full"></div>
-            <div className="h-2 w-3/4 bg-slate-200 rounded-full"></div>
-            <div className="h-2 w-5/6 bg-slate-200 rounded-full"></div>
-          </div>
-        </FloatingCard>
-
-        <FloatingCard className="top-[70%] left-[8%] md:left-[15%]" delay="2s">
-          <div className="flex justify-between items-center mb-3">
-            <span className="text-xs font-semibold text-slate-400">
-              Typography
-            </span>
-            <span className="text-xs font-semibold text-slate-400">Icons</span>
-          </div>
-          <div className="flex gap-2">
-            <div className="w-7 h-7 rounded bg-slate-500 shadow-sm animate-pulse"></div>
-            <div className="w-7 h-7 rounded bg-slate-400 shadow-sm"></div>
-            <div className="w-7 h-7 rounded bg-slate-400 shadow-sm"></div>
-          </div>
-          <div className="mt-3 space-y-2">
-            <div className="h-3 w-full bg-slate-800 rounded-full"></div>
-            <div className="h-3 w-full bg-slate-600 rounded-full"></div>
-            <div className="h-3 w-2/3 bg-slate-500 rounded-full"></div>
+        <FloatingCard className="top-[60%] left-[8%] md:left-[12%]" delay="1s">
+          <CardHeader
+            title="Docs"
+            icon={<FileText className="h-2.5 w-2.5 text-slate-600" />}
+          />
+          <div className="space-y-1 mt-1">
+            <div className="h-1 w-10 bg-slate-200 rounded-full"></div>
+            <div className="h-1 w-8 bg-slate-200 rounded-full"></div>
+            <div className="h-1 w-9 bg-slate-200 rounded-full"></div>
           </div>
         </FloatingCard>
 
         <FloatingCard
-          className="top-[12%] right-[10%] md:right-[15%]"
+          className="top-[10%] right-[5%] md:right-[10%]"
+          delay="2s"
+        >
+          <CardHeader
+            title="Typography"
+            icon={<Type className="h-2.5 w-2.5 text-slate-600" />}
+          />
+          <div className="flex gap-1">
+            <div className="w-3 h-3 rounded bg-slate-500 shadow-sm animate-pulse"></div>
+            <div className="w-3 h-3 rounded bg-slate-400 shadow-sm"></div>
+            <div className="w-3 h-3 rounded bg-slate-400 shadow-sm"></div>
+          </div>
+          <div className="mt-1 space-y-1">
+            <div className="h-1 w-10 bg-slate-800 rounded-full"></div>
+            <div className="h-1 w-10 bg-slate-600 rounded-full"></div>
+            <div className="h-1 w-7 bg-slate-500 rounded-full"></div>
+          </div>
+        </FloatingCard>
+
+        <FloatingCard
+          className="top-[70%] right-[8%] md:right-[12%]"
           delay="1.5s"
         >
-          <CardHeader title="Versions" />
-          <div className="mt-2 space-y-3 text-xs font-medium text-slate-600">
+          <CardHeader
+            title="Versions"
+            icon={<GitBranch className="h-2.5 w-2.5 text-slate-600" />}
+          />
+          <div className="mt-1 space-y-1 text-[7px] font-medium text-slate-600">
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+              <span className="w-1 h-1 rounded-full bg-green-500 animate-pulse"></span>
               <span>v2.1.0</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-amber-500"></span>
+              <span className="w-1 h-1 rounded-full bg-amber-500"></span>
               <span>v2.0.5</span>
             </div>
           </div>
-          <div className="absolute -z-10 top-2 -right-4 w-full h-full bg-white rounded-2xl shadow-sm border border-slate-100 opacity-60 scale-95"></div>
+          <div className="absolute -z-10 top-2 -right-4 w-full h-full bg-white rounded-xl shadow-sm border border-slate-100 opacity-60 scale-95"></div>
         </FloatingCard>
 
         <FloatingCard
-          className="top-[35%] right-[5%] md:right-[12%]"
+          className="top-[35%] right-[2%] md:right-[6%]"
           delay="0.5s"
         >
-          <div className="space-y-2 mb-3">
-            <div className="h-2 w-12 bg-slate-800 rounded-full"></div>
-            <div className="h-1 w-20 bg-slate-200 rounded-full"></div>
+          <CardHeader
+            title="Palette"
+            icon={<Palette className="h-2.5 w-2.5 text-slate-600" />}
+          />
+          <div className="space-y-1 mb-1">
+            <div className="h-1 w-7 bg-slate-800 rounded-full"></div>
+            <div className="h-1 w-10 bg-slate-200 rounded-full"></div>
           </div>
-          <div className="grid grid-cols-4 gap-2 mt-2">
-            <div className="w-8 h-8 rounded-lg bg-rose-500 shadow-sm hover:scale-110 transition-transform"></div>
-            <div className="w-8 h-8 rounded-lg bg-orange-500 shadow-sm hover:scale-110 transition-transform"></div>
-            <div className="w-8 h-8 rounded-lg bg-teal-500 shadow-sm hover:scale-110 transition-transform"></div>
-            <div className="w-8 h-8 rounded-lg bg-slate-800 shadow-sm hover:scale-110 transition-transform"></div>
+          <div className="grid grid-cols-4 gap-1 mt-1">
+            <div className="w-3 h-3 rounded-md bg-rose-500 shadow-sm hover:scale-110 transition-transform"></div>
+            <div className="w-3 h-3 rounded-md bg-orange-500 shadow-sm hover:scale-110 transition-transform"></div>
+            <div className="w-3 h-3 rounded-md bg-teal-500 shadow-sm hover:scale-110 transition-transform"></div>
+            <div className="w-3 h-3 rounded-md bg-slate-800 shadow-sm hover:scale-110 transition-transform"></div>
           </div>
         </FloatingCard>
 
         <FloatingCard
-          className="top-[65%] right-[8%] md:right-[15%]"
+          className="top-[50%] left-[60%] md:left-[65%]"
           delay="2.5s"
         >
-          <CardHeader title="Components" />
-          <div className="space-y-3 mt-2">
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded bg-slate-800"></div>
-              <div className="h-2 w-20 bg-slate-200 rounded-full"></div>
+          <CardHeader
+            title="Components"
+            icon={<Layers className="h-2.5 w-2.5 text-slate-600" />}
+          />
+          <div className="space-y-1 mt-1">
+            <div className="flex items-center gap-1">
+              <div className="w-1.5 h-1.5 rounded bg-slate-800"></div>
+              <div className="h-1 w-10 bg-slate-200 rounded-full"></div>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded bg-slate-200"></div>
-              <div className="h-2 w-20 bg-slate-100 rounded-full"></div>
+            <div className="flex items-center gap-1">
+              <div className="w-1.5 h-1.5 rounded bg-slate-200"></div>
+              <div className="h-1 w-10 bg-slate-100 rounded-full"></div>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-3 h-3 rounded bg-slate-200"></div>
-              <div className="h-2 w-20 bg-slate-100 rounded-full"></div>
+            <div className="flex items-center gap-1">
+              <div className="w-1.5 h-1.5 rounded bg-slate-200"></div>
+              <div className="h-1 w-10 bg-slate-100 rounded-full"></div>
             </div>
           </div>
         </FloatingCard>
@@ -197,7 +222,7 @@ const FloatingCard = ({ children, className, delay }) => {
 
   return (
     <div
-      className={`absolute bg-white p-4 rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.05)] border border-slate-100 w-44 z-10 ${randomSpeed} ${className}`}
+      className={`absolute bg-white p-2 rounded-lg shadow-[0_3px_8px_rgba(0,0,0,0.04)] border border-slate-100 w-20 z-10 ${randomSpeed} ${className}`}
       style={{ animationDelay: delay }}
     >
       {children}
@@ -205,9 +230,12 @@ const FloatingCard = ({ children, className, delay }) => {
   );
 };
 
-const CardHeader = ({ title }) => (
-  <div className="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wide">
-    {title}
+const CardHeader = ({ title, icon }) => (
+  <div className="flex items-center gap-1 text-[6px] font-semibold text-slate-400 mb-1 uppercase tracking-wide break-words">
+    <span className="w-3 h-3 rounded-md bg-slate-200 flex items-center justify-center flex-shrink-0">
+      {icon || <span className="w-1 h-1 rounded-full bg-slate-400"></span>}
+    </span>
+    <span className="line-clamp-2">{title}</span>
   </div>
 );
 

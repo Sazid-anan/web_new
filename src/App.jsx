@@ -4,7 +4,8 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
+import { lazy } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchContent } from "./redux/slices/contentSlice";
 import { onAuthStateChanged } from "firebase/auth";
@@ -12,16 +13,14 @@ import { collection, doc, onSnapshot } from "firebase/firestore";
 import { auth, db } from "./services/firebaseClient";
 import { setAuthUser } from "./redux/slices/authSlice";
 
-// Main Pages
-import Home from "./pages/Home";
-import ProductDevelopment from "./pages/ProductDevelopment";
-import Products from "./pages/Products";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
+// Main Pages - Lazy loaded
+const Home = lazy(() => import("./pages/Home"));
+const Products = lazy(() => import("./pages/Products"));
+const Blogs = lazy(() => import("./pages/Blogs"));
 
-// Admin Pages
-import AdminLogin from "./admin/pages/AdminLogin";
-import AdminDashboard from "./admin/pages/AdminDashboard";
+// Admin Pages - Lazy loaded
+const AdminLogin = lazy(() => import("./admin/pages/AdminLogin"));
+const AdminDashboard = lazy(() => import("./admin/pages/AdminDashboard"));
 
 // Layout
 import Header from "./components/layout/Header";
@@ -29,6 +28,16 @@ import Footer from "./components/layout/Footer";
 import BackToTop from "./components/common/BackToTop";
 import ScrollToTop from "./components/common/ScrollToTop";
 import BackgroundParticles from "./components/common/BackgroundParticles";
+
+// Loading component
+const PageLoader = () => (
+  <div className="min-h-screen flex items-center justify-center bg-background">
+    <div className="flex flex-col items-center gap-4">
+      <div className="w-12 h-12 border-4 border-slate-200 border-t-brand-orange rounded-full animate-spin"></div>
+      <p className="text-muted-foreground font-medium">Loading...</p>
+    </div>
+  </div>
+);
 
 /**
  * App Component
@@ -62,8 +71,8 @@ function App() {
       onSnapshot(doc(db, "about_page", "singleton"), triggerRefresh),
       onSnapshot(doc(db, "services_page", "singleton"), triggerRefresh),
       onSnapshot(collection(db, "products"), triggerRefresh),
-      onSnapshot(collection(db, "image_sliders"), triggerRefresh),
       onSnapshot(collection(db, "team_members"), triggerRefresh),
+      onSnapshot(collection(db, "blogs"), triggerRefresh),
     ];
 
     return () => {
@@ -95,12 +104,21 @@ function App() {
         <ScrollToTop />
         <Routes>
           {/* Admin Routes */}
-          <Route path="/admin/login" element={<AdminLogin />} />
+          <Route
+            path="/admin/login"
+            element={
+              <Suspense fallback={<PageLoader />}>
+                <AdminLogin />
+              </Suspense>
+            }
+          />
           <Route
             path="/admin"
             element={
               isAdminLoggedIn ? (
-                <AdminDashboard />
+                <Suspense fallback={<PageLoader />}>
+                  <AdminDashboard />
+                </Suspense>
               ) : (
                 <Navigate to="/admin/login" replace />
               )
@@ -115,14 +133,30 @@ function App() {
                 <BackgroundParticles />
                 <Header />
                 <Routes>
-                  <Route path="/" element={<Home />} />
                   <Route
-                    path="/product-development"
-                    element={<ProductDevelopment />}
+                    path="/"
+                    element={
+                      <Suspense fallback={<PageLoader />}>
+                        <Home />
+                      </Suspense>
+                    }
                   />
-                  <Route path="/products" element={<Products />} />
-                  <Route path="/about" element={<About />} />
-                  <Route path="/contact" element={<Contact />} />
+                  <Route
+                    path="/products"
+                    element={
+                      <Suspense fallback={<PageLoader />}>
+                        <Products />
+                      </Suspense>
+                    }
+                  />
+                  <Route
+                    path="/blogs"
+                    element={
+                      <Suspense fallback={<PageLoader />}>
+                        <Blogs />
+                      </Suspense>
+                    }
+                  />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
                 <Footer />

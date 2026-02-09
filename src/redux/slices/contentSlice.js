@@ -54,18 +54,18 @@ export const fetchContent = createAsyncThunk(
         aboutDoc,
         servicesDoc,
         productsSnap,
-        slidersSnap,
         teamSnap,
+        blogsSnap,
       ] = await Promise.all([
         getDoc(doc(db, "home_page", "singleton")),
         getDoc(doc(db, "about_page", "singleton")),
         getDoc(doc(db, "services_page", "singleton")),
         getDocs(query(collection(db, "products"), orderBy("name"))),
         getDocs(
-          query(collection(db, "image_sliders"), orderBy("display_order")),
+          query(collection(db, "team_members"), orderBy("display_order")),
         ),
         getDocs(
-          query(collection(db, "team_members"), orderBy("display_order")),
+          query(collection(db, "blogs"), orderBy("published_date", "desc")),
         ),
       ]);
 
@@ -73,11 +73,11 @@ export const fetchContent = createAsyncThunk(
         id: docSnap.id,
         ...docSnap.data(),
       }));
-      const sliders = slidersSnap.docs.map((docSnap) => ({
+      const teamMembers = teamSnap.docs.map((docSnap) => ({
         id: docSnap.id,
         ...docSnap.data(),
       }));
-      const teamMembers = teamSnap.docs.map((docSnap) => ({
+      const blogs = blogsSnap.docs.map((docSnap) => ({
         id: docSnap.id,
         ...docSnap.data(),
       }));
@@ -90,8 +90,8 @@ export const fetchContent = createAsyncThunk(
         aboutPage: aboutDoc.exists()
           ? [{ id: aboutDoc.id, ...aboutDoc.data() }]
           : [],
-        sliders,
         teamMembers,
+        blogs,
         servicesPage: servicesDoc.exists()
           ? [{ id: servicesDoc.id, ...servicesDoc.data() }]
           : [],
@@ -268,37 +268,46 @@ export const deleteTeamMember = createAsyncThunk(
   },
 );
 
-// Persist/replace sliders array
-export const saveSliders = createAsyncThunk(
-  "content/saveSliders",
+// Save a blog post (upsert)
+export const saveBlog = createAsyncThunk(
+  "content/saveBlog",
   async (payload, { rejectWithValue }) => {
     try {
-      const slidersRef = collection(db, "image_sliders");
-      const existingSnap = await getDocs(slidersRef);
-      const batch = writeBatch(db);
+      const isNewBlog =
+        !payload.id || (typeof payload.id === "number" && payload.id < 1000000);
 
-      existingSnap.forEach((docSnap) => {
-        batch.delete(docSnap.ref);
-      });
-
-      payload.forEach((slider, index) => {
-        const ref = doc(slidersRef);
+      if (isNewBlog) {
+        const { id: _id, ...blogData } = payload;
         const now = new Date().toISOString();
-        batch.set(ref, {
-          image_url: slider.image_url,
-          alt_text: slider.alt_text || null,
-          display_order: index,
+        const docRef = await addDoc(collection(db, "blogs"), {
+          ...blogData,
           created_at: now,
           updated_at: now,
         });
-      });
+        return { id: docRef.id, ...blogData };
+      }
 
-      await batch.commit();
+      const { id, ...blogData } = payload;
+      const ref = doc(db, "blogs", String(id));
+      await setDoc(
+        ref,
+        { ...blogData, updated_at: new Date().toISOString() },
+        { merge: true },
+      );
+      return { id: String(id), ...blogData };
+    } catch (err) {
+      return rejectWithValue(err.message || String(err));
+    }
+  },
+);
 
-      return payload.map((slider, index) => ({
-        ...slider,
-        display_order: index,
-      }));
+// Delete a blog post by id
+export const deleteBlog = createAsyncThunk(
+  "content/deleteBlog",
+  async (id, { rejectWithValue }) => {
+    try {
+      await deleteDoc(doc(db, "blogs", String(id)));
+      return String(id);
     } catch (err) {
       return rejectWithValue(err.message || String(err));
     }
@@ -343,8 +352,8 @@ const contentSlice = createSlice({
       story_paragraph_2: "",
       story_paragraph_3: "",
     },
-    sliders: [],
     teamMembers: [],
+    blogs: [],
     servicesPage: {
       hero_title: "Edge AI Product Development",
       hero_description: "",
@@ -428,23 +437,8 @@ const contentSlice = createSlice({
         state.homePage = normalizeHomePageBranding(fetchedHomePage);
         state.products = action.payload.products;
         state.aboutPage = action.payload.aboutPage[0] || state.aboutPage;
-        const rawSliders = action.payload.sliders || [];
-        const seen = new Set();
-        const deduped = [];
-        // sort by display_order when available
-        rawSliders.sort((a, b) => {
-          const da = typeof a.display_order === "number" ? a.display_order : 0;
-          const db = typeof b.display_order === "number" ? b.display_order : 0;
-          return da - db;
-        });
-        for (const s of rawSliders) {
-          if (!s || !s.image_url) continue;
-          if (seen.has(s.image_url)) continue;
-          seen.add(s.image_url);
-          deduped.push(s);
-        }
-        state.sliders = deduped;
         state.teamMembers = action.payload.teamMembers || [];
+        state.blogs = action.payload.blogs || [];
         state.servicesPage =
           action.payload.servicesPage[0] || state.servicesPage;
       })
@@ -547,16 +541,41 @@ const contentSlice = createSlice({
         state.error = action.payload;
       })
 
-      // saveSliders
-      .addCase(saveSliders.pending, (state) => {
+      // saveBlog
+      .addCase(saveBlog.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(saveSliders.fulfilled, (state, action) => {
+      .addCase(saveBlog.fulfilled, (state, action) => {
         state.loading = false;
-        state.sliders = action.payload || [];
+        const index = state.blogs.findIndex((b) => b.id === action.payload.id);
+        if (index !== -1) {
+          state.blogs[index] = action.payload;
+        } else {
+          state.blogs.push(action.payload);
+        }
+        // Sort by published_date descending
+        state.blogs.sort((a, b) => {
+          const dateA = new Date(a.published_date || 0);
+          const dateB = new Date(b.published_date || 0);
+          return dateB - dateA;
+        });
       })
-      .addCase(saveSliders.rejected, (state, action) => {
+      .addCase(saveBlog.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // deleteBlog
+      .addCase(deleteBlog.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(deleteBlog.fulfilled, (state, action) => {
+        state.loading = false;
+        state.blogs = state.blogs.filter((b) => b.id !== action.payload);
+      })
+      .addCase(deleteBlog.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

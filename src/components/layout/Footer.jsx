@@ -53,12 +53,6 @@ export default function Footer() {
                 Home
               </Link>
               <Link
-                to="/product-development"
-                className="text-gray-400 hover:text-brand-orange text-sm transition-colors"
-              >
-                Services
-              </Link>
-              <Link
                 to="/products"
                 className="text-gray-400 hover:text-brand-orange text-sm transition-colors"
               >

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Mail, MailOpen, Package, Users } from "lucide-react";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../services/firebaseClient";
 import TestimonialsPreview from "./TestimonialsPreview";
@@ -53,25 +54,25 @@ export default function AnalyticsWidget() {
     {
       label: "Total Messages",
       value: stats.totalMessages,
-      icon: "✉️",
+      icon: Mail,
       color: "bg-blue-100 text-blue-700",
     },
     {
       label: "Unread Messages",
       value: stats.unreadMessages,
-      icon: "📬",
+      icon: MailOpen,
       color: "bg-orange-100 text-brand-orange",
     },
     {
       label: "Products",
       value: stats.totalProducts,
-      icon: "📦",
+      icon: Package,
       color: "bg-purple-100 text-purple-700",
     },
     {
       label: "Team Members",
       value: stats.totalTeamMembers,
-      icon: "👥",
+      icon: Users,
       color: "bg-green-100 text-green-700",
     },
   ];
@@ -117,8 +118,8 @@ export default function AnalyticsWidget() {
                   <p className="text-sm font-medium text-gray-600">
                     {card.label}
                   </p>
-                  <div className={`text-2xl p-2 rounded-lg ${card.color}`}>
-                    {card.icon}
+                  <div className={`p-2 rounded-lg ${card.color}`}>
+                    <card.icon className="h-5 w-5" />
                   </div>
                 </div>
 

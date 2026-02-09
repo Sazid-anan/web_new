@@ -1,5 +1,6 @@
 import { useState, useCallback, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Camera } from "lucide-react";
 import {
   collection,
   addDoc,
@@ -337,8 +338,9 @@ export default function TestimonialsTab() {
                   htmlFor="testimonial-file-input"
                   className="block w-full px-4 py-3 border-2 border-dashed border-brand-orange rounded-lg text-center cursor-pointer hover:bg-brand-orange/5 transition-colors"
                 >
-                  <span className="text-brand-orange font-medium">
-                    📸 Choose file
+                  <span className="text-brand-orange font-medium inline-flex items-center gap-2">
+                    <Camera className="h-4 w-4" />
+                    Choose file
                   </span>
                   <p className="text-xs text-gray-500 mt-1">or drag and drop</p>
                 </label>

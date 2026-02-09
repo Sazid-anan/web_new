@@ -15,10 +15,10 @@ export default function Header() {
 
   const navLinks = [
     { path: "/", label: "Home" },
+    { path: "#about", label: "About" },
+    { path: "#contact", label: "Contact" },
     { path: "/products", label: "Products" },
-    { path: "/product-development", label: "Services" },
-    { path: "/about", label: "About" },
-    { path: "/contact", label: "Contact" },
+    { path: "/blogs", label: "Blogs" },
   ];
 
   return (
@@ -26,7 +26,7 @@ export default function Header() {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="sticky top-0 z-50 bg-white/70 backdrop-blur-md shadow-md border-b-2 border-gray-100"
+      className="sticky top-0 z-50 bg-white/50 backdrop-blur-md shadow-sm border-b border-gray-100/60"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
@@ -56,26 +56,82 @@ export default function Header() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
             <nav className="flex gap-2">
-              {navLinks.map((link) => (
-                <Link key={link.path} to={link.path} className="relative group">
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    className={`px-5 py-2 rounded-full font-medium transition-all duration-300 orange-pop-hover ${
-                      isActive(link.path)
-                        ? "bg-brand-orange text-brand-black shadow-lg"
-                        : "bg-transparent text-brand-orange hover:text-brand-black"
-                    }`}
+              {navLinks.map((link) => {
+                if (link.label === "Home") {
+                  return (
+                    <a
+                      key={link.path}
+                      href={link.path}
+                      className="relative group"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setMobileMenuOpen(false);
+                        if (location.pathname === "/") {
+                          window.scrollTo({ top: 0, behavior: "smooth" });
+                        } else {
+                          window.location.href = "/";
+                        }
+                      }}
+                    >
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        className={`px-5 py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline`}
+                      >
+                        <span className="relative z-10 font-semibold">
+                          {link.label}
+                        </span>
+                      </motion.div>
+                    </a>
+                  );
+                }
+                if (link.path.startsWith("#")) {
+                  return (
+                    <a
+                      key={link.path}
+                      href={link.path}
+                      className="relative group"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const el = document.getElementById(
+                          link.path.substring(1),
+                        );
+                        if (el) {
+                          el.scrollIntoView({ behavior: "smooth" });
+                        }
+                        setMobileMenuOpen(false);
+                        if (location.pathname !== "/") {
+                          window.location.href = `/${link.path}`;
+                        }
+                      }}
+                    >
+                      <motion.div
+                        whileHover={{ scale: 1.05 }}
+                        className={`px-5 py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline`}
+                      >
+                        <span className="relative z-10 font-semibold">
+                          {link.label}
+                        </span>
+                      </motion.div>
+                    </a>
+                  );
+                }
+                return (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    className="relative group"
                   >
-                    {/* Glass effect background on hover for inactive links */}
-                    {!isActive(link.path) && (
-                      <span className="absolute inset-0 rounded-full bg-gradient-to-br from-gray-100/80 to-gray-200/90 opacity-0 group-hover:opacity-100 backdrop-blur-md border border-gray-300 shadow-lg transition-all duration-300 -z-10"></span>
-                    )}
-                    <span className="relative z-10 font-semibold">
-                      {link.label}
-                    </span>
-                  </motion.div>
-                </Link>
-              ))}
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      className={`px-5 py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline`}
+                    >
+                      <span className="relative z-10 font-semibold">
+                        {link.label}
+                      </span>
+                    </motion.div>
+                  </Link>
+                );
+              })}
             </nav>
           </div>
 
@@ -108,29 +164,80 @@ export default function Header() {
             id="mobile-nav"
             className="md:hidden py-4 flex flex-col gap-2 border-t border-gray-200"
           >
-            {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                onClick={() => setMobileMenuOpen(false)}
-                className="relative group"
-              >
-                <motion.div
-                  whileTap={{ scale: 0.98 }}
-                  className={`px-5 py-3 rounded-full font-semibold transition-all duration-300 orange-pop-hover ${
-                    isActive(link.path)
-                      ? "bg-brand-orange text-brand-black shadow-lg"
-                      : "bg-transparent text-brand-orange hover:text-brand-black"
-                  }`}
+            {navLinks.map((link) => {
+              if (link.label === "Home") {
+                return (
+                  <a
+                    key={link.path}
+                    href={link.path}
+                    className="relative group"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setMobileMenuOpen(false);
+                      if (location.pathname === "/") {
+                        window.scrollTo({ top: 0, behavior: "smooth" });
+                      } else {
+                        window.location.href = "/";
+                      }
+                    }}
+                  >
+                    <motion.div
+                      whileTap={{ scale: 0.98 }}
+                      whileHover={{ scale: 1.05 }}
+                      className={`px-5 py-3 rounded-full font-semibold transition-all duration-300 glass-orange-outline`}
+                    >
+                      <span className="relative z-10">{link.label}</span>
+                    </motion.div>
+                  </a>
+                );
+              }
+              if (link.path.startsWith("#")) {
+                return (
+                  <a
+                    key={link.path}
+                    href={link.path}
+                    className="relative group"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const el = document.getElementById(
+                        link.path.substring(1),
+                      );
+                      if (el) {
+                        el.scrollIntoView({ behavior: "smooth" });
+                      }
+                      setMobileMenuOpen(false);
+                      if (location.pathname !== "/") {
+                        window.location.href = `/${link.path}`;
+                      }
+                    }}
+                  >
+                    <motion.div
+                      whileTap={{ scale: 0.98 }}
+                      whileHover={{ scale: 1.05 }}
+                      className={`px-5 py-3 rounded-full font-semibold transition-all duration-300 glass-orange-outline`}
+                    >
+                      <span className="relative z-10">{link.label}</span>
+                    </motion.div>
+                  </a>
+                );
+              }
+              return (
+                <Link
+                  key={link.path}
+                  to={link.path}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="relative group"
                 >
-                  {/* Glass effect background on hover/tap for inactive links */}
-                  {!isActive(link.path) && (
-                    <span className="absolute inset-0 rounded-full bg-gradient-to-br from-gray-100/80 to-gray-200/90 opacity-0 group-hover:opacity-100 backdrop-blur-md border border-gray-300 shadow-lg transition-all duration-300 -z-10"></span>
-                  )}
-                  <span className="relative z-10">{link.label}</span>
-                </motion.div>
-              </Link>
-            ))}
+                  <motion.div
+                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ scale: 1.05 }}
+                    className={`px-5 py-3 rounded-full font-semibold transition-all duration-300 glass-orange-outline`}
+                  >
+                    <span className="relative z-10">{link.label}</span>
+                  </motion.div>
+                </Link>
+              );
+            })}
           </motion.div>
         )}
       </div>

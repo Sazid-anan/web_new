@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
+import { Lightbulb, Upload } from "lucide-react";
 import {
   saveTeamMember,
   deleteTeamMember,
@@ -338,8 +339,9 @@ export default function EditTeamTab() {
                     htmlFor="team-file-input"
                     className="block w-full px-4 py-3 border-2 border-dashed border-brand-orange rounded-lg text-center cursor-pointer hover:bg-brand-orange/5 transition-colors"
                   >
-                    <span className="text-brand-orange font-medium">
-                      🔖 Choose file
+                    <span className="text-brand-orange font-medium inline-flex items-center gap-2">
+                      <Upload className="h-4 w-4" />
+                      Choose file
                     </span>
                     <p className="text-xs text-gray-500 mt-1">
                       or drag and drop
@@ -397,7 +399,10 @@ export default function EditTeamTab() {
 
       {/* Info Box */}
       <div className="admin-section admin-section--soft p-6">
-        <h3 className="font-bold text-brand-black mb-2">💡 Tips</h3>
+        <h3 className="font-bold text-brand-black mb-2 inline-flex items-center gap-2">
+          <Lightbulb className="h-4 w-4 text-brand-orange" />
+          Tips
+        </h3>
         <ul className="text-gray-600 text-sm space-y-1">
           <li>
             • Images should be square (e.g., 300x300px) for best appearance

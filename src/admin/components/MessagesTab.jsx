@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
+import { Download } from "lucide-react";
 import {
   collection,
   deleteDoc,
@@ -214,7 +215,10 @@ export default function MessagesTab() {
             variant="outline"
             disabled={messages.length === 0}
           >
-            📥 Export CSV
+            <span className="inline-flex items-center gap-2">
+              <Download className="h-4 w-4" />
+              Export CSV
+            </span>
           </Button>
         </div>
       </div>
