@@ -6,8 +6,11 @@ import { useMemo } from "react";
  */
 const BackgroundParticles = () => {
   // Generate random particles (memoized to avoid impure function calls during render)
+  // Reduced count for better mobile performance
   const particles = useMemo(() => {
-    return Array.from({ length: 80 }).map((_, i) => {
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    const particleCount = isMobile ? 25 : 60;
+    return Array.from({ length: particleCount }).map((_, i) => {
       const startX = Math.random() * 100; // eslint-disable-line react-hooks/purity
       const startY = Math.random() * 100; // eslint-disable-line react-hooks/purity
       const tx = (Math.random() - 0.5) * 200 + "px"; // eslint-disable-line react-hooks/purity
@@ -37,19 +40,26 @@ const BackgroundParticles = () => {
       </div>
       <style>{`
         @keyframes float-particle {
-          0% { transform: translate(0, 0); opacity: 0; }
-          20% { opacity: 0.2; }
-          80% { opacity: 0.2; }
-          100% { transform: translate(var(--tx), var(--ty)); opacity: 0; }
+          0% { transform: translate(0, 0); opacity: 0.3; }
+          10% { opacity: 0.4; }
+          90% { opacity: 0.4; }
+          100% { transform: translate(var(--tx), var(--ty)); opacity: 0.3; }
         }
         .particle {
           position: absolute;
           width: 4px;
           height: 4px;
-          background-color: #cbd5e1;
+          background-color: #9ca3af;
           border-radius: 50%;
           animation: float-particle 15s linear infinite;
           z-index: -1;
+          will-change: transform, opacity;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .particle {
+            animation: none;
+            opacity: 0.2;
+          }
         }
       `}</style>
     </>

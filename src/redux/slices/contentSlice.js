@@ -337,10 +337,6 @@ const contentSlice = createSlice({
       capability_2_desc: "",
       capability_3_title: "",
       capability_3_desc: "",
-      footer_company_description: "",
-      footer_email: "",
-      footer_phone: "",
-      footer_address: "",
     },
     products: [],
     aboutPage: {

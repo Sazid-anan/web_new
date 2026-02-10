@@ -17,6 +17,7 @@ import { setAuthUser } from "./redux/slices/authSlice";
 const Home = lazy(() => import("./pages/Home"));
 const Products = lazy(() => import("./pages/Products"));
 const Blogs = lazy(() => import("./pages/Blogs"));
+const Contact = lazy(() => import("./pages/Contact"));
 
 // Admin Pages - Lazy loaded
 const AdminLogin = lazy(() => import("./admin/pages/AdminLogin"));
@@ -28,6 +29,7 @@ import Footer from "./components/layout/Footer";
 import BackToTop from "./components/common/BackToTop";
 import ScrollToTop from "./components/common/ScrollToTop";
 import BackgroundParticles from "./components/common/BackgroundParticles";
+import StickyContactBar from "./components/common/StickyContactBar";
 
 // Loading component
 const PageLoader = () => (
@@ -68,10 +70,8 @@ function App() {
 
     const unsubscribers = [
       onSnapshot(doc(db, "home_page", "singleton"), triggerRefresh),
-      onSnapshot(doc(db, "about_page", "singleton"), triggerRefresh),
       onSnapshot(doc(db, "services_page", "singleton"), triggerRefresh),
       onSnapshot(collection(db, "products"), triggerRefresh),
-      onSnapshot(collection(db, "team_members"), triggerRefresh),
       onSnapshot(collection(db, "blogs"), triggerRefresh),
     ];
 
@@ -95,11 +95,6 @@ function App() {
 
   return (
     <>
-      {isSyncing && (
-        <div className="fixed top-4 right-4 z-[9999] bg-brand-orange text-white text-sm font-semibold px-4 py-2 rounded-full shadow-lg">
-          Updating content...
-        </div>
-      )}
       <Router>
         <ScrollToTop />
         <Routes>
@@ -157,6 +152,14 @@ function App() {
                       </Suspense>
                     }
                   />
+                  <Route
+                    path="/contact"
+                    element={
+                      <Suspense fallback={<PageLoader />}>
+                        <Contact />
+                      </Suspense>
+                    }
+                  />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
                 <Footer />
@@ -164,6 +167,7 @@ function App() {
             }
           />
         </Routes>
+        <StickyContactBar />
         <BackToTop />
       </Router>
     </>

@@ -39,7 +39,7 @@ export default function BackToTop() {
           exit={{ opacity: 0, scale: 0.8 }}
           transition={{ duration: 0.3 }}
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-40 w-12 h-12 bg-brand-orange text-brand-black rounded-full shadow-lg hover:shadow-xl flex items-center justify-center font-bold text-xl orange-pop-hover transition-all"
+          className="fixed bottom-8 right-8 z-40 w-12 h-12 bg-brand-orange text-brand-black rounded-full shadow-lg hover:shadow-xl flex items-center justify-center font-bold text-[20px] orange-pop-hover transition-all"
           title="Back to top"
         >
           ↑

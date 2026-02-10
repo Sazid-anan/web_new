@@ -193,7 +193,7 @@ export default function TestimonialsTab() {
     >
       <div className="flex flex-wrap justify-between items-start gap-4">
         <div>
-          <h2 className="text-2xl font-bold text-brand-black mb-2">
+          <h2 className="text-[24px] font-bold text-brand-black mb-2">
             Testimonials
           </h2>
           <p className="text-gray-600 text-sm">

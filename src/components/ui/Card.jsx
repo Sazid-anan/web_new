@@ -35,7 +35,7 @@ export function CardTitle({ children, className = "" }) {
   return (
     <h4
       className={`
-      text-xl font-semibold leading-none
+      text-[20px] font-semibold leading-none
       ${className}
     `}
     >

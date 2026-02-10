@@ -15,7 +15,6 @@ export default function Header() {
 
   const navLinks = [
     { path: "/", label: "Home" },
-    { path: "#about", label: "About" },
     { path: "#contact", label: "Contact" },
     { path: "/products", label: "Products" },
     { path: "/blogs", label: "Blogs" },
@@ -26,12 +25,23 @@ export default function Header() {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="sticky top-0 z-50 bg-white/50 backdrop-blur-md shadow-sm border-b border-gray-100/60"
+      className="sticky top-0 z-50 bg-white md:bg-white/95 md:backdrop-blur-sm shadow-sm border-b border-gray-100/60"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3">
+          <Link
+            to="/"
+            className="flex items-center gap-3"
+            onClick={(e) => {
+              e.preventDefault();
+              if (location.pathname === "/") {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              } else {
+                window.location.href = "/";
+              }
+            }}
+          >
             <motion.img
               src="/logo.png"
               alt="Danvion Logo"
@@ -47,7 +57,7 @@ export default function Header() {
             />
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="text-2xl font-bold text-brand-black"
+              className="text-[24px] font-bold text-brand-black"
             >
               DANVION
             </motion.div>
@@ -142,16 +152,16 @@ export default function Header() {
             aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
             aria-expanded={mobileMenuOpen}
             aria-controls="mobile-nav"
-            className="md:hidden flex flex-col gap-1.5 p-2"
+            className="md:hidden flex flex-col gap-2 p-3.5 rounded-lg hover:bg-gray-100 transition-colors"
           >
             <span
-              className={`w-6 h-0.5 bg-brand-black transition-all ${mobileMenuOpen ? "rotate-45 translate-y-2" : ""}`}
+              className={`w-8 h-1 bg-[#FF6F00] transition-all ${mobileMenuOpen ? "rotate-45 translate-y-3" : ""}`}
             ></span>
             <span
-              className={`w-6 h-0.5 bg-brand-black transition-all ${mobileMenuOpen ? "opacity-0" : ""}`}
+              className={`w-8 h-1 bg-[#FF6F00] transition-all ${mobileMenuOpen ? "opacity-0" : ""}`}
             ></span>
             <span
-              className={`w-6 h-0.5 bg-brand-black transition-all ${mobileMenuOpen ? "-rotate-45 -translate-y-2" : ""}`}
+              className={`w-8 h-1 bg-[#FF6F00] transition-all ${mobileMenuOpen ? "-rotate-45 -translate-y-3" : ""}`}
             ></span>
           </button>
         </div>
@@ -162,7 +172,7 @@ export default function Header() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             id="mobile-nav"
-            className="md:hidden py-4 flex flex-col gap-2 border-t border-gray-200"
+            className="md:hidden py-5 flex flex-col gap-4 border-t border-gray-200 bg-white"
           >
             {navLinks.map((link) => {
               if (link.label === "Home") {
@@ -183,8 +193,8 @@ export default function Header() {
                   >
                     <motion.div
                       whileTap={{ scale: 0.98 }}
-                      whileHover={{ scale: 1.05 }}
-                      className={`px-5 py-3 rounded-full font-semibold transition-all duration-300 glass-orange-outline`}
+                      whileHover={{ scale: 1.02 }}
+                      className={`px-6 py-4 rounded-full font-semibold text-base transition-all duration-300 glass-orange-outline text-center`}
                     >
                       <span className="relative z-10">{link.label}</span>
                     </motion.div>
@@ -213,8 +223,8 @@ export default function Header() {
                   >
                     <motion.div
                       whileTap={{ scale: 0.98 }}
-                      whileHover={{ scale: 1.05 }}
-                      className={`px-5 py-3 rounded-full font-semibold transition-all duration-300 glass-orange-outline`}
+                      whileHover={{ scale: 1.02 }}
+                      className={`px-6 py-4 rounded-full font-semibold text-base transition-all duration-300 glass-orange-outline text-center`}
                     >
                       <span className="relative z-10">{link.label}</span>
                     </motion.div>
@@ -230,8 +240,8 @@ export default function Header() {
                 >
                   <motion.div
                     whileTap={{ scale: 0.98 }}
-                    whileHover={{ scale: 1.05 }}
-                    className={`px-5 py-3 rounded-full font-semibold transition-all duration-300 glass-orange-outline`}
+                    whileHover={{ scale: 1.02 }}
+                    className={`px-6 py-4 rounded-full font-semibold text-base transition-all duration-300 glass-orange-outline text-center`}
                   >
                     <span className="relative z-10">{link.label}</span>
                   </motion.div>

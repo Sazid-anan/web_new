@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { fetchContent } from "../redux/slices/contentSlice";
 import Container from "../components/common/Container";
 import Button from "../components/ui/Button";
@@ -18,6 +19,8 @@ export default function Blogs() {
   const { blogs } = useSelector((state) => state.content);
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const blogsPerPage = 6;
 
   useEffect(() => {
     dispatch(fetchContent());
@@ -37,6 +40,19 @@ export default function Blogs() {
     return (blogs || []).filter((b) => b.category === selectedCategory);
   }, [blogs, selectedCategory]);
 
+  // Pagination logic
+  const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
+  const startIndex = (currentPage - 1) * blogsPerPage;
+  const paginatedBlogs = filteredBlogs.slice(
+    startIndex,
+    startIndex + blogsPerPage,
+  );
+
+  // Reset to page 1 when category changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory]);
+
   const formatDate = (dateString) => {
     if (!dateString) return "";
     try {
@@ -51,24 +67,29 @@ export default function Blogs() {
     }
   };
 
+  const hasNoBlogs = !blogs || blogs.length === 0;
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="py-20 lg:py-32 bg-secondary/20">
+      <section className="py-12 sm:py-16 md:py-20 lg:py-32">
         <Container>
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto"
+            className="text-center max-w-3xl mx-auto px-4"
           >
-            <Badge variant="secondary" className="mb-4 inline-block">
+            <Badge
+              variant="secondary"
+              className="mb-3 sm:mb-4 inline-block text-xs sm:text-sm"
+            >
               Insights & Updates
             </Badge>
-            <h1 className="text-5xl lg:text-6xl font-bold text-foreground mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-5 md:mb-6">
               Blog
             </h1>
-            <p className="text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto">
               Explore our latest thoughts, insights, and updates on Edge AI,
               product development, and technology innovation
             </p>
@@ -76,131 +97,213 @@ export default function Blogs() {
         </Container>
       </section>
 
-      {/* Category Filter */}
-      {categories.length > 0 && (
-        <section className="py-8 border-b border-gray-200">
+      {/* Empty State or Content */}
+      {hasNoBlogs ? (
+        <section className="py-20 sm:py-32 md:py-40">
           <Container>
-            <div className="flex flex-wrap items-center gap-3">
-              <span className="text-sm font-semibold text-muted-foreground">
-                Filter by:
-              </span>
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setSelectedCategory("")}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                  !selectedCategory
-                    ? "bg-brand-orange text-white"
-                    : "bg-white border border-gray-200 text-gray-700 hover:border-brand-orange"
-                }`}
-              >
-                All Posts
-              </motion.button>
-              {categories.map((category) => (
-                <motion.button
-                  key={category}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setSelectedCategory(category)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                    selectedCategory === category
-                      ? "bg-brand-orange text-white"
-                      : "bg-white border border-gray-200 text-gray-700 hover:border-brand-orange"
-                  }`}
-                >
-                  {category}
-                </motion.button>
-              ))}
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="text-center max-w-2xl mx-auto px-4"
+            >
+              <div className="mb-6 inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-100">
+                <span className="text-4xl text-gray-400">📝</span>
+              </div>
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
+                Coming Soon
+              </h2>
+              <p className="text-gray-600 text-base sm:text-lg mb-8 leading-relaxed">
+                We're crafting insightful articles and resources on Edge AI,
+                product development, and technology innovation. Stay tuned for
+                exciting content!
+              </p>
+              <Link to="/">
+                <Button className="mt-4">Back to Home</Button>
+              </Link>
+            </motion.div>
           </Container>
         </section>
-      )}
-
-      {/* Blog Posts Grid */}
-      <section className="py-20">
-        <Container>
-          {filteredBlogs.length === 0 ? (
-            <div className="text-center py-20">
-              <p className="text-xl text-muted-foreground">
-                No blog posts available yet. Check back soon!
-              </p>
-            </div>
-          ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredBlogs.map((blog, index) => (
-                <motion.div
-                  key={blog.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1, duration: 0.5 }}
-                >
-                  <Card className="h-full hover:shadow-2xl transition-all cursor-pointer group">
-                    <CardContent className="p-0">
-                      {blog.featured_image && (
-                        <div className="relative h-48 overflow-hidden rounded-t-xl">
-                          <img
-                            src={blog.featured_image}
-                            alt={blog.title}
-                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                          />
-                          {blog.category && (
-                            <div className="absolute top-4 left-4">
-                              <Badge className="bg-white/90 text-brand-orange border-0">
-                                {blog.category}
-                              </Badge>
-                            </div>
-                          )}
-                        </div>
-                      )}
-                      <div className="p-6">
-                        <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">
-                          {blog.published_date && (
-                            <div className="flex items-center gap-1">
-                              <Calendar className="w-3 h-3" />
-                              <span>{formatDate(blog.published_date)}</span>
-                            </div>
-                          )}
-                          {blog.read_time && (
-                            <div className="flex items-center gap-1">
-                              <Clock className="w-3 h-3" />
-                              <span>{blog.read_time} min read</span>
-                            </div>
-                          )}
-                        </div>
-                        <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-brand-orange transition-colors">
-                          {blog.title}
-                        </h3>
-                        <p className="text-muted-foreground mb-4 line-clamp-3">
-                          {blog.excerpt || blog.description}
-                        </p>
-                        {blog.author && (
-                          <div className="flex items-center gap-2 mb-4">
-                            <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-sm font-semibold">
-                              {blog.author.charAt(0).toUpperCase()}
-                            </div>
-                            <span className="text-sm text-muted-foreground">
-                              {blog.author}
-                            </span>
-                          </div>
-                        )}
-                        <Button
-                          size="sm"
-                          className="group"
-                          onClick={() => setSelectedBlog(blog)}
-                        >
-                          Read More
-                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </Button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
-            </div>
+      ) : (
+        <>
+          {/* Category Filter */}
+          {categories.length > 0 && (
+            <section className="py-6 sm:py-7 md:py-8 border-b border-gray-200">
+              <Container>
+                <div className="flex flex-wrap items-center gap-2 sm:gap-3">
+                  <span className="text-sm font-semibold text-muted-foreground">
+                    Filter by:
+                  </span>
+                  <motion.button
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => setSelectedCategory("")}
+                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                      !selectedCategory
+                        ? "bg-brand-orange text-white"
+                        : "bg-white border border-gray-200 text-gray-700 hover:border-brand-orange"
+                    }`}
+                  >
+                    All Posts
+                  </motion.button>
+                  {categories.map((category) => (
+                    <motion.button
+                      key={category}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      onClick={() => setSelectedCategory(category)}
+                      className={`px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
+                        selectedCategory === category
+                          ? "bg-brand-orange text-white"
+                          : "bg-white border border-gray-200 text-gray-700 hover:border-brand-orange"
+                      }`}
+                    >
+                      {category}
+                    </motion.button>
+                  ))}
+                </div>
+              </Container>
+            </section>
           )}
-        </Container>
-      </section>
+
+          {/* Blog Posts Grid */}
+          <section className="py-12 sm:py-16 md:py-20">
+            <Container>
+              {filteredBlogs.length === 0 ? (
+                <div className="text-center py-12 sm:py-16 md:py-20">
+                  <p className="text-base sm:text-lg md:text-[20px] text-muted-foreground px-4">
+                    No blog posts found in this category. Try selecting a
+                    different one!
+                  </p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+                  {paginatedBlogs.map((blog, index) => (
+                    <motion.div
+                      key={blog.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.05, duration: 0.4 }}
+                      style={{ willChange: "opacity, transform" }}
+                    >
+                      <Card className="h-full hover:shadow-2xl transition-all cursor-pointer group">
+                        <CardContent className="p-0">
+                          {blog.featured_image && (
+                            <div className="relative h-40 sm:h-44 md:h-48 overflow-hidden rounded-t-xl">
+                              <img
+                                src={blog.featured_image}
+                                alt={blog.title}
+                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                loading="lazy"
+                                decoding="async"
+                              />
+                              {blog.category && (
+                                <div className="absolute top-4 left-4">
+                                  <Badge className="bg-white/90 text-brand-orange border-0">
+                                    {blog.category}
+                                  </Badge>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                          <div className="p-5 sm:p-6">
+                            <div className="flex items-center gap-3 sm:gap-4 text-xs text-muted-foreground mb-2 sm:mb-3">
+                              {blog.published_date && (
+                                <div className="flex items-center gap-1">
+                                  <Calendar className="w-3 h-3" />
+                                  <span>{formatDate(blog.published_date)}</span>
+                                </div>
+                              )}
+                              {blog.read_time && (
+                                <div className="flex items-center gap-1">
+                                  <Clock className="w-3 h-3" />
+                                  <span>{blog.read_time} min read</span>
+                                </div>
+                              )}
+                            </div>
+                            <h3 className="text-lg sm:text-[20px] font-bold text-foreground mb-2 sm:mb-3 group-hover:text-brand-orange transition-colors">
+                              {blog.title}
+                            </h3>
+                            <p className="text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4 line-clamp-3">
+                              {blog.excerpt || blog.description}
+                            </p>
+                            {blog.author && (
+                              <div className="flex items-center gap-2 mb-3 sm:mb-4">
+                                <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-sm font-semibold">
+                                  {blog.author.charAt(0).toUpperCase()}
+                                </div>
+                                <span className="text-sm text-muted-foreground">
+                                  {blog.author}
+                                </span>
+                              </div>
+                            )}
+                            <Button
+                              size="sm"
+                              className="group"
+                              onClick={() => setSelectedBlog(blog)}
+                            >
+                              Read More
+                              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </Button>
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
+
+              {/* Pagination - Only show if blogs exist */}
+              {totalPages > 1 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-2 mt-12"
+                >
+                  <button
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.max(prev - 1, 1))
+                    }
+                    disabled={currentPage === 1}
+                    className="w-full sm:w-auto px-4 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
+                  >
+                    Previous
+                  </button>
+
+                  <div className="flex gap-1.5 sm:gap-2 overflow-x-auto max-w-full pb-2 sm:pb-0">
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                      (page) => (
+                        <button
+                          key={page}
+                          onClick={() => setCurrentPage(page)}
+                          className={`min-w-[36px] sm:min-w-[40px] h-9 sm:h-10 rounded-lg font-medium text-sm transition-all flex-shrink-0 ${
+                            currentPage === page
+                              ? "bg-brand-orange text-white shadow-lg"
+                              : "bg-gray-100 text-brand-black hover:bg-gray-200"
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      ),
+                    )}
+                  </div>
+
+                  <button
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                    }
+                    disabled={currentPage === totalPages}
+                    className="w-full sm:w-auto px-4 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
+                  >
+                    Next
+                  </button>
+                </motion.div>
+              )}
+            </Container>
+          </section>
+        </>
+      )}
 
       {/* Blog Detail Modal */}
       {selectedBlog && (
@@ -208,37 +311,37 @@ export default function Blogs() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-2 sm:p-4"
           onClick={() => setSelectedBlog(null)}
         >
           <motion.div
             initial={{ scale: 0.9, y: 20 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.9, y: 20 }}
-            className="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+            className="bg-white rounded-xl sm:rounded-2xl shadow-2xl max-w-4xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between z-10">
-              <h2 className="text-2xl font-bold text-foreground">
+            <div className="sticky top-0 bg-white border-b border-gray-200 px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between z-10">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-foreground pr-4">
                 {selectedBlog.title}
               </h2>
               <button
                 onClick={() => setSelectedBlog(null)}
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors flex-shrink-0"
               >
-                <X className="w-6 h-6" />
+                <X className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
             </div>
 
             {/* Content */}
-            <div className="p-6">
+            <div className="p-4 sm:p-6">
               {selectedBlog.featured_image && (
-                <div className="mb-6 rounded-xl overflow-hidden">
+                <div className="mb-4 sm:mb-6 rounded-lg sm:rounded-xl overflow-hidden">
                   <img
                     src={selectedBlog.featured_image}
                     alt={selectedBlog.title}
-                    className="w-full h-auto"
+                    className="w-full h-48 sm:h-64 md:h-80 lg:h-auto object-cover"
                   />
                 </div>
               )}

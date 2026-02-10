@@ -187,7 +187,7 @@ export default function BlogsTab() {
     <div>
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h2 className="text-2xl font-bold text-brand-black">
+          <h2 className="text-[24px] font-bold text-brand-black">
             Manage Blog Posts
           </h2>
           <p className="text-sm text-gray-600 mt-1">
@@ -232,7 +232,7 @@ export default function BlogsTab() {
           exit={{ opacity: 0, height: 0 }}
           className="mb-8 p-6 bg-white border-2 border-brand-orange rounded-2xl shadow-xl"
         >
-          <h3 className="text-xl font-bold text-brand-black mb-6">
+          <h3 className="text-[20px] font-bold text-brand-black mb-6">
             {editingId ? "Edit Blog Post" : "Add New Blog Post"}
           </h3>
 
