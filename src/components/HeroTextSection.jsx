@@ -87,7 +87,12 @@ const CTAButton = ({
 
 export default function HeroTextSection() {
   return (
-    <section className="relative bg-primary pt-6 sm:pt-8 md:pt-12 lg:pt-16 xl:pt-20 pb-6 sm:pb-8 md:pb-12 lg:pb-16 xl:pb-20 overflow-hidden">
+    <section className="hero-fluid-banner topbanner container-fluid relative bg-primary overflow-hidden">
+      <div className="hero-fluid-banner__layer" aria-hidden="true">
+        <span className="hero-fluid-banner__blob hero-fluid-banner__blob--one" />
+        <span className="hero-fluid-banner__blob hero-fluid-banner__blob--two" />
+        <span className="hero-fluid-banner__blob hero-fluid-banner__blob--three" />
+      </div>
       <BackgroundParticles />
       <div
         className="absolute inset-0 opacity-[0.03] pointer-events-none"
@@ -97,7 +102,7 @@ export default function HeroTextSection() {
           backgroundSize: "60px 60px",
         }}
       />
-      <Container>
+      <Container className="hero-topbanner-content">
         <div>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
