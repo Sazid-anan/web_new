@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { loginAdmin, clearLoginError } from "../../redux/slices/authSlice";
-import Button from "../../components/common/Button";
+import Button from "../../components/ui/Button";
 
 /**
  * Admin Login Page
@@ -54,7 +54,7 @@ export default function AdminLogin() {
           <p className="text-xs uppercase tracking-[0.4em] text-gray-500">
             Danvion
           </p>
-          <h1 className="text-3xl font-bold text-brand-black mt-2">
+          <h1 className="text-h2 font-bold text-brand-black mt-2">
             Admin Access
           </h1>
           <p className="text-gray-600 mt-1">Secure login required</p>
@@ -88,6 +88,7 @@ export default function AdminLogin() {
             <input
               type="email"
               id="email"
+              autocomplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -111,6 +112,7 @@ export default function AdminLogin() {
             <input
               type="password"
               id="password"
+              autocomplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required

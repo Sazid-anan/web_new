@@ -11,7 +11,7 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { db } from "../../services/firebaseClient";
-import Button from "../../components/common/Button";
+import Button from "../../components/ui/Button";
 
 const formatDate = (value) => {
   if (!value) return "";
@@ -186,7 +186,7 @@ export default function MessagesTab() {
     >
       <div className="flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h2 className="text-[24px] font-bold text-brand-black mb-2">
+          <h2 className="text-xl font-bold text-brand-black mb-2">
             Contact Messages
           </h2>
           <p className="text-gray-600 text-sm">
@@ -290,7 +290,7 @@ export default function MessagesTab() {
               <div className="space-y-4">
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
-                    <h3 className="text-[20px] font-bold text-brand-black">
+                    <h3 className="text-lg font-bold text-brand-black">
                       {selectedMessage.name || "Anonymous"}
                     </h3>
                     <p className="text-sm text-gray-500">

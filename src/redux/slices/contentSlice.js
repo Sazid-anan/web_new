@@ -9,7 +9,6 @@ import {
   orderBy,
   query,
   setDoc,
-  writeBatch,
 } from "firebase/firestore";
 import { db } from "../../services/firebaseClient";
 

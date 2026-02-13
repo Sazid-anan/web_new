@@ -82,7 +82,7 @@ export default function AdminDashboard() {
       }}
     >
       {/* Main Content */}
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="w-full mx-auto px-4 sm:px-6 md:px-8 lg:px-10 py-12">
         <div className="admin-header mb-8 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <img
@@ -94,7 +94,7 @@ export default function AdminDashboard() {
               <p className="text-xs uppercase tracking-[0.3em] text-gray-500">
                 Danvion Admin
               </p>
-              <h1 className="text-3xl font-bold text-brand-black mt-2">
+              <h1 className="text-h2 font-bold text-brand-black mt-2">
                 Content Control Center
               </h1>
               <p className="text-sm text-gray-600 mt-1">
@@ -119,7 +119,7 @@ export default function AdminDashboard() {
                 <p className="text-xs uppercase tracking-[0.3em] text-gray-500">
                   Navigation
                 </p>
-                <h2 className="text-[24px] font-bold text-brand-black mt-2">
+                <h2 className="text-2xl font-bold text-brand-black mt-2">
                   Dashboard
                 </h2>
                 <p className="text-sm text-gray-600 mt-1">

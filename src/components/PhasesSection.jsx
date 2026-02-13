@@ -47,10 +47,10 @@ const phases = [
 const RoundedHexagon = ({ active, children, onClick }) => (
   <div className="relative cursor-pointer group" onClick={onClick}>
     <svg
-      width="100"
-      height="115"
+      width="50"
+      height="56"
       viewBox="0 0 160 180"
-      className="drop-shadow-sm transition-transform duration-300 group-hover:scale-105 md:w-[160px] md:h-[180px]"
+      className="drop-shadow-sm transition-transform duration-300 group-hover:scale-105 sm:w-[55px] sm:h-[65px] md:w-[70px] md:h-[85px] lg:w-[100px] lg:h-[120px] xl:w-[160px] xl:h-[180px]"
     >
       {/* Outer Border Hexagon */}
       <path
@@ -107,41 +107,37 @@ const PhaseSection = () => {
   };
 
   return (
-    <section className="w-full bg-transparent pt-10 sm:pt-12 pb-12 sm:pb-16 md:pb-20 font-sans overflow-hidden">
-      <Container className="max-w-[1600px] mx-auto w-full">
-        <div className="text-center mb-10 sm:mb-12 md:mb-16 px-4">
-          <Badge
-            variant="secondary"
-            className="mb-3 sm:mb-4 inline-block text-xs sm:text-sm"
-          >
-            Development Process
-          </Badge>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-foreground mb-3 sm:mb-4">
-            Our Development Phases
-          </h2>
-          <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8">
-            A comprehensive approach to designing and delivering exceptional
-            hardware solutions
-          </p>
+    <section className="w-full bg-transparent pt-6 sm:pt-8 md:pt-12 lg:pt-16 xl:pt-20 pb-6 sm:pb-8 md:pb-12 lg:pb-16 xl:pb-20 font-sans overflow-hidden">
+      <Container>
+        <div className="text-left mb-6 sm:mb-8 md:mb-8 lg:mb-12 px-1 sm:px-4">
+          <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6">
+            <div className="flex-1">
+              <h1 className="text-left hero-gradient-text text-h2 font-bold leading-tight tracking-tight">
+                Our Development Phases
+              </h1>
+            </div>
+            <div className="flex-1">
+              <p className="text-justify text-body-sm font-medium text-muted-foreground">
+                We streamline your success by handling every detail from initial
+                schematics to rapid in-house prototyping and testing, ensuring
+                your product works perfectly in the real world
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* The Hexagon Navigation Row */}
-        <div className="grid grid-cols-3 md:flex md:flex-wrap justify-center items-start md:items-center gap-2 md:gap-4 mb-8 sm:mb-10 md:mb-12 px-2">
+        <div className="flex flex-wrap justify-center items-center gap-0.5 sm:gap-1 md:gap-1.5 lg:gap-2 xl:gap-3 mb-2 sm:mb-3 md:mb-4 lg:mb-6 xl:mb-8 px-0.5 sm:px-2 w-full">
           {phases.map((phase, idx) => (
             <div key={idx} className="flex flex-col items-center">
               {/* Alternating Labels (Top/Bottom) */}
               {idx % 2 === 0 && (
                 <div
-                  className={`mb-1 md:mb-4 text-[10px] md:text-base font-bold uppercase tracking-wide md:tracking-widest h-auto md:h-12 text-center transition-colors leading-tight ${activeStep === idx ? "text-amber-600" : "text-gray-500"}`}
+                  className={`mb-0.5 sm:mb-1 md:mb-1.5 lg:mb-2 xl:mb-4 text-[6px] sm:text-[7px] md:text-[9px] lg:text-sm xl:text-base font-bold uppercase tracking-tight md:tracking-wide lg:tracking-widest h-auto md:h-6 lg:h-8 xl:h-12 text-center transition-colors leading-tight ${activeStep === idx ? "text-amber-600" : "text-gray-500"}`}
                 >
-                  <div className="md:hidden">{phase.title.split(" ")[0]}</div>
-                  <div className="hidden md:block">
-                    {phase.title.split(" ")[0]}
-                    <br />
-                    {phase.title.split(" ")[1]}
-                  </div>
+                  <div>{phase.title.split(" ")[0]}</div>
                   <div
-                    className={`w-1 h-3 md:h-6 mx-auto mt-0.5 md:mt-1 ${activeStep === idx ? "bg-amber-500" : "bg-gray-200"}`}
+                    className={`w-0.5 h-1 sm:h-1.5 md:h-2 lg:h-4 xl:h-6 mx-auto mt-0.5 md:mt-0.5 lg:mt-1 ${activeStep === idx ? "bg-amber-500" : "bg-gray-200"}`}
                   />
                 </div>
               )}
@@ -155,17 +151,12 @@ const PhaseSection = () => {
 
               {idx % 2 !== 0 && (
                 <div
-                  className={`mt-1 md:mt-4 text-[10px] md:text-base font-bold uppercase tracking-wide md:tracking-widest h-auto md:h-12 text-center transition-colors leading-tight ${activeStep === idx ? "text-amber-600" : "text-gray-500"}`}
+                  className={`mt-0.5 sm:mt-1 md:mt-1.5 lg:mt-2 xl:mt-4 text-[6px] sm:text-[7px] md:text-[9px] lg:text-sm xl:text-base font-bold uppercase tracking-tight md:tracking-wide lg:tracking-widest h-auto md:h-6 lg:h-8 xl:h-12 text-center transition-colors leading-tight ${activeStep === idx ? "text-amber-600" : "text-gray-500"}`}
                 >
                   <div
-                    className={`w-1 h-3 md:h-6 mx-auto mb-0.5 md:mb-1 ${activeStep === idx ? "bg-amber-500" : "bg-gray-200"}`}
+                    className={`w-0.5 h-1 sm:h-1.5 md:h-2 lg:h-4 xl:h-6 mx-auto mb-0.5 md:mb-0.5 lg:mb-1 ${activeStep === idx ? "bg-amber-500" : "bg-gray-200"}`}
                   />
-                  <div className="md:hidden">{phase.title.split(" ")[0]}</div>
-                  <div className="hidden md:block">
-                    {phase.title.split(" ")[0]}
-                    <br />
-                    {phase.title.split(" ")[1]}
-                  </div>
+                  <div>{phase.title.split(" ")[0]}</div>
                 </div>
               )}
             </div>
@@ -173,24 +164,25 @@ const PhaseSection = () => {
         </div>
 
         {/* Content Box */}
-        <div className="max-w-4xl mx-auto bg-amber-50/50 rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-12 border border-amber-100 shadow-xl shadow-amber-900/5 relative min-h-[200px] sm:min-h-[260px] md:min-h-[280px] overflow-auto">
+        <div className="max-w-4xl mx-auto bg-amber-50/50 rounded-lg sm:rounded-xl md:rounded-3xl p-2 sm:p-4 md:p-6 lg:p-8 xl:p-12 border border-amber-100 shadow-md sm:shadow-lg md:shadow-xl shadow-amber-900/5 relative min-h-[140px] sm:min-h-[180px] md:min-h-[220px] lg:min-h-[280px] overflow-hidden">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeStep}
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
+              transition={{ duration: 0.35, ease: "easeInOut" }}
+              className="h-full flex flex-col"
             >
-              <div className="flex items-center gap-3 sm:gap-4 mb-3 sm:mb-5 md:mb-6">
-                <span className="text-2xl sm:text-4xl md:text-5xl font-black text-amber-200/50">
+              <div className="flex items-center gap-1 sm:gap-2 md:gap-3 lg:gap-4 mb-1 sm:mb-2 md:mb-3 lg:mb-4 xl:mb-6 flex-shrink-0">
+                <span className="text-lg sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-black text-amber-400 flex-shrink-0">
                   0{activeStep + 1}
                 </span>
-                <h3 className="text-lg sm:text-2xl md:text-3xl font-bold text-gray-800 uppercase tracking-wide">
+                <h3 className="text-xs sm:text-sm md:text-xl lg:text-2xl xl:text-3xl font-bold text-gray-800 uppercase tracking-tight md:tracking-wide line-clamp-2 sm:line-clamp-none">
                   {phases[activeStep].title}
                 </h3>
               </div>
-              <p className="text-gray-600 text-sm sm:text-lg md:text-xl leading-relaxed font-light">
+              <p className="text-gray-600 text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed font-light line-clamp-4 sm:line-clamp-5 md:line-clamp-none">
                 {phases[activeStep].description}
               </p>
             </motion.div>

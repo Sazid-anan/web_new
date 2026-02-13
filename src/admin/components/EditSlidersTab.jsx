@@ -132,7 +132,7 @@ export default function EditSlidersTab() {
     <div>
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
         <div>
-          <h2 className="text-[24px] font-bold text-brand-black">
+          <h2 className="text-xl font-bold text-brand-black">
             Manage Image Sliders
           </h2>
           <p className="text-sm text-gray-600 mt-1">
@@ -177,7 +177,7 @@ export default function EditSlidersTab() {
           exit={{ opacity: 0, height: 0 }}
           className="mb-8 p-6 bg-white border-2 border-brand-orange rounded-2xl shadow-xl"
         >
-          <h3 className="text-[20px] font-bold text-brand-black mb-6">
+          <h3 className="text-lg font-bold text-brand-black mb-6">
             {editingSlider ? "Edit Slider" : "Add New Slider"}
           </h3>
 

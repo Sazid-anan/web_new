@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
+import { createPortal } from "react-dom";
 
 /**
  * Header Component
@@ -10,8 +11,6 @@ import { motion } from "framer-motion";
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
-
-  const isActive = (path) => location.pathname === path;
 
   const navLinks = [
     { path: "/", label: "Home" },
@@ -25,232 +24,312 @@ export default function Header() {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="sticky top-0 z-50 bg-white md:bg-white/95 md:backdrop-blur-sm shadow-sm border-b border-gray-100/60"
+      className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-lg border-b border-white/30 hover:shadow-xl transition-shadow duration-300"
     >
-      <div className="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <Link
-            to="/"
-            className="flex items-center gap-3"
-            onClick={(e) => {
-              e.preventDefault();
-              if (location.pathname === "/") {
-                window.scrollTo({ top: 0, behavior: "smooth" });
-              } else {
-                window.location.href = "/";
-              }
-            }}
-          >
-            <motion.img
-              src="/logo.png"
-              alt="Danvion Logo"
-              className="h-10 w-10"
-              whileHover={{
-                scale: 1.1,
-                rotate: [0, -10, 10, -10, 0],
+      <div className="w-full flex justify-center">
+        <div className="w-full max-w-[90%] sm:max-w-[90%] md:max-w-[90%] lg:max-w-[88%] xl:max-w-[85%] xxl:max-w-[88%] px-4 sm:px-6 md:px-8 lg:px-10">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
+            <Link
+              to="/"
+              className="flex items-center gap-2 sm:gap-2"
+              onClick={(e) => {
+                e.preventDefault();
+                if (location.pathname === "/") {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                } else {
+                  window.location.href = "/";
+                }
               }}
-              transition={{
-                scale: { duration: 0.2 },
-                rotate: { duration: 0.6 },
-              }}
-            />
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="text-[24px] font-bold text-brand-black"
             >
-              DANVION
-            </motion.div>
-          </Link>
+              <motion.img
+                src="/logo.png"
+                alt="Danvion Logo"
+                className="h-8 w-8 sm:h-10 sm:w-10"
+                whileHover={{
+                  scale: 1.1,
+                  rotate: [0, -10, 10, -10, 0],
+                }}
+                transition={{
+                  scale: { duration: 0.2 },
+                  rotate: { duration: 0.6 },
+                }}
+              />
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                className="font-bold text-brand-black text-xl sm:text-2xl md:text-2xl lg:text-3xl"
+              >
+                DANVION
+              </motion.div>
+            </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            <nav className="flex gap-2">
-              {navLinks.map((link) => {
-                if (link.label === "Home") {
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap- lg:gap-8">
+              <nav className="flex gap-1 sm:gap-2">
+                {navLinks.map((link) => {
+                  if (link.label === "Home") {
+                    return (
+                      <a
+                        key={link.path}
+                        href={link.path}
+                        className="relative group"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setMobileMenuOpen(false);
+                          if (location.pathname === "/") {
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                          } else {
+                            window.location.href = "/";
+                          }
+                        }}
+                      >
+                        <motion.div
+                          whileHover={{ scale: 1.05 }}
+                          className={`px-5 py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline text-base sm:text-lg md:text-lg lg:text-xl`}
+                        >
+                          <span className="relative z-10 font-semibold">
+                            {link.label}
+                          </span>
+                        </motion.div>
+                      </a>
+                    );
+                  }
+                  if (link.path.startsWith("#")) {
+                    return (
+                      <a
+                        key={link.path}
+                        href={link.path}
+                        className="relative group"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          const el = document.getElementById(
+                            link.path.substring(1),
+                          );
+                          if (el) {
+                            el.scrollIntoView({ behavior: "smooth" });
+                          }
+                          setMobileMenuOpen(false);
+                          if (location.pathname !== "/") {
+                            window.location.href = `/${link.path}`;
+                          }
+                        }}
+                      >
+                        <motion.div
+                          whileHover={{ scale: 1.05 }}
+                          className={`px-5 py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline text-base sm:text-lg md:text-lg lg:text-xl`}
+                        >
+                          <span className="relative z-10 font-semibold">
+                            {link.label}
+                          </span>
+                        </motion.div>
+                      </a>
+                    );
+                  }
                   return (
-                    <a
+                    <Link
                       key={link.path}
-                      href={link.path}
+                      to={link.path}
                       className="relative group"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setMobileMenuOpen(false);
-                        if (location.pathname === "/") {
-                          window.scrollTo({ top: 0, behavior: "smooth" });
-                        } else {
-                          window.location.href = "/";
-                        }
-                      }}
                     >
                       <motion.div
                         whileHover={{ scale: 1.05 }}
-                        className={`px-5 py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline`}
+                        className={`px-5 py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline text-base sm:text-lg md:text-lg lg:text-xl`}
                       >
                         <span className="relative z-10 font-semibold">
                           {link.label}
                         </span>
                       </motion.div>
-                    </a>
+                    </Link>
                   );
-                }
-                if (link.path.startsWith("#")) {
-                  return (
-                    <a
-                      key={link.path}
-                      href={link.path}
-                      className="relative group"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        const el = document.getElementById(
-                          link.path.substring(1),
-                        );
-                        if (el) {
-                          el.scrollIntoView({ behavior: "smooth" });
-                        }
-                        setMobileMenuOpen(false);
-                        if (location.pathname !== "/") {
-                          window.location.href = `/${link.path}`;
-                        }
-                      }}
-                    >
-                      <motion.div
-                        whileHover={{ scale: 1.05 }}
-                        className={`px-5 py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline`}
-                      >
-                        <span className="relative z-10 font-semibold">
-                          {link.label}
-                        </span>
-                      </motion.div>
-                    </a>
-                  );
-                }
-                return (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    className="relative group"
-                  >
-                    <motion.div
-                      whileHover={{ scale: 1.05 }}
-                      className={`px-5 py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline`}
-                    >
-                      <span className="relative z-10 font-semibold">
-                        {link.label}
-                      </span>
-                    </motion.div>
-                  </Link>
-                );
-              })}
-            </nav>
+                })}
+              </nav>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              type="button"
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-nav"
+              className="md:hidden flex flex-col gap-2 p-3.5 rounded-lg hover:bg-gray-100 transition-colors"
+            >
+              <span
+                className={`w-8 h-1 bg-[#FF6F00] transition-all ${mobileMenuOpen ? "rotate-45 translate-y-3" : ""}`}
+              ></span>
+              <span
+                className={`w-8 h-1 bg-[#FF6F00] transition-all ${mobileMenuOpen ? "opacity-0" : ""}`}
+              ></span>
+              <span
+                className={`w-8 h-1 bg-[#FF6F00] transition-all ${mobileMenuOpen ? "-rotate-45 -translate-y-3" : ""}`}
+              ></span>
+            </button>
           </div>
-
-          {/* Mobile Menu Button */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            type="button"
-            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileMenuOpen}
-            aria-controls="mobile-nav"
-            className="md:hidden flex flex-col gap-2 p-3.5 rounded-lg hover:bg-gray-100 transition-colors"
-          >
-            <span
-              className={`w-8 h-1 bg-[#FF6F00] transition-all ${mobileMenuOpen ? "rotate-45 translate-y-3" : ""}`}
-            ></span>
-            <span
-              className={`w-8 h-1 bg-[#FF6F00] transition-all ${mobileMenuOpen ? "opacity-0" : ""}`}
-            ></span>
-            <span
-              className={`w-8 h-1 bg-[#FF6F00] transition-all ${mobileMenuOpen ? "-rotate-45 -translate-y-3" : ""}`}
-            ></span>
-          </button>
         </div>
-
-        {/* Mobile Navigation */}
-        {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            id="mobile-nav"
-            className="md:hidden py-5 flex flex-col gap-4 border-t border-gray-200 bg-white"
-          >
-            {navLinks.map((link) => {
-              if (link.label === "Home") {
-                return (
-                  <a
-                    key={link.path}
-                    href={link.path}
-                    className="relative group"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setMobileMenuOpen(false);
-                      if (location.pathname === "/") {
-                        window.scrollTo({ top: 0, behavior: "smooth" });
-                      } else {
-                        window.location.href = "/";
-                      }
-                    }}
-                  >
-                    <motion.div
-                      whileTap={{ scale: 0.98 }}
-                      whileHover={{ scale: 1.02 }}
-                      className={`px-6 py-4 rounded-full font-semibold text-base transition-all duration-300 glass-orange-outline text-center`}
-                    >
-                      <span className="relative z-10">{link.label}</span>
-                    </motion.div>
-                  </a>
-                );
-              }
-              if (link.path.startsWith("#")) {
-                return (
-                  <a
-                    key={link.path}
-                    href={link.path}
-                    className="relative group"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      const el = document.getElementById(
-                        link.path.substring(1),
-                      );
-                      if (el) {
-                        el.scrollIntoView({ behavior: "smooth" });
-                      }
-                      setMobileMenuOpen(false);
-                      if (location.pathname !== "/") {
-                        window.location.href = `/${link.path}`;
-                      }
-                    }}
-                  >
-                    <motion.div
-                      whileTap={{ scale: 0.98 }}
-                      whileHover={{ scale: 1.02 }}
-                      className={`px-6 py-4 rounded-full font-semibold text-base transition-all duration-300 glass-orange-outline text-center`}
-                    >
-                      <span className="relative z-10">{link.label}</span>
-                    </motion.div>
-                  </a>
-                );
-              }
-              return (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="relative group"
-                >
-                  <motion.div
-                    whileTap={{ scale: 0.98 }}
-                    whileHover={{ scale: 1.02 }}
-                    className={`px-6 py-4 rounded-full font-semibold text-base transition-all duration-300 glass-orange-outline text-center`}
-                  >
-                    <span className="relative z-10">{link.label}</span>
-                  </motion.div>
-                </Link>
-              );
-            })}
-          </motion.div>
-        )}
       </div>
+
+      {/* Mobile Navigation - Rendered via Portal */}
+      {mobileMenuOpen &&
+        createPortal(
+          <>
+            {/* Backdrop Overlay */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="md:hidden fixed inset-0 bg-black/30 backdrop-blur-sm z-[9998]"
+            />
+
+            {/* Menu Panel */}
+            <motion.div
+              initial={{ opacity: 0, x: "100%" }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: "100%" }}
+              transition={{ type: "spring", damping: 25, stiffness: 200 }}
+              id="mobile-nav"
+              className="md:hidden fixed right-0 top-0 bottom-0 w-[280px] sm:w-[320px] bg-white/70 backdrop-blur-2xl shadow-2xl overflow-y-auto z-[9999] border-l border-white/50"
+            >
+              {/* Menu Header */}
+              <div className="sticky top-0 bg-white/50 backdrop-blur-md border-b border-white/30 px-6 py-4 flex items-center justify-between z-10">
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className="flex items-center gap-2"
+                >
+                  <img src="/logo.png" alt="Danvion" className="h-8 w-8" />
+                  <span className="font-bold text-brand-black text-lg sm:text-xl">
+                    Menu
+                  </span>
+                </motion.div>
+                <motion.button
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="p-2 rounded-full hover:bg-white/50 transition-colors"
+                  aria-label="Close menu"
+                >
+                  <svg
+                    className="w-6 h-6 text-brand-orange"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                </motion.button>
+              </div>
+
+              {/* Menu Items */}
+              <nav className="px-4 py-6 space-y-2">
+                {navLinks.map((link, index) => {
+                  const linkContent = (
+                    <motion.div
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 + index * 0.05 }}
+                      whileTap={{ scale: 0.97 }}
+                      className="relative group px-6 py-4 rounded-xl font-semibold transition-all duration-300 bg-white/40 hover:bg-white/60 border border-white/40 hover:border-orange-200/60 hover:shadow-lg hover:shadow-orange-100/30 backdrop-blur-sm overflow-hidden text-base sm:text-lg"
+                    >
+                      {/* Shine effect on hover */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
+
+                      <div className="relative z-10 flex items-center justify-between">
+                        <span className="text-brand-black">{link.label}</span>
+                        <svg
+                          className="w-5 h-5 text-brand-orange opacity-0 group-hover:opacity-100 transform translate-x-[-10px] group-hover:translate-x-0 transition-all duration-300"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </div>
+                    </motion.div>
+                  );
+
+                  if (link.label === "Home") {
+                    return (
+                      <a
+                        key={link.path}
+                        href={link.path}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setMobileMenuOpen(false);
+                          if (location.pathname === "/") {
+                            window.scrollTo({ top: 0, behavior: "smooth" });
+                          } else {
+                            window.location.href = "/";
+                          }
+                        }}
+                      >
+                        {linkContent}
+                      </a>
+                    );
+                  }
+                  if (link.path.startsWith("#")) {
+                    return (
+                      <a
+                        key={link.path}
+                        href={link.path}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          const el = document.getElementById(
+                            link.path.substring(1),
+                          );
+                          if (el) {
+                            el.scrollIntoView({ behavior: "smooth" });
+                          }
+                          setMobileMenuOpen(false);
+                          if (location.pathname !== "/") {
+                            window.location.href = `/${link.path}`;
+                          }
+                        }}
+                      >
+                        {linkContent}
+                      </a>
+                    );
+                  }
+                  return (
+                    <Link
+                      key={link.path}
+                      to={link.path}
+                      onClick={() => setMobileMenuOpen(false)}
+                    >
+                      {linkContent}
+                    </Link>
+                  );
+                })}
+              </nav>
+
+              {/* Menu Footer */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="absolute bottom-0 left-0 right-0 p-6 bg-white/30 backdrop-blur-md border-t border-white/30"
+              >
+                <div className="text-center text-sm text-gray-500">
+                  <p className="font-semibold text-brand-orange mb-1">
+                    Danvion Ltd
+                  </p>
+                  <p>Edge AI Solutions</p>
+                </div>
+              </motion.div>
+            </motion.div>
+          </>,
+          document.body,
+        )}
     </motion.header>
   );
 }

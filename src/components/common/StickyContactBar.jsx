@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Phone, Mail, Linkedin, Calendar } from "lucide-react";
 import { useState } from "react";
 import { EXTERNAL_LINKS } from "../../config/links";
+import { SITE_CONTENT } from "../../config/content";
 
 /**
  * StickyContactBar Component
@@ -15,15 +16,15 @@ export default function StickyContactBar() {
     {
       icon: Phone,
       label: "Call Us",
-      detail: "+60148914600",
-      href: "tel:+60148914600",
+      detail: SITE_CONTENT.contact.phoneDisplay,
+      href: `tel:${SITE_CONTENT.contact.phone}`,
       color: "text-brand-orange",
     },
     {
       icon: Mail,
       label: "Email Us",
-      detail: "sazid@danvion.com",
-      href: "mailto:sazid@danvion.com",
+      detail: SITE_CONTENT.contact.email,
+      href: `mailto:${SITE_CONTENT.contact.email}`,
       color: "text-brand-orange",
     },
     {
@@ -37,7 +38,7 @@ export default function StickyContactBar() {
 
     {
       icon: Calendar,
-      label: "Book Me",
+      label: "Book a 30 Minutes Free Consultation Call",
       href: EXTERNAL_LINKS.CALENDLY,
       color: "text-brand-orange",
       target: "_blank",
@@ -79,7 +80,7 @@ export default function StickyContactBar() {
 
   return (
     <motion.div
-      className="fixed right-2 sm:right-4 top-1/2 transform -translate-y-1/2 z-40 flex flex-col gap-0.5"
+      className="fixed right-1 sm:right-4 top-1/2 transform -translate-y-1/2 z-40 flex flex-col gap-0.5 sm:gap-1"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
@@ -101,9 +102,11 @@ export default function StickyContactBar() {
           >
             <motion.div
               variants={hoverVariants}
-              className="p-2.5 sm:p-3 rounded-lg bg-transparent border-2 border-brand-orange/30 backdrop-blur-sm hover:bg-white/10 hover:border-brand-orange/60 transition-all duration-300 cursor-pointer shadow-[0_0_15px_rgba(255,140,0,0)] hover:shadow-[0_0_15px_rgba(255,140,0,0.3)]"
+              className="p-2 sm:p-2.5 md:p-3 rounded-lg bg-transparent border-2 border-brand-orange/30 backdrop-blur-sm hover:bg-white/10 hover:border-brand-orange/60 transition-all duration-300 cursor-pointer shadow-[0_0_10px_rgba(255,140,0,0)] hover:shadow-[0_0_10px_rgba(255,140,0,0.2)]"
             >
-              <Icon className={`w-5 h-5 sm:w-6 sm:h-6 ${item.color}`} />
+              <Icon
+                className={`w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 ${item.color}`}
+              />
             </motion.div>
 
             {/* Tooltip with Slide Animation */}
@@ -114,7 +117,7 @@ export default function StickyContactBar() {
                   animate={{ opacity: 1, x: 0, scale: 1 }}
                   exit={{ opacity: 0, x: 20, scale: 0.8 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="absolute right-12 sm:right-16 top-1/2 -translate-y-1/2 bg-gradient-to-br from-orange-400 via-orange-300 to-orange-400 backdrop-blur-xl text-white px-4 sm:px-6 py-3 sm:py-3.5 rounded-xl whitespace-nowrap pointer-events-none shadow-[0_8px_32px_rgba(255,140,0,0.5)] border-2 border-orange-300/60 text-xs sm:text-sm"
+                  className="absolute right-10 sm:right-16 top-1/2 -translate-y-1/2 bg-gradient-to-br from-orange-400 via-orange-300 to-orange-400 backdrop-blur-xl text-white px-2 sm:px-4 py-2 sm:py-3 rounded-xl whitespace-nowrap pointer-events-none shadow-[0_4px_16px_rgba(255,140,0,0.3)] border-2 border-orange-300/60 text-xs sm:text-sm"
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
@@ -137,7 +140,7 @@ export default function StickyContactBar() {
       })}
 
       {/* Decorative line */}
-      <div className="w-1 h-16 bg-gradient-to-b from-brand-orange/40 via-brand-orange/20 to-transparent rounded-full mx-auto" />
+      {/* Removed decorative line */}
     </motion.div>
   );
 }

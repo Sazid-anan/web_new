@@ -6,6 +6,7 @@ import Button from "../components/ui/Button";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { renderMarkdown } from "../utils/markdown";
+import { Package } from "lucide-react";
 
 /**
  * Products Page
@@ -76,11 +77,6 @@ export default function Products() {
   const endIndex = startIndex + productsPerPage;
   const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
 
-  // Reset to page 1 when category changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedCategory]);
-
   const contentVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: (i) => ({
@@ -105,12 +101,13 @@ export default function Products() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center px-4"
+            className="text-left mb-8 sm:mb-10 md:mb-12 lg:mb-16"
           >
-            <h1 className="font-bold text-brand-black mb-4 text-3xl sm:text-4xl md:text-5xl lg:text-6xl sm:mb-5 md:mb-6">
+            <div className="rounded-2xl pt-1 pb-1 px-3 md:pt-1 md:pb-1 md:px-4 inline-block mb-4 sm:mb-5"></div>
+            <h1 className="text-left hero-gradient-text text-h1 font-bold leading-tight tracking-tight mb-4 sm:mb-5 md:mb-6">
               Our Products
             </h1>
-            <p className="text-gray-600 max-w-2xl mx-auto text-sm sm:text-base lg:text-lg">
+            <p className="text-justify text-body-sm font-medium text-muted-foreground max-w-3xl">
               Discover our range of Edge AI solutions designed to enhance your
               products and operations.
             </p>
@@ -128,9 +125,9 @@ export default function Products() {
             className="text-center max-w-2xl mx-auto px-4"
           >
             <div className="mb-6 inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-100">
-              <span className="text-4xl text-gray-400">📦</span>
+              <Package className="w-10 h-10 text-gray-400" />
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-brand-black mb-4">
+            <h2 className="text-h3 font-bold text-brand-black mb-4">
               Coming Soon
             </h2>
             <p className="text-gray-600 text-base sm:text-lg mb-8 leading-relaxed">

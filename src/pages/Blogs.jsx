@@ -7,7 +7,7 @@ import Button from "../components/ui/Button";
 import { motion } from "framer-motion";
 import Badge from "../components/ui/Badge";
 import { Card, CardContent } from "../components/ui/Card";
-import { Calendar, Clock, ArrowRight, X } from "lucide-react";
+import { Calendar, Clock, ArrowRight, X, FileText } from "lucide-react";
 import { renderMarkdown } from "../utils/markdown";
 
 /**
@@ -48,11 +48,6 @@ export default function Blogs() {
     startIndex + blogsPerPage,
   );
 
-  // Reset to page 1 when category changes
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedCategory]);
-
   const formatDate = (dateString) => {
     if (!dateString) return "";
     try {
@@ -72,30 +67,25 @@ export default function Blogs() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="py-12 sm:py-16 md:py-20 lg:py-32">
+      <div className="py-12 sm:py-16 md:py-20">
         <Container>
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-center max-w-3xl mx-auto px-4"
+            className="text-left mb-8 sm:mb-10 md:mb-12 lg:mb-16"
           >
-            <Badge
-              variant="secondary"
-              className="mb-3 sm:mb-4 inline-block text-xs sm:text-sm"
-            >
-              Insights & Updates
-            </Badge>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 sm:mb-5 md:mb-6">
+            <div className="rounded-2xl pt-2 pb-2 px-4 md:pt-2.5 md:pb-2.5 md:px-5 inline-block mb-4 sm:mb-5"></div>
+            <h1 className="text-left hero-gradient-text text-h1 font-bold leading-tight tracking-tight mb-4 sm:mb-5 md:mb-6">
               Blog
             </h1>
-            <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-justify text-body-sm font-medium text-muted-foreground max-w-3xl">
               Explore our latest thoughts, insights, and updates on Edge AI,
               product development, and technology innovation
             </p>
           </motion.div>
         </Container>
-      </section>
+      </div>
 
       {/* Empty State or Content */}
       {hasNoBlogs ? (
@@ -108,9 +98,9 @@ export default function Blogs() {
               className="text-center max-w-2xl mx-auto px-4"
             >
               <div className="mb-6 inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-100">
-                <span className="text-4xl text-gray-400">📝</span>
+                <FileText className="w-10 h-10 text-gray-400" />
               </div>
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-foreground mb-4">
+              <h2 className="text-h3 font-bold text-foreground mb-4">
                 Coming Soon
               </h2>
               <p className="text-gray-600 text-base sm:text-lg mb-8 leading-relaxed">
@@ -137,7 +127,10 @@ export default function Blogs() {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => setSelectedCategory("")}
+                    onClick={() => {
+                      setSelectedCategory("");
+                      setCurrentPage(1);
+                    }}
                     className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
                       !selectedCategory
                         ? "bg-brand-orange text-white"
@@ -151,7 +144,10 @@ export default function Blogs() {
                       key={category}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
-                      onClick={() => setSelectedCategory(category)}
+                      onClick={() => {
+                        setSelectedCategory(category);
+                        setCurrentPage(1);
+                      }}
                       className={`px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
                         selectedCategory === category
                           ? "bg-brand-orange text-white"
@@ -171,7 +167,7 @@ export default function Blogs() {
             <Container>
               {filteredBlogs.length === 0 ? (
                 <div className="text-center py-12 sm:py-16 md:py-20">
-                  <p className="text-base sm:text-lg md:text-[20px] text-muted-foreground px-4">
+                  <p className="text-body-sm text-muted-foreground px-4">
                     No blog posts found in this category. Try selecting a
                     different one!
                   </p>
@@ -222,7 +218,7 @@ export default function Blogs() {
                                 </div>
                               )}
                             </div>
-                            <h3 className="text-lg sm:text-[20px] font-bold text-foreground mb-2 sm:mb-3 group-hover:text-brand-orange transition-colors">
+                            <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2 sm:mb-3 group-hover:text-brand-orange transition-colors">
                               {blog.title}
                             </h3>
                             <p className="text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4 line-clamp-3">

@@ -87,42 +87,37 @@ export default function CapabilitiesSection({ homePage }) {
   };
 
   return (
-    <section className="py-8 sm:py-12 md:py-16 lg:py-20">
+    <section className="pt-6 sm:pt-8 md:pt-12 lg:pt-16 xl:pt-20 pb-6 sm:pb-8 md:pb-12 lg:pb-16 xl:pb-20">
       <Container>
-        <div className="text-center mb-6 sm:mb-10 md:mb-12 lg:mb-16 px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="mb-2 sm:mb-3 md:mb-4"
-          >
-            <span className="inline-block text-[10px] sm:text-xs font-semibold tracking-wider uppercase text-muted-foreground bg-white px-3 py-1 sm:px-4 sm:py-1.5 rounded-full border border-slate-200">
-              What We Do
-            </span>
-          </motion.div>
-          <motion.h2
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.05 }}
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl tracking-tight mb-2 sm:mb-3 md:mb-4 text-foreground leading-tight"
-          >
-            {homePage?.capabilities_title ||
-              "End-to-end engineering capabilities"}
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-muted-foreground"
-          >
-            {homePage?.capabilities_subtitle ||
-              "From hardware design to edge AI deployment, we deliver complete engineering solutions that bring intelligent products to life."}
-          </motion.p>
+        <div className="text-left mb-4 sm:mb-6 md:mb-8 lg:mb-10 px-2 sm:px-4">
+          <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.05 }}
+              className="flex-1 rounded-2xl pt-0 pb-0 px-0 md:pt-0 md:pb-0 md:px-0"
+            >
+              <h1 className="text-left hero-gradient-text text-h2 font-bold leading-tight tracking-tight">
+                {homePage?.capabilities_title || "Our Engineering Capabilities"}
+              </h1>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="flex-1 rounded-2xl pt-0 pb-0 px-0 md:pt-0 md:pb-0 md:px-0"
+            >
+              <p className="text-justify text-body-sm font-medium text-muted-foreground">
+                {homePage?.capabilities_subtitle ||
+                  "From hardware design to edge AI deployment, we deliver complete engineering solutions that bring intelligent products to life."}
+              </p>
+            </motion.div>
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 sm:gap-1.5 md:gap-2.5">
           {capabilities.map((capability, index) => (
             <motion.div
               key={index}
@@ -133,21 +128,21 @@ export default function CapabilitiesSection({ homePage }) {
               whileHover={{ y: -4, scale: 1.02 }}
               style={{ willChange: "transform, opacity" }}
             >
-              <Card className="relative h-full hover:shadow-2xl transition-all duration-300 bg-white/40 md:backdrop-blur-lg border border-white/60 shadow-lg hover:bg-white/50 hover:border-white/80">
-                <div className="p-3 sm:p-4 md:p-5">
-                  <div className="flex items-center justify-between mb-2 sm:mb-2.5 md:mb-3">
-                    <capability.icon className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-primary" />
+              <Card className="relative h-full hover:shadow-2xl transition-all duration-300 bg-white/50 md:backdrop-blur-lg border border-white/70 shadow-md hover:bg-white/60 hover:border-orange-200/80 hover:-translate-y-2">
+                <div className="p-1 sm:p-1.5 md:p-2.5">
+                  <div className="flex items-center justify-between mb-0.5 sm:mb-1 md:mb-1.5">
+                    <capability.icon className="h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-3.5 md:w-3.5 text-primary" />
                     <Badge
                       variant={getCategoryVariant(capability.category)}
-                      className="text-[8px] sm:text-[9px] md:text-[10px] px-1.5 py-0.5 sm:px-2 sm:py-0.5"
+                      className="text-[5px] sm:text-[6px] md:text-[7px] px-0.5 py-0 sm:px-1 sm:py-0.5"
                     >
                       {capability.category}
                     </Badge>
                   </div>
-                  <h3 className="text-xs sm:text-sm font-semibold mb-1 sm:mb-1.5 text-foreground leading-tight">
+                  <h3 className="text-[8px] sm:text-[9px] md:text-[10px] font-semibold mb-0.5 text-foreground leading-tight">
                     {capability.title}
                   </h3>
-                  <p className="text-[10px] sm:text-xs text-muted-foreground leading-relaxed">
+                  <p className="text-[6px] sm:text-[7px] md:text-[11px] lg:text-xs text-muted-foreground leading-snug">
                     {capability.description}
                   </p>
                 </div>

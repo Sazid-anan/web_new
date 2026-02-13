@@ -17,7 +17,6 @@ import { setAuthUser } from "./redux/slices/authSlice";
 const Home = lazy(() => import("./pages/Home"));
 const Products = lazy(() => import("./pages/Products"));
 const Blogs = lazy(() => import("./pages/Blogs"));
-const Contact = lazy(() => import("./pages/Contact"));
 
 // Admin Pages - Lazy loaded
 const AdminLogin = lazy(() => import("./admin/pages/AdminLogin"));
@@ -48,7 +47,7 @@ const PageLoader = () => (
 function App() {
   const dispatch = useDispatch();
   const isAdminLoggedIn = useSelector((state) => state.auth.isLoggedIn);
-  const [isSyncing, setIsSyncing] = useState(false);
+  const [_isSyncing, setIsSyncing] = useState(false);
 
   useEffect(() => {
     let isActive = true;
@@ -149,14 +148,6 @@ function App() {
                     element={
                       <Suspense fallback={<PageLoader />}>
                         <Blogs />
-                      </Suspense>
-                    }
-                  />
-                  <Route
-                    path="/contact"
-                    element={
-                      <Suspense fallback={<PageLoader />}>
-                        <Contact />
                       </Suspense>
                     }
                   />

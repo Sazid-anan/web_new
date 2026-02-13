@@ -7,7 +7,7 @@ import {
   deleteTeamMember,
 } from "../../redux/slices/contentSlice";
 import { uploadImage } from "../../services/storage";
-import Button from "../../components/common/Button";
+import Button from "../../components/ui/Button";
 
 /**
  * Edit Team Members Tab
@@ -133,7 +133,7 @@ export default function EditTeamTab() {
       className="space-y-6 max-w-4xl"
     >
       <div>
-        <h2 className="text-[24px] font-bold text-brand-black mb-2">
+        <h2 className="text-xl font-bold text-brand-black mb-2">
           Leadership Team
         </h2>
         <p className="text-gray-600 text-sm">Manage team members</p>

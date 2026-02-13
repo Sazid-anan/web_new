@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { Upload } from "lucide-react";
 import { saveProduct, deleteProduct } from "../../redux/slices/contentSlice";
 import { uploadImage } from "../../services/storage";
-import Button from "../../components/common/Button";
+import Button from "../../components/ui/Button";
 import { renderMarkdown } from "../../utils/markdown";
 
 /**
@@ -160,7 +160,7 @@ export default function EditProductsTab() {
     >
       <div className="flex flex-wrap justify-between items-start gap-4">
         <div>
-          <h2 className="text-[24px] font-bold text-brand-black mb-2">
+          <h2 className="text-xl font-bold text-brand-black mb-2">
             Manage Products
           </h2>
           <p className="text-gray-600 text-sm">

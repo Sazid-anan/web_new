@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import { initializeFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
@@ -24,7 +24,48 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth(app);
-export const db = getFirestore(app);
+export const db = initializeFirestore(app, {
+  cache: { kind: "persistent" },
+});
 export const storage = getStorage(app);
+
+// Suppress Firebase connection warnings by overriding console methods
+const originalError = console.error;
+const originalWarn = console.warn;
+
+console.error = function (...args) {
+  const errorString = args[0]?.toString?.() || "";
+
+  // Suppress WebChannel/Network connection warnings
+  if (
+    errorString.includes("WebChannelConnection") ||
+    errorString.includes("RPC") ||
+    errorString.includes("net::ERR_INTERNET_DISCONNECTED") ||
+    errorString.includes(
+      "Failed to get document because the client is offline",
+    ) ||
+    errorString.includes("enableIndexedDbPersistence()")
+  ) {
+    return; // Silently suppress these warnings
+  }
+
+  // Log all other errors normally
+  originalError.apply(console, args);
+};
+
+console.warn = function (...args) {
+  const warnString = args[0]?.toString?.() || "";
+
+  // Suppress Firebase deprecation warnings
+  if (
+    warnString.includes("enableIndexedDbPersistence()") ||
+    warnString.includes("will be deprecated")
+  ) {
+    return; // Silently suppress deprecation warnings
+  }
+
+  // Log all other warnings normally
+  originalWarn.apply(console, args);
+};
 
 export default app;

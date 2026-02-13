@@ -9,6 +9,8 @@ export function Card({ children, className = "" }) {
       bg-card text-card-foreground 
       rounded-xl border border-border
       flex flex-col gap-6
+      transition-all duration-300 ease-out
+      hover:shadow-xl hover:border-orange-200/50
       ${className}
     `}
     >
@@ -35,7 +37,7 @@ export function CardTitle({ children, className = "" }) {
   return (
     <h4
       className={`
-      text-[20px] font-semibold leading-none
+      text-lg font-semibold leading-none
       ${className}
     `}
     >

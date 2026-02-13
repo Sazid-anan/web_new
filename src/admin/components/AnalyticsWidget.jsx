@@ -85,7 +85,7 @@ export default function AnalyticsWidget() {
       className="space-y-6"
     >
       <div>
-        <h2 className="text-[24px] font-bold text-brand-black mb-2">
+        <h2 className="text-xl font-bold text-brand-black mb-2">
           Dashboard Analytics
         </h2>
         <p className="text-gray-600 text-sm">Key metrics at a glance</p>
