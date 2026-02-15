@@ -77,7 +77,7 @@ export default function Blogs() {
           >
             <div className="flex flex-row items-start gap-3 md:gap-4">
               <div className="w-full sm:flex-1 flex flex-col items-start text-left sm:w-auto">
-                <h1 className="capabilities-gradient-text font-semibold leading-[1.25] tracking-tight mb-2 sm:mb-3 md:mb-4 lg:mb-6 text-[18px] sm:text-[24px] md:text-[32px] lg:text-[50px]">
+                <h1 className="capabilities-gradient-text section-heading font-semibold leading-[1.25] tracking-tight mb-2 sm:mb-3 md:mb-4 lg:mb-6 text-[18px] sm:text-[24px] md:text-[32px] lg:text-[50px]">
                   Blogs
                 </h1>
               </div>

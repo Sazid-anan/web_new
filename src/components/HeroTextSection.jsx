@@ -15,7 +15,7 @@ export default function HeroTextSection() {
           <div className="flex flex-wrap sm:flex-nowrap items-start gap-3 sm:gap-3 md:gap-4 mt-1 sm:mt-2">
             {/* Left: Headline */}
             <div className="w-full sm:flex-1 flex flex-col items-start text-left sm:w-auto">
-              <h1 className="animated-gradient-text font-semibold leading-[1.25] tracking-tight mb-1 sm:mb-2 md:mb-4 lg:mb-6 text-[18px] sm:text-[24px] md:text-[32px] lg:text-[50px]">
+              <h1 className="animated-gradient-text section-heading font-semibold leading-[1.25] tracking-tight mb-1 sm:mb-2 md:mb-4 lg:mb-6 text-[18px] sm:text-[24px] md:text-[32px] lg:text-[50px]">
                 Alchemy for the
                 <br />
                 Intelligent Age

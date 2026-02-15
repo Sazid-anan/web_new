@@ -109,7 +109,7 @@ export default function Home() {
         id="contact"
         className="pt-2 pb-5 xl:pb-2 xxl:pb-5 font-sans bg-black"
       >
-        <div className="max-w-[1280px] w-full mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-16 xxl:px-4">
+        <Container className="content-maxwidth">
           {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: -20 }}
@@ -119,7 +119,7 @@ export default function Home() {
           >
             <div className="flex flex-row items-start gap-3 md:gap-4">
               <div className="w-full sm:flex-1 flex flex-col items-start text-left sm:w-auto">
-                <h1 className="animated-gradient-text font-semibold leading-[1.25] tracking-tight mb-2 sm:mb-3 md:mb-4 lg:mb-6 text-[28px] sm:text-[32px] md:text-[40px] lg:text-[50px]">
+                <h1 className="animated-gradient-text section-heading font-semibold leading-[1.25] tracking-tight mb-2 sm:mb-3 md:mb-4 lg:mb-6 text-[28px] sm:text-[32px] md:text-[40px] lg:text-[50px]">
                   Get In Touch
                 </h1>
               </div>
@@ -349,7 +349,7 @@ export default function Home() {
               </div>
             </motion.div>
           </div>
-        </div>
+        </Container>
       </section>
       {/* Second Section */}
       {section2Title && (

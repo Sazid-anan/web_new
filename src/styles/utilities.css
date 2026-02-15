@@ -76,6 +76,11 @@ img {
   padding-bottom: clamp(1rem, 3vw, 2rem);
 }
 
+.container-pad {
+  padding-left: var(--container-pad);
+  padding-right: var(--container-pad);
+}
+
 /* ===== IMAGE OPTIMIZATION - MOBILE-FIRST ===== */
 img {
   max-width: 100%;

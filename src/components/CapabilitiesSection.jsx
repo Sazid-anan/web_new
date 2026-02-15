@@ -103,7 +103,7 @@ export default function CapabilitiesSection({ homePage }) {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.05 }}
-                className="capabilities-gradient-text font-semibold leading-[1.2] tracking-tight mb-0 sm:mb-3 md:mb-4 lg:mb-6 text-[18px] sm:text-[24px] md:text-[32px] lg:text-[50px]"
+                className="capabilities-gradient-text section-heading font-semibold leading-[1.2] tracking-tight mb-0 sm:mb-3 md:mb-4 lg:mb-6 text-[18px] sm:text-[24px] md:text-[32px] lg:text-[50px]"
               >
                 {homePage?.capabilities_title || "Our Engineering"}
                 <br />

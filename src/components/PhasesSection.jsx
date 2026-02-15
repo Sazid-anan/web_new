@@ -65,7 +65,6 @@ const phases = [
     description:
       "Our mechanical design workflow brings together all of our expertise from simulations and electronics design.",
   },
-
   {
     id: 4,
     number: "04",
@@ -78,7 +77,7 @@ const phases = [
   },
 ];
 
-// Phase Card Component - Clean and Organized
+// Phase Card Component - Clean and Organized with Responsive Design
 const PhaseCard = ({ process, index }) => {
   const IconComponent = process.icon;
   const [isHovered, setIsHovered] = useState(false);
@@ -91,47 +90,47 @@ const PhaseCard = ({ process, index }) => {
       transition={{ duration: 0.6, delay: index * 0.1 }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="relative group h-full"
+      className="relative group h-full w-full"
     >
-      {/* Glass Card Container */}
+      {/* Glass Card Container with Fixed Aspect Ratio */}
       <div
-        className={`relative h-full min-h-[205px] md:min-h-[225px] lg:min-h-[240px] flex flex-col bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 p-3 md:p-4 lg:p-5 transition-all duration-300 ${isHovered ? "border-white/40 shadow-2xl shadow-white/10 " : "shadow-xl"}`}
+        className={`relative h-full min-h-[220px] sm:min-h-[235px] md:min-h-[250px] lg:min-h-[270px] flex flex-col bg-white/10 backdrop-blur-md rounded-xl md:rounded-2xl border border-white/20 p-3 md:p-4 lg:p-5 transition-all duration-300 ${isHovered ? "border-white/40 shadow-2xl shadow-white/10 transform scale-[1.02]" : "shadow-xl"}`}
       >
-        {/* Number Badge - Top Right */}
+        {/* Number Badge - Top Right with Better Positioning */}
         <div
-          className={`absolute top-3 sm:top-3 md:top-3.5 right-3 sm:right-3 md:right-3.5 w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-full ${process.color} flex items-center justify-center font-bold text-xs sm:text-sm md:text-sm lg:text-base shadow-lg transition-transform duration-300 ${isHovered ? "rotate-12" : ""}`}
+          className={`absolute top-4 right-4 w-9 h-9 md:w-10 md:h-10 rounded-full ${process.color} flex items-center justify-center font-bold text-[0.8rem] md:text-sm shadow-lg transition-all duration-300 ${isHovered ? "rotate-12 scale-110" : ""}`}
           style={{ color: "#ffffff" }}
         >
           {process.number}
         </div>
 
-        {/* Icon Container */}
+        {/* Icon Container with Consistent Sizing */}
         <div
-          className={`w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 lg:w-12 lg:h-12 xl:w-14 xl:h-14 mb-2.5 sm:mb-3 md:mb-3 lg:mb-4 ${process.color} rounded-lg sm:rounded-xl md:rounded-2xl flex items-center justify-center transition-all duration-300 ${isHovered ? "shadow-2xl" : "shadow-lg"}`}
+          className={`w-11 h-11 md:w-12 md:h-12 lg:w-14 lg:h-14 mb-3 md:mb-4 ${process.color} rounded-xl md:rounded-2xl flex items-center justify-center transition-all duration-300 ${isHovered ? "shadow-2xl scale-105" : "shadow-lg"}`}
         >
           <IconComponent
-            className={`w-4 h-4 sm:w-5 sm:h-5 md:w-5 md:h-5 lg:w-6 lg:h-6 xl:w-7 xl:h-7 transition-transform duration-300 ${isHovered ? "scale-110 rotate-6" : ""}`}
+            className={`w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 transition-transform duration-300 ${isHovered ? "scale-110 rotate-6" : ""}`}
             strokeWidth={1.5}
             color="#ffffff"
           />
         </div>
 
-        {/* Content */}
-        <div className="space-y-1 flex-1 flex flex-col">
+        {/* Content with Better Spacing */}
+        <div className="space-y-2 md:space-y-2.5 flex-1 flex flex-col">
           <h3
-            className="text-[13px] sm:text-[15px] md:text-[16px] lg:text-[18px] xl:text-[20px] font-bold leading-tight"
+            className="text-[0.98rem] md:text-base lg:text-lg font-bold leading-tight"
             style={{ color: "#ffffff" }}
           >
             {process.title}
           </h3>
 
           <div
-            className={`h-0.5 rounded-full transition-all duration-300 ${isHovered ? "w-12" : "w-8"} ${process.color}`}
+            className={`h-0.5 rounded-full transition-all duration-300 ${isHovered ? "w-16" : "w-10"} ${process.color}`}
           ></div>
 
           <p
-            className="text-justify text-xs sm:text-sm md:text-sm lg:text-base xl:text-base leading-relaxed flex-1"
-            style={{ color: "#ffffff" }}
+            className="text-[0.82rem] md:text-sm lg:text-[0.95rem] leading-relaxed flex-1 text-white/90"
+            style={{ textAlign: "justify" }}
           >
             {process.description}
           </p>
@@ -139,7 +138,7 @@ const PhaseCard = ({ process, index }) => {
 
         {/* Hover Glow Effect */}
         <div
-          className={`absolute inset-0 rounded-2xl transition-opacity duration-300 pointer-events-none ${isHovered ? "opacity-100" : "opacity-0"}`}
+          className={`absolute inset-0 rounded-xl md:rounded-2xl transition-opacity duration-300 pointer-events-none ${isHovered ? "opacity-100" : "opacity-0"}`}
           style={{
             background: `radial-gradient(circle at 50% 0%, ${process.color.replace("bg-", "rgba(")}10, 0.1), transparent 70%)`,
           }}
@@ -212,7 +211,7 @@ const PhaseSection = () => {
   const gridRef = useRef(null);
   const cardRefs = useRef([]);
   const [connectors, setConnectors] = useState([]);
-  const connectorPadding = 1.5;
+  const connectorPadding = 4; // Keep arrows visible when grid gaps are tight
 
   useEffect(() => {
     const gridElement = gridRef.current;
@@ -302,41 +301,35 @@ const PhaseSection = () => {
   }, [total]);
 
   return (
-    <section className="w-full bg-black font-sans pt-2 sm:pt-3 md:pt-4 lg:pt-6 xl:pt-8 pb-2 sm:pb-3 md:pb-4 lg:pb-5 xl:pb-6">
+    <section className="w-full bg-black font-sans py-8 sm:py-10 md:py-12 lg:py-16">
       <Container className="content-maxwidth w-full">
-        {/* Header Section */}
+        {/* Header Section with Better Responsive Design */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-6 sm:mb-7 md:mb-8 lg:mb-10"
+          className="mb-8 sm:mb-10 md:mb-12 lg:mb-16"
         >
-          <div className="flex flex-col md:flex-row items-start gap-6 md:gap-4">
-            {/* Left: Headline
-            <div className="flex flex-col items-start text-left">
-              <h1 className="animated-gradient-text font-bold leading-[1.25] tracking-tight text-[24px] sm:text-[28px] md:text-[32px] lg:text-[48px] xl:text-[60px]">
-               
-              </h1>
-            </div> */}
-
-            <div className="w-full sm:flex-1 flex flex-col items-start text-left sm:w-auto">
+          <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-8">
+            {/* Left: Headline */}
+            <div className="w-full lg:flex-1 flex flex-col items-start text-left">
               <motion.h1
                 initial={{ opacity: 0, y: 10 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.05 }}
-                className="animated-gradient-text font-semibold leading-[1.25] tracking-tight mb-2 sm:mb-3 md:mb-4 lg:mb-6 text-[18px] sm:text-[24px] md:text-[32px] lg:text-[50px]"
+                className="animated-gradient-text section-heading font-semibold leading-tight tracking-tight text-2xl sm:text-3xl md:text-4xl lg:text-5xl"
               >
                 Our Development Phases
               </motion.h1>
             </div>
 
             {/* Right: Description */}
-            <div className="w-full sm:flex-[1.5] flex flex-col items-start text-left mt-4 sm:mt-0 sm:w-auto">
+            <div className="w-full lg:flex-[1.5] flex flex-col items-start text-left">
               <p
-                className="text-justify text-sm sm:text-base md:text-lg lg:text-xl font-semibold"
-                style={{ color: "#ffffff" }}
+                className="text-white/90 text-sm sm:text-base md:text-lg lg:text-xl font-medium leading-relaxed"
+                style={{ textAlign: "justify" }}
               >
                 We streamline your success by handling every detail from initial
                 schematics to in-house prototyping and testing
@@ -345,11 +338,12 @@ const PhaseSection = () => {
           </div>
         </motion.div>
 
-        {/* Phase Cards Grid with Snake Pattern */}
+        {/* Phase Cards Grid with Snake Pattern and Better Responsive Spacing */}
         <div
           ref={gridRef}
-          className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10"
+          className="relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7 md:gap-8 lg:gap-10"
         >
+          {/* Dynamic Arrow Connectors */}
           {connectors.map((connector) => {
             const Icon =
               connector.direction === "left"
@@ -365,15 +359,15 @@ const PhaseSection = () => {
                 style={{ left: `${connector.x}px`, top: `${connector.y}px` }}
               >
                 <Icon
-                  className="phase-flow-arrow text-orange-500"
-                  strokeWidth={2.7}
+                  className="phase-flow-arrow text-orange-500 w-6 h-6 md:w-7 md:h-7"
+                  strokeWidth={2.5}
                 />
               </div>
             );
           })}
 
+          {/* Phase Cards */}
           {phases.map((process, index) => {
-            // For scroll: assign each phase a unique id
             const phaseId = `phase-section-${index}`;
 
             return (
@@ -382,7 +376,7 @@ const PhaseSection = () => {
                 ref={(element) => {
                   cardRefs.current[index] = element;
                 }}
-                className="relative"
+                className="relative w-full"
                 id={phaseId}
               >
                 <PhaseCard process={process} index={index} />

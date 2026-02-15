@@ -27,7 +27,7 @@ export default function Header() {
       className="sticky top-0 z-50 bg-white shadow-lg border-b border-gray-200 hover:shadow-xl transition-shadow duration-300"
     >
       <div className="w-full flex justify-center">
-        <div className="w-full max-w-[1280px] px-4">
+        <div className="content-maxwidth">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link

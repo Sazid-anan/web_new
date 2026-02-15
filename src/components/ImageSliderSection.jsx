@@ -49,18 +49,21 @@ export default function ImageSliderSection({
       style.textContent = `
         @keyframes image-marquee {
           0% {
-            transform: translateX(0);
+            transform: translate3d(0, 0, 0);
           }
           100% {
-            transform: translateX(-50%);
+            transform: translate3d(calc(-1 * var(--marquee-distance, 0px)), 0, 0);
           }
         }
 
         .animate-image-marquee {
           display: flex;
           gap: 16px;
-          animation: image-marquee ${interval}ms linear infinite;
+          animation: image-marquee var(--marquee-duration, ${interval}ms) linear infinite;
+          animation-fill-mode: both;
           will-change: transform;
+          backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
         }
 
         @media (min-width: 640px) {
@@ -103,20 +106,52 @@ export default function ImageSliderSection({
     };
   }, [autoPlay, interval, images.length]);
 
-  // Track active dot based on animation progress
+  const updateMarqueeMetrics = () => {
+    if (!sliderRef.current || images.length === 0) return;
+    const totalWidth = sliderRef.current.scrollWidth;
+    const singleTrackWidth = totalWidth / 3;
+    if (singleTrackWidth > 0) {
+      sliderRef.current.style.setProperty(
+        "--marquee-distance",
+        `${Math.round(singleTrackWidth)}px`,
+      );
+      sliderRef.current.style.setProperty(
+        "--marquee-duration",
+        `${interval}ms`,
+      );
+    }
+  };
+
   useEffect(() => {
-    if (!autoPlay || images.length === 0 || isManualMode) return;
+    if (!autoPlay || images.length === 0) return undefined;
 
-    const updateInterval = interval / images.length;
-    let currentIdx = 0;
+    const handleUpdate = () => {
+      window.requestAnimationFrame(updateMarqueeMetrics);
+    };
 
-    const dotInterval = setInterval(() => {
-      currentIdx = (currentIdx + 1) % images.length;
-      setCurrentIndex(currentIdx);
-    }, updateInterval);
+    updateMarqueeMetrics();
 
-    return () => clearInterval(dotInterval);
-  }, [autoPlay, interval, images.length, isManualMode]);
+    const resizeObserver =
+      typeof ResizeObserver === "undefined"
+        ? null
+        : new ResizeObserver(() => {
+            handleUpdate();
+          });
+
+    if (resizeObserver) {
+      if (containerRef.current) resizeObserver.observe(containerRef.current);
+      if (sliderRef.current) resizeObserver.observe(sliderRef.current);
+    }
+
+    window.addEventListener("resize", handleUpdate);
+
+    return () => {
+      if (resizeObserver) resizeObserver.disconnect();
+      window.removeEventListener("resize", handleUpdate);
+    };
+  }, [autoPlay, images.length, interval]);
+
+  // Auto-play uses CSS animation; no state updates needed unless manual mode is used.
 
   // Navigate to previous image
   const handlePrevious = () => {
@@ -167,7 +202,7 @@ export default function ImageSliderSection({
   }
 
   // Create duplicate images for seamless loop (2x is enough)
-  const duplicatedImages = [...images, ...images];
+  const duplicatedImages = [...images, ...images, ...images];
 
   return (
     <section className="pt-2 sm:pt-3 md:pt-4 lg:pt-6 xl:pt-8 pb-6 sm:pb-8 md:pb-12 lg:pb-16 xl:pb-20 bg-transparent">
@@ -176,7 +211,7 @@ export default function ImageSliderSection({
           <div className="flex flex-col md:flex-row items-start gap-3 md:gap-4">
             {/* Left: Headline */}
             <div className="w-full md:flex-1 flex flex-col items-start text-left">
-              <h1 className="capabilities-gradient-text font-semibold leading-[1.25] tracking-tight mb-2 sm:mb-3 md:mb-4 lg:mb-6 text-[18px] sm:text-[24px] md:text-[32px] lg:text-[50px]">
+              <h1 className="capabilities-gradient-text section-heading font-semibold leading-[1.25] tracking-tight mb-2 sm:mb-3 md:mb-4 lg:mb-6 text-[18px] sm:text-[24px] md:text-[32px] lg:text-[50px]">
                 {title}
               </h1>
             </div>
