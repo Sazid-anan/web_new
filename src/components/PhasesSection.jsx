@@ -99,7 +99,7 @@ const PhaseCard = ({ process, index }) => {
       >
         {/* Number Badge - Top Right */}
         <div
-          className={`absolute top-3 sm:top-3 md:top-3.5 right-3 sm:right-3 md:right-3.5 w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-full ${process.color} flex items-center justify-center font-bold text-[10px] sm:text-[11px] md:text-[12px] lg:text-[14px] shadow-lg transition-transform duration-300 ${isHovered ? "rotate-12" : ""}`}
+          className={`absolute top-3 sm:top-3 md:top-3.5 right-3 sm:right-3 md:right-3.5 w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 rounded-full ${process.color} flex items-center justify-center font-bold text-xs sm:text-sm md:text-sm lg:text-base shadow-lg transition-transform duration-300 ${isHovered ? "rotate-12" : ""}`}
           style={{ color: "#ffffff" }}
         >
           {process.number}
@@ -130,7 +130,7 @@ const PhaseCard = ({ process, index }) => {
           ></div>
 
           <p
-            className="text-justify text-[11px] sm:text-[12px] md:text-[13px] lg:text-[14px] xl:text-[15px] leading-relaxed flex-1"
+            className="text-justify text-xs sm:text-sm md:text-sm lg:text-base xl:text-base leading-relaxed flex-1"
             style={{ color: "#ffffff" }}
           >
             {process.description}
@@ -335,7 +335,7 @@ const PhaseSection = () => {
             {/* Right: Description */}
             <div className="w-full sm:flex-[1.5] flex flex-col items-start text-left mt-4 sm:mt-0 sm:w-auto">
               <p
-                className="text-justify text-[9px] sm:text-[10px] md:text-[12px] lg:text-[20px] font-semibold"
+                className="text-justify text-sm sm:text-base md:text-lg lg:text-xl font-semibold"
                 style={{ color: "#ffffff" }}
               >
                 We streamline your success by handling every detail from initial

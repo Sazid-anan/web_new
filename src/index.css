@@ -227,8 +227,8 @@ small,
   display: flex;
   width: 100%;
   align-items: flex-start;
-  padding-top: 4px;
-  padding-bottom: 1.15rem;
+  padding-top: 25px;
+  padding-bottom: 25px;
   padding-left: 0;
   padding-right: 0;
   margin: 0;
@@ -248,8 +248,8 @@ small,
 
 @media (max-width: 767px) {
   .topbanner {
-    padding-top: 4px;
-    padding-bottom: 1.15rem;
+    padding-top: 25px;
+    padding-bottom: 25px;
     padding-left: 15px;
     padding-right: 15px;
     min-height: auto;
@@ -334,8 +334,8 @@ small,
 
 @media (min-width: 576px) and (max-width: 1199px) {
   .topbanner {
-    padding-top: 6px;
-    padding-bottom: 24.8px;
+    padding-top: 25px;
+    padding-bottom: 25px;
     padding-left: 15px;
     padding-right: 15px;
     min-height: auto;
@@ -368,8 +368,8 @@ small,
 
 @media (min-width: 1200px) {
   .topbanner {
-    padding-top: 6px;
-    padding-bottom: 24.8px;
+    padding-top: 25px;
+    padding-bottom: 25px;
     padding-left: 15px;
     padding-right: 15px;
     min-height: auto;
@@ -444,8 +444,8 @@ small,
   }
 
   .topbanner {
-    padding-top: 0.35rem;
-    padding-bottom: 1.15rem;
+    padding-top: 25px;
+    padding-bottom: 25px;
   }
 
   .topbanner .flex-row {
@@ -2037,25 +2037,25 @@ select:focus {
     margin-bottom: 0.75rem !important;
   }
 
-  /* Smaller fonts on very small screens */
+  /* Minimum text sizes - never below 12px for readability */
   .text-xs {
-    font-size: 0.7rem !important;
+    font-size: 0.75rem !important; /* 12px minimum */
   }
 
   .text-sm {
-    font-size: 0.8rem !important;
+    font-size: 0.875rem !important; /* 14px */
   }
 
   .text-base {
-    font-size: 0.9rem !important;
+    font-size: 1rem !important; /* 16px */
   }
 
   .text-lg {
-    font-size: 1rem !important;
+    font-size: 1.125rem !important; /* 18px */
   }
 
   .text-xl {
-    font-size: 1.1rem !important;
+    font-size: 1.25rem !important; /* 20px */
   }
 
   /* ===== IMAGE OPTIMIZATION ===== */
@@ -2078,28 +2078,23 @@ select:focus {
   }
 
   /* ===== CARD & COMPONENT OPTIMIZATION ===== */
-  /* Reduce card padding on mobile */
+  /* Reduce card padding on mobile - targeted rules only */
   [class*="rounded-"] {
     border-radius: clamp(0.375rem, 2vw, 0.75rem) !important;
   }
 
-  .card,
-  [class*="shadow"],
-  [class*="border"],
-  [class*="bg-"] {
+  /* Only apply padding to actual card components, not all bg- classes */
+  .card {
     padding: clamp(0.75rem, 3vw, 1.5rem) !important;
   }
 
   /* ===== FLEX LAYOUT OPTIMIZATION ===== */
-  /* Stack flex items on mobile */
-  [class*="flex-row"] {
-    flex-direction: column !important;
-    gap: clamp(0.75rem, 3vw, 1rem) !important;
-  }
+  /* NOTE: Removed aggressive flex-row override that broke layouts */
+  /* Let Tailwind's responsive utilities handle flex direction */
 
   .flex-between,
   .flex-center {
-    flex-direction: column !important;
+    /* Allow horizontal layout on wider mobile screens */
     gap: 1rem !important;
   }
 
@@ -2141,33 +2136,15 @@ select:focus {
     margin-bottom: 1rem !important;
   }
 
-  /* ===== SPACING UTILITIES OPTIMIZATION ===== */
-  [class*="mt-"],
-  [class*="mb-"],
-  [class*="mx-"],
-  [class*="my-"],
-  [class*="p-"],
-  [class*="m-"] {
-    margin-top: clamp(0.5rem, 2vw, 1rem) !important;
-    margin-bottom: clamp(0.5rem, 2vw, 1rem) !important;
-    padding: clamp(0.5rem, 2vw, 1rem) !important;
-  }
+  /* ===== SPACING UTILITIES ===== */
+  /* NOTE: Removed aggressive global spacing overrides - let Tailwind handle responsive spacing */
 
   /* ===== POSITIONING OPTIMIZATION ===== */
-  /* Adjust fixed elements for mobile screens */
-  .fixed {
-    width: calc(100% - 1rem) !important;
-  }
-
-  /* Right-side fixed elements */
-  [class*="right-"] {
-    right: 0.5rem !important;
-  }
+  /* NOTE: Removed global .fixed width override that broke sticky contact bar */
 
   /* ===== HERO/BANNER OPTIMIZATION ===== */
   .hero-topbanner-content,
-  .hero-content,
-  [class*="hero"] {
+  .hero-content {
     padding-top: clamp(1rem, 3vw, 1.5rem) !important;
     padding-bottom: clamp(1rem, 3vw, 1.5rem) !important;
   }
@@ -2202,7 +2179,6 @@ select:focus {
   [class*="animate-"] {
     animation-duration: 0.75s !important;
   }
-
   /* ===== TEXT ALIGNMENT ===== */
   /* Center text on mobile for better readability */
   .text-justify {
@@ -2534,8 +2510,8 @@ select:focus {
 
   /* Improve spacing between sections on iPad Pro */
   section {
-    padding-top: 1.8rem !important;
-    padding-bottom: 1.8rem !important;
+    padding-top: 25px !important;
+    padding-bottom: 25px !important;
   }
 
   /* Better container padding for iPad Pro */
@@ -2704,11 +2680,11 @@ select:focus {
 
   /* Individual capability cards */
   .capabilities-content .card.border.border-gray-200 {
-    padding: 0.35rem !important;
+    padding: 0.3rem !important;
     border-radius: 0.5rem !important;
     height: auto !important;
-    min-height: 7rem !important;
-    min-width: 7rem !important;
+    min-height: 5.5rem !important;
+    min-width: 5.5rem !important;
     margin: 0 !important;
     gap: 0rem !important;
   }
@@ -2716,27 +2692,27 @@ select:focus {
   /* Icons in capability cards for iPad/720p */
   .capabilities-content .card.border.border-gray-200 svg,
   .capabilities-content .aspect-square svg {
-    width: 1.5rem !important;
-    height: 1.5rem !important;
+    width: 1.3rem !important;
+    height: 1.3rem !important;
   }
 
   /* Capability card titles */
   .capabilities-content .card.border.border-gray-200 h3,
   .capabilities-content .aspect-square h3 {
-    font-size: 0.65rem !important;
-    line-height: 1.2 !important;
+    font-size: 0.6rem !important;
+    line-height: 1.15 !important;
   }
 
   /* Grid layout - 8 columns for all items in fewer rows */
   .capabilities-content .grid[class*="grid-cols-2"][class*="grid-cols-4"] {
-    grid-template-columns: repeat(8, minmax(6rem, 1fr)) !important;
-    gap: 0 !important;
+    grid-template-columns: repeat(8, minmax(5rem, 1fr)) !important;
+    gap: 0.15rem !important;
   }
 
   /* Override lg:grid-cols-8 for iPad/720p */
   .capabilities-content .grid[class*="grid-cols-8"] {
-    grid-template-columns: repeat(8, minmax(6rem, 1fr)) !important;
-    gap: 0 !important;
+    grid-template-columns: repeat(8, minmax(5rem, 1fr)) !important;
+    gap: 0.15rem !important;
   }
 
   /* Adjust header for iPad/720p */
@@ -2755,8 +2731,8 @@ select:focus {
 @media (min-width: 768px) and (max-width: 1023px) {
   /* Hero/Topbanner Section - Responsive for tablets */
   .topbanner {
-    padding-top: 6px;
-    padding-bottom: 1.15rem;
+    padding-top: 25px;
+    padding-bottom: 25px;
     padding-left: 20px;
     padding-right: 20px;
   }
@@ -2866,20 +2842,36 @@ select:focus {
     gap: 0.75rem !important;
   }
 
-  /* Contact Section - Let's Innovate With Danvion - Make bigger */
+  /* Contact Section - Let's Innovate With Danvion */
   #contact .animated-gradient-text,
   #contact .animated-gradient-text-orange {
-    font-size: 3.5rem !important;
+    font-size: 2.5rem !important;
     line-height: 1.1 !important;
   }
 
   #contact h2[style*="clamp"] {
-    font-size: 3.5rem !important;
+    font-size: 2.5rem !important;
   }
 
   /* Contact form styling */
   #contact .grid.md\\:grid-cols-2 {
     gap: 2rem !important;
+  }
+
+  #contact .grid.md\\:grid-cols-2 > div:first-child {
+    overflow: hidden !important;
+    max-width: 100% !important;
+  }
+
+  #contact .grid.md\\:grid-cols-2 > div:first-child > div {
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
+  #contact .grid.md\\:grid-cols-2 > div:first-child h2 {
+    max-width: 100% !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
   }
 
   /* Footer - 4 columns for tablet */
@@ -3004,8 +2996,8 @@ select:focus {
   }
 
   .topbanner {
-    padding-top: 0.02rem !important;
-    padding-bottom: 1.15rem !important;
+    padding-top: 25px !important;
+    padding-bottom: 25px !important;
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
@@ -3123,8 +3115,8 @@ select:focus {
   }
 
   section {
-    padding-top: 0.95rem !important;
-    padding-bottom: 1.15rem !important;
+    padding-top: 25px !important;
+    padding-bottom: 25px !important;
   }
 
   .content-maxwidth,
@@ -3990,7 +3982,7 @@ select:focus {
 
 /* Global section padding: keep top/bottom symmetric across all sections */
 :root {
-  --section-pad: 1.15rem;
+  --section-pad: 25px;
   --container-pad: 1rem;
 }
 
@@ -4090,8 +4082,8 @@ section {
 }
 
 .topbanner {
-  padding-top: var(--section-pad) !important;
-  padding-bottom: var(--section-pad) !important;
+  padding-top: 25px !important;
+  padding-bottom: 25px !important;
 }
 
 section:has(.image-slider-content) {
@@ -4102,6 +4094,23 @@ section:has(.image-slider-content) {
 #contact {
   padding-top: var(--section-pad) !important;
   padding-bottom: var(--section-pad) !important;
+}
+
+/* Prevent contact section text overflow */
+#contact .grid > div:first-child {
+  overflow: hidden !important;
+  max-width: 100% !important;
+}
+
+#contact .grid > div:first-child > div {
+  max-width: 100% !important;
+  overflow: hidden !important;
+}
+
+#contact .grid > div:first-child h2 {
+  max-width: 100% !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
 }
 
 /* Global container gutters: keep left/right spacing consistent */
@@ -4290,8 +4299,8 @@ section:has(.image-slider-content) {
 
   /* Section padding reduction */
   section {
-    padding-top: clamp(1.5rem, 3vw, 2.5rem) !important;
-    padding-bottom: clamp(1.5rem, 3vw, 2.5rem) !important;
+    padding-top: 25px !important;
+    padding-bottom: 25px !important;
   }
 
   /* Better button sizing */
@@ -4335,8 +4344,8 @@ section:has(.image-slider-content) {
 
   /* Section spacing */
   section {
-    padding-top: 1.5rem !important;
-    padding-bottom: 1.5rem !important;
+    padding-top: 25px !important;
+    padding-bottom: 25px !important;
   }
 
   /* Better grid for tablet */
@@ -4431,8 +4440,8 @@ section:has(.image-slider-content) {
 
   /* Reduce section margins */
   section {
-    padding-top: 1.2rem !important;
-    padding-bottom: 1.2rem !important;
+    padding-top: 25px !important;
+    padding-bottom: 25px !important;
   }
 
   /* Better footer on mobile */
@@ -4501,8 +4510,8 @@ section:has(.image-slider-content) {
 
   /* ===== HERO SECTION ===== */
   .topbanner {
-    padding-top: 0.5rem !important;
-    padding-bottom: 1rem !important;
+    padding-top: 25px !important;
+    padding-bottom: 25px !important;
     padding-left: 1rem !important;
     padding-right: 1rem !important;
   }
@@ -4835,9 +4844,22 @@ section:has(.image-slider-content) {
   }
 
   /* Left column - Let's Innovate text */
+  #contact .grid.md\:grid-cols-2 > div:first-child {
+    overflow: hidden !important;
+    max-width: 100% !important;
+  }
+
+  #contact .grid.md\:grid-cols-2 > div:first-child > div {
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+
   #contact .grid.md\:grid-cols-2 > div:first-child h2 {
-    font-size: clamp(1.2rem, 4vw, 1.8rem) !important;
+    font-size: clamp(1rem, 3.5vw, 1.5rem) !important;
     line-height: 0.95 !important;
+    max-width: 100% !important;
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
   }
 
   #contact .grid.md\:grid-cols-2 > div:first-child h2 span {
@@ -5087,8 +5109,8 @@ section:has(.image-slider-content) {
   }
 
   section {
-    padding-top: 0.9rem !important;
-    padding-bottom: 0.9rem !important;
+    padding-top: 25px !important;
+    padding-bottom: 25px !important;
   }
 
   .sticky-contact-bar__button {

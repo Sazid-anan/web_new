@@ -119,7 +119,7 @@ export default function CapabilitiesSection({ homePage }) {
               </p>
             </div> */}
             <div className="w-full sm:flex-[1.5] flex flex-col items-start text-left mt-0 sm:mt-4 sm:w-auto">
-              <p className="text-justify text-[8px] sm:text-[11px] md:text-[14px] lg:text-[20px] font-semibold text-black ">
+              <p className="text-justify text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-black">
                 From hardware design to edge AI deployment, we deliver complete
                 engineering solutions that bring intelligent products to life.
               </p>
@@ -142,7 +142,7 @@ export default function CapabilitiesSection({ homePage }) {
                 >
                   <Card className="relative aspect-square w-full flex flex-col items-center justify-center gap-1 sm:gap-1.5 p-1.5 sm:p-2 md:p-2.5 hover:shadow-lg transition-all duration-300 bg-white border border-gray-200 hover:border-orange-500/50 hover:shadow-orange-100/50">
                     <capability.icon className="h-10 w-10 sm:h-11 sm:w-11 md:h-12 md:w-12 lg:h-11 lg:w-11 text-orange-500" />
-                    <h3 className="text-center text-[10px] sm:text-[11px] md:text-[12px] lg:text-[12px] font-semibold text-foreground leading-tight">
+                    <h3 className="text-center text-xs sm:text-sm md:text-sm lg:text-sm font-semibold text-foreground leading-tight">
                       {capability.title}
                     </h3>
                   </Card>

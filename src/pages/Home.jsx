@@ -124,7 +124,7 @@ export default function Home() {
                 </h1>
               </div>
               <div className="w-full sm:flex-[1.5] flex flex-col items-start text-left mt-3 sm:mt-0 sm:w-auto">
-                <p className="text-justify text-[10px] sm:text-[11px] md:text-[14px] lg:text-[20px] font-semibold text-white">
+                <p className="text-justify text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-white">
                   From hardware design to edge AI deployment, we deliver
                   complete engineering solutions that bring intelligent products
                   to life.
@@ -187,7 +187,7 @@ export default function Home() {
                 </style>
                 <h2
                   className="font-bold leading-[0.9] tracking-tighter"
-                  style={{ fontSize: "clamp(22px, 5.5vw, 91px)" }}
+                  style={{ fontSize: "clamp(18px, 4.5vw, 70px)" }}
                 >
                   <span className="block mb-2 animated-gradient-text">
                     Let's Innovate
@@ -230,7 +230,7 @@ export default function Home() {
                   >
                     <label
                       htmlFor="name"
-                      className="block text-[11px] sm:text-xs md:text-sm lg:text-base xl:text-xs xxl:text-base font-semibold text-white mb-2 md:mb-0.5 lg:mb-2 xl:mb-0.5 xxl:mb-2"
+                      className="block text-xs sm:text-sm md:text-base lg:text-lg xl:text-sm xxl:text-lg font-semibold text-white mb-2 md:mb-0.5 lg:mb-2 xl:mb-0.5 xxl:mb-2"
                     >
                       Full Name *
                     </label>
@@ -255,7 +255,7 @@ export default function Home() {
                   >
                     <label
                       htmlFor="email"
-                      className="block text-[11px] sm:text-xs md:text-sm lg:text-base xl:text-xs xxl:text-base font-semibold text-white mb-2 md:mb-0.5 lg:mb-2 xl:mb-0.5 xxl:mb-2"
+                      className="block text-xs sm:text-sm md:text-base lg:text-lg xl:text-sm xxl:text-lg font-semibold text-white mb-2 md:mb-0.5 lg:mb-2 xl:mb-0.5 xxl:mb-2"
                     >
                       Email Address *
                     </label>
@@ -280,7 +280,7 @@ export default function Home() {
                   >
                     <label
                       htmlFor="phone"
-                      className="block text-[11px] sm:text-xs md:text-sm lg:text-base xl:text-xs xxl:text-base font-semibold text-white mb-2 md:mb-0.5 lg:mb-2 xl:mb-0.5 xxl:mb-2"
+                      className="block text-xs sm:text-sm md:text-base lg:text-lg xl:text-sm xxl:text-lg font-semibold text-white mb-2 md:mb-0.5 lg:mb-2 xl:mb-0.5 xxl:mb-2"
                     >
                       Phone Number
                     </label>
@@ -304,7 +304,7 @@ export default function Home() {
                   >
                     <label
                       htmlFor="message"
-                      className="block text-[11px] sm:text-xs md:text-sm lg:text-base xl:text-xs xxl:text-base font-semibold text-white mb-2 md:mb-0.5 lg:mb-2 xl:mb-0.5 xxl:mb-2"
+                      className="block text-xs sm:text-sm md:text-base lg:text-lg xl:text-sm xxl:text-lg font-semibold text-white mb-2 md:mb-0.5 lg:mb-2 xl:mb-0.5 xxl:mb-2"
                     >
                       Message *
                     </label>

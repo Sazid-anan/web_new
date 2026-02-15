@@ -183,7 +183,7 @@ export default function ImageSliderSection({
 
             {/* Right: Description */}
             <div className="w-full md:flex-[1.5] flex flex-col items-start text-left">
-              <p className="text-justify text-[9px] sm:text-[10px] md:text-[12px] lg:text-[20px] font-semibold text-black">
+              <p className="text-justify text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-black">
                 Stop worrying about design errors or manufacturing delays. Our
                 comprehensive approach integrates advanced simulation and
                 in-house prototyping to catch issues early, delivering
@@ -248,12 +248,12 @@ export default function ImageSliderSection({
                 />
                 {/* Sliding Overlay on Hover */}
                 {typeof image === "object" && image.name && (
-                  <div className="absolute left-0 right-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-orange-700/90 via-orange-500/80 to-transparent text-white text-center py-1.5 sm:py-2 md:py-3 px-1.5 text-[11px] sm:text-[13px] md:text-[15px] lg:text-[18px] font-semibold tracking-wide flex flex-col items-center rounded-b-lg md:rounded-b-xl lg:rounded-b-2xl">
-                    <div className="mb-0.5 sm:mb-1 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[20px] font-bold drop-shadow-lg">
+                  <div className="absolute left-0 right-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-orange-700/90 via-orange-500/80 to-transparent text-white text-center py-1.5 sm:py-2 md:py-3 px-1.5 text-xs sm:text-sm md:text-base lg:text-lg font-semibold tracking-wide flex flex-col items-center rounded-b-lg md:rounded-b-xl lg:rounded-b-2xl">
+                    <div className="mb-0.5 sm:mb-1 text-xs sm:text-sm md:text-base lg:text-lg font-bold drop-shadow-lg">
                       {image.name}
                     </div>
                     {image.description && (
-                      <div className="text-[10px] sm:text-[11px] md:text-[12px] lg:text-[14px] font-normal drop-shadow-md">
+                      <div className="text-xs sm:text-xs md:text-sm lg:text-base font-normal drop-shadow-md">
                         {image.description}
                       </div>
                     )}

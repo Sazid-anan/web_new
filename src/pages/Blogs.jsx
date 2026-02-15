@@ -82,7 +82,7 @@ export default function Blogs() {
                 </h1>
               </div>
               <div className="w-full sm:flex-[1.5] flex flex-col items-start text-left mt-4 sm:mt-0 sm:w-auto">
-                <p className="text-justify text-[9px] sm:text-[10px] md:text-[12px] lg:text-[20px] font-semibold text-black">
+                <p className="text-justify text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-black">
                   From hardware design to edge AI deployment, we deliver
                   complete engineering solutions that bring intelligent products
                   to life.
@@ -95,7 +95,7 @@ export default function Blogs() {
 
       {/* Empty State or Content */}
       {hasNoBlogs ? (
-        <section className="py-20 sm:py-32 md:py-40">
+        <section className="py-8 sm:py-12 md:py-16">
           <Container>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -127,7 +127,7 @@ export default function Blogs() {
             <section className="py-6 sm:py-7 md:py-8 border-b border-gray-200">
               <Container>
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                  <span className="text-[11px] sm:text-xs md:text-sm font-semibold text-muted-foreground">
+                  <span className="text-xs sm:text-xs md:text-sm font-semibold text-muted-foreground">
                     Filter by:
                   </span>
                   <motion.button
@@ -137,7 +137,7 @@ export default function Blogs() {
                       setSelectedCategory("");
                       setCurrentPage(1);
                     }}
-                    className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs md:text-sm font-medium transition-all ${
+                    className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-xs md:text-sm font-medium transition-all ${
                       !selectedCategory
                         ? "bg-brand-orange text-white"
                         : "bg-white border border-gray-200 text-gray-700 hover:border-brand-orange"
@@ -154,7 +154,7 @@ export default function Blogs() {
                         setSelectedCategory(category);
                         setCurrentPage(1);
                       }}
-                      className={`px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-[9px] sm:text-[10px] md:text-xs lg:text-sm font-medium transition-all ${
+                      className={`px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-xs md:text-sm lg:text-base font-medium transition-all ${
                         selectedCategory === category
                           ? "bg-brand-orange text-white"
                           : "bg-white border border-gray-200 text-gray-700 hover:border-brand-orange"
@@ -210,7 +210,7 @@ export default function Blogs() {
                             </div>
                           )}
                           <div className="p-5 sm:p-6">
-                            <div className="flex items-center gap-2 sm:gap-3 text-[9px] sm:text-xs text-muted-foreground mb-2 sm:mb-3">
+                            <div className="flex items-center gap-2 sm:gap-3 text-xs sm:text-xs text-muted-foreground mb-2 sm:mb-3">
                               {blog.published_date && (
                                 <div className="flex items-center gap-1">
                                   <Calendar className="w-3 h-3" />
@@ -227,15 +227,15 @@ export default function Blogs() {
                             <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-foreground mb-2 sm:mb-3 group-hover:text-brand-orange transition-colors">
                               {blog.title}
                             </h3>
-                            <p className="text-[11px] sm:text-xs md:text-sm lg:text-base text-muted-foreground mb-3 sm:mb-4 line-clamp-3">
+                            <p className="text-xs sm:text-xs md:text-sm lg:text-base text-muted-foreground mb-3 sm:mb-4 line-clamp-3">
                               {blog.excerpt || blog.description}
                             </p>
                             {blog.author && (
                               <div className="flex items-center gap-2 mb-3 sm:mb-4">
-                                <div className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full bg-secondary flex items-center justify-center text-[10px] sm:text-xs md:text-sm font-semibold">
+                                <div className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full bg-secondary flex items-center justify-center text-xs sm:text-xs md:text-sm font-semibold">
                                   {blog.author.charAt(0).toUpperCase()}
                                 </div>
-                                <span className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">
+                                <span className="text-xs sm:text-xs md:text-sm text-muted-foreground">
                                   {blog.author}
                                 </span>
                               </div>
@@ -271,7 +271,7 @@ export default function Blogs() {
                       setCurrentPage((prev) => Math.max(prev - 1, 1))
                     }
                     disabled={currentPage === 1}
-                    className="w-full sm:w-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs md:text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
+                    className="w-full sm:w-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-xs md:text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
                   >
                     Previous
                   </button>
@@ -282,7 +282,7 @@ export default function Blogs() {
                         <button
                           key={page}
                           onClick={() => setCurrentPage(page)}
-                          className={`min-w-[32px] sm:min-w-[36px] md:min-w-[40px] h-8 sm:h-9 md:h-10 rounded-lg font-medium text-[10px] sm:text-xs md:text-sm transition-all flex-shrink-0 ${
+                          className={`min-w-[32px] sm:min-w-[36px] md:min-w-[40px] h-8 sm:h-9 md:h-10 rounded-lg font-medium text-xs sm:text-xs md:text-sm transition-all flex-shrink-0 ${
                             currentPage === page
                               ? "bg-brand-orange text-white shadow-lg"
                               : "bg-gray-100 text-brand-black hover:bg-gray-200"
@@ -299,7 +299,7 @@ export default function Blogs() {
                       setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                     }
                     disabled={currentPage === totalPages}
-                    className="w-full sm:w-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs md:text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
+                    className="w-full sm:w-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-xs md:text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
                   >
                     Next
                   </button>

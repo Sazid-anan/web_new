@@ -110,7 +110,7 @@ export default function Products() {
                 </h1>
               </div>
               <div className="w-full sm:flex-[1.5] flex flex-col items-start text-left mt-4 sm:mt-0 sm:w-auto">
-                <p className="text-justify text-[9px] sm:text-[10px] md:text-[12px] lg:text-[20px] font-semibold text-black">
+                <p className="text-justify text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-black">
                   From hardware design to edge AI deployment, we deliver
                   complete engineering solutions that bring intelligent products
                   to life.
@@ -123,7 +123,7 @@ export default function Products() {
 
       {/* Products Grid or Empty State */}
       {hasNoProducts ? (
-        <Container className="py-20 sm:py-32 md:py-40">
+        <Container className="py-8 sm:py-12 md:py-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -155,12 +155,12 @@ export default function Products() {
               transition={{ duration: 0.5 }}
               className="mb-6 sm:mb-7 md:mb-8 flex flex-wrap items-center gap-2 sm:gap-3"
             >
-              <span className="font-medium text-brand-black text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">
+              <span className="font-medium text-brand-black text-xs sm:text-xs md:text-sm uppercase tracking-wide">
                 Filter by Category:
               </span>
               <button
                 onClick={() => setSelectedCategory("")}
-                className={`px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full font-medium transition-all text-[10px] sm:text-xs md:text-sm ${
+                className={`px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full font-medium transition-all text-xs sm:text-xs md:text-sm ${
                   selectedCategory === ""
                     ? "bg-brand-orange text-brand-black shadow-lg"
                     : "bg-gray-100 text-brand-black hover:bg-gray-200"
@@ -172,7 +172,7 @@ export default function Products() {
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full font-medium transition-all text-[10px] sm:text-xs md:text-sm orange-pop-hover ${
+                  className={`px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full font-medium transition-all text-xs sm:text-xs md:text-sm orange-pop-hover ${
                     selectedCategory === cat
                       ? "bg-brand-orange text-brand-black shadow-lg"
                       : "bg-gray-100 text-brand-black hover:bg-gray-200"
@@ -192,7 +192,7 @@ export default function Products() {
               animate={{ opacity: 1 }}
               className="text-center py-8 sm:py-12 px-4 text-gray-600"
             >
-              <p className="text-[11px] sm:text-xs md:text-sm lg:text-base">
+              <p className="text-xs sm:text-xs md:text-sm lg:text-base">
                 No products found in this category. Try selecting a different
                 one.
               </p>
@@ -235,7 +235,7 @@ export default function Products() {
                   <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-brand-black mb-2">
                     {product.name}
                   </h3>
-                  <p className="text-gray-600 text-[10px] sm:text-xs md:text-sm lg:text-base mb-3 sm:mb-4 line-clamp-2">
+                  <p className="text-gray-600 text-xs sm:text-xs md:text-sm lg:text-base mb-3 sm:mb-4 line-clamp-2">
                     {product.description}
                   </p>
 
@@ -281,7 +281,7 @@ export default function Products() {
               <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                className="w-full sm:w-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium text-[10px] sm:text-xs md:text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
+                className="w-full sm:w-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium text-xs sm:text-xs md:text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
               >
                 Previous
               </button>
@@ -292,7 +292,7 @@ export default function Products() {
                     <button
                       key={page}
                       onClick={() => setCurrentPage(page)}
-                      className={`min-w-[32px] sm:min-w-[36px] md:min-w-[40px] h-8 sm:h-9 md:h-10 rounded-lg font-medium text-[10px] sm:text-xs md:text-sm transition-all flex-shrink-0 ${
+                      className={`min-w-[32px] sm:min-w-[36px] md:min-w-[40px] h-8 sm:h-9 md:h-10 rounded-lg font-medium text-xs sm:text-xs md:text-sm transition-all flex-shrink-0 ${
                         currentPage === page
                           ? "bg-brand-orange text-white shadow-lg"
                           : "bg-gray-100 text-brand-black hover:bg-gray-200"
@@ -309,7 +309,7 @@ export default function Products() {
                   setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                 }
                 disabled={currentPage === totalPages}
-                className="w-full sm:w-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium text-[10px] sm:text-xs md:text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
+                className="w-full sm:w-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium text-xs sm:text-xs md:text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
               >
                 Next
               </button>

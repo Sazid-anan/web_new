@@ -85,7 +85,7 @@ export default function Header() {
                       >
                         <motion.div
                           whileHover={{ scale: 1.05 }}
-                          className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline text-[10px] sm:text-xs md:text-sm lg:text-base`}
+                          className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline text-xs sm:text-sm md:text-base lg:text-lg`}
                         >
                           <span className="relative z-10 font-semibold">
                             {link.label}
@@ -116,7 +116,7 @@ export default function Header() {
                       >
                         <motion.div
                           whileHover={{ scale: 1.05 }}
-                          className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline text-[10px] sm:text-[12px] md:text-[13px] lg:text-[16px]`}
+                          className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline text-xs sm:text-sm md:text-base lg:text-lg`}
                         >
                           <span className="relative z-10 font-semibold">
                             {link.label}
@@ -234,7 +234,7 @@ export default function Header() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.1 + index * 0.05 }}
                       whileTap={{ scale: 0.97 }}
-                      className="relative group px-4 sm:px-5 md:px-6 py-2.5 sm:py-3 md:py-4 rounded-xl font-semibold transition-all duration-300 bg-white/40 hover:bg-white/60 border border-white/40 hover:border-orange-200/60 hover:shadow-lg hover:shadow-orange-100/30 backdrop-blur-sm overflow-hidden text-[10px] sm:text-xs md:text-[13px] lg:text-[14px]"
+                      className="relative group px-4 sm:px-5 md:px-6 py-2.5 sm:py-3 md:py-4 rounded-xl font-semibold transition-all duration-300 bg-white/40 hover:bg-white/60 border border-white/40 hover:border-orange-200/60 hover:shadow-lg hover:shadow-orange-100/30 backdrop-blur-sm overflow-hidden text-xs sm:text-sm md:text-base lg:text-base"
                     >
                       {/* Shine effect on hover */}
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />

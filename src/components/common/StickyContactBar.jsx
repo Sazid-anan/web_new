@@ -7,7 +7,10 @@ import { SITE_CONTENT } from "../../config/content";
 /**
  * StickyContactBar Component
  * Fixed contact buttons on the right side of the screen
- * Includes: Phone, Email, LinkedIn
+ * Responsive: Shows fewer icons on mobile/tablet to reduce clutter
+ * - Mobile: Phone + Calendar (2 icons)
+ * - Tablet: Phone + Email + Calendar (3 icons)
+ * - Desktop: All 4 icons
  */
 export default function StickyContactBar() {
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -19,6 +22,9 @@ export default function StickyContactBar() {
       detail: SITE_CONTENT.contact.phoneDisplay,
       href: `tel:${SITE_CONTENT.contact.phone}`,
       color: "text-brand-orange",
+      // Show on all devices
+      showOnMobile: true,
+      showOnTablet: true,
     },
     {
       icon: Mail,
@@ -26,6 +32,9 @@ export default function StickyContactBar() {
       detail: SITE_CONTENT.contact.email,
       href: `mailto:${SITE_CONTENT.contact.email}`,
       color: "text-brand-orange",
+      // Hide on mobile, show on tablet+
+      showOnMobile: false,
+      showOnTablet: true,
     },
     {
       icon: Linkedin,
@@ -34,8 +43,10 @@ export default function StickyContactBar() {
       color: "text-brand-orange",
       target: "_blank",
       rel: "noopener noreferrer",
+      // Tablet and desktop (hide only on mobile)
+      showOnMobile: false,
+      showOnTablet: true,
     },
-
     {
       icon: Calendar,
       label: "Book a 30 Minutes Free Consultation Call",
@@ -43,6 +54,9 @@ export default function StickyContactBar() {
       color: "text-brand-orange",
       target: "_blank",
       rel: "noopener noreferrer",
+      // Show on all devices - important CTA
+      showOnMobile: true,
+      showOnTablet: true,
     },
   ];
 
@@ -87,6 +101,17 @@ export default function StickyContactBar() {
     >
       {contactItems.map((item) => {
         const Icon = item.icon;
+
+        // Build responsive visibility classes
+        const visibilityClass = [
+          // Mobile visibility (base)
+          item.showOnMobile ? "flex" : "hidden",
+          // Tablet visibility (md breakpoint)
+          item.showOnTablet ? "md:flex" : "md:hidden",
+          // Desktop always shows all (lg breakpoint)
+          "lg:flex",
+        ].join(" ");
+
         return (
           <motion.a
             key={item.label}
@@ -95,7 +120,7 @@ export default function StickyContactBar() {
             rel={item.rel}
             variants={itemVariants}
             whileHover="hover"
-            className="group relative sticky-contact-bar__item"
+            className={`group relative sticky-contact-bar__item ${visibilityClass}`}
             title={item.label}
             onMouseEnter={() => setHoveredItem(item.label)}
             onMouseLeave={() => setHoveredItem(null)}
@@ -115,7 +140,7 @@ export default function StickyContactBar() {
                   animate={{ opacity: 1, x: 0, scale: 1 }}
                   exit={{ opacity: 0, x: 20, scale: 0.8 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="hidden lg:block absolute right-10 sm:right-12 md:right-14 lg:right-16 top-1/2 -translate-y-1/2 bg-gradient-to-br from-orange-400 via-orange-300 to-orange-400 backdrop-blur-xl text-white px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-3 rounded-lg md:rounded-xl whitespace-nowrap pointer-events-none shadow-[0_4px_16px_rgba(255,140,0,0.3)] border-2 border-orange-300/60 text-[10px] sm:text-[12px] md:text-[14px]"
+                  className="hidden lg:block absolute right-10 sm:right-12 md:right-14 lg:right-16 top-1/2 -translate-y-1/2 bg-gradient-to-br from-orange-400 via-orange-300 to-orange-400 backdrop-blur-xl text-white px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-3 rounded-lg md:rounded-xl whitespace-nowrap pointer-events-none shadow-[0_4px_16px_rgba(255,140,0,0.3)] border-2 border-orange-300/60 text-xs sm:text-xs md:text-sm"
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />

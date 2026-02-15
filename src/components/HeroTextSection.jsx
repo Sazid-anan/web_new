@@ -25,7 +25,7 @@ export default function HeroTextSection() {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.2 }}
                 onClick={() => window.open("https://calendly.com/", "_blank")}
-                className="hidden sm:flex group mt-1.5 sm:mt-2 md:mt-4 lg:mt-6 px-1.5 sm:px-4 md:px-5 lg:px-6 py-0.5 sm:py-2 md:py-2.5 lg:py-3 bg-orange-500 font-bold rounded-full transition-all duration-300 items-center gap-0.5 sm:gap-2 hover:shadow-lg hover:bg-white border border-orange-500 cursor-pointer text-[6px] sm:text-[10px] md:text-[12px] lg:text-[16px]"
+                className="hidden sm:flex group mt-1.5 sm:mt-2 md:mt-4 lg:mt-6 px-1.5 sm:px-4 md:px-5 lg:px-6 py-0.5 sm:py-2 md:py-2.5 lg:py-3 bg-orange-500 font-bold rounded-full transition-all duration-300 items-center gap-0.5 sm:gap-2 hover:shadow-lg hover:bg-white border border-orange-500 cursor-pointer text-xs sm:text-sm md:text-base lg:text-lg"
               >
                 <Calendar className="w-2 h-2 sm:w-4 sm:h-4 md:w-5 md:h-5 text-white group-hover:text-orange-500 transition-colors duration-300 flex-shrink-0" />
                 <span className="relative z-10 font-semibold text-white group-hover:text-orange-500 transition-colors duration-300 leading-tight">
@@ -36,7 +36,7 @@ export default function HeroTextSection() {
 
             {/* Right: Description */}
             <div className="w-full sm:flex-[1.5] flex flex-col items-start text-left mt-2 sm:mt-0 sm:w-auto">
-              <p className="text-justify text-[8px] sm:text-[11px] md:text-[14px] lg:text-[20px] font-semibold text-white leading-tight sm:leading-snug md:leading-snug">
+              <p className="text-justify text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-white leading-snug">
                 At Danvion, we're pushing the boundaries of artificial
                 intelligence at the edge – delivering cutting-edge solutions for
                 the world's most complex challenges. With our expertise in
@@ -51,7 +51,7 @@ export default function HeroTextSection() {
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
             onClick={() => window.open("https://calendly.com/", "_blank")}
-            className="flex sm:hidden group mt-2 px-2.5 py-1 bg-orange-500 font-bold rounded-full transition-all duration-300 items-center gap-1 hover:shadow-lg hover:bg-white border border-orange-500 cursor-pointer text-[9px]"
+            className="flex sm:hidden group mt-2 px-2.5 py-1 bg-orange-500 font-bold rounded-full transition-all duration-300 items-center gap-1 hover:shadow-lg hover:bg-white border border-orange-500 cursor-pointer text-xs"
           >
             <Calendar className="w-2.5 h-2.5 text-white group-hover:text-orange-500 transition-colors duration-300 flex-shrink-0" />
             <span className="relative z-10 font-semibold text-white group-hover:text-orange-500 transition-colors duration-300 leading-tight">

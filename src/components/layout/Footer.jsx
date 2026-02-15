@@ -107,7 +107,7 @@ export default function Footer() {
                 <motion.div variants={linkHoverVariants} whileHover="hover">
                   <Link
                     to="/"
-                    className="text-black hover:text-brand-orange text-[11px] sm:text-xs md:text-sm transition-colors flex items-center gap-2 group"
+                    className="text-black hover:text-brand-orange text-xs sm:text-xs md:text-sm transition-colors flex items-center gap-2 group"
                   >
                     <span className="opacity-0 group-hover:opacity-100 transition-opacity">
                       <ArrowRight
@@ -121,7 +121,7 @@ export default function Footer() {
                 <motion.div variants={linkHoverVariants} whileHover="hover">
                   <Link
                     to="/products"
-                    className="text-black hover:text-brand-orange text-[11px] sm:text-xs md:text-sm transition-colors flex items-center gap-2 group"
+                    className="text-black hover:text-brand-orange text-xs sm:text-xs md:text-sm transition-colors flex items-center gap-2 group"
                   >
                     <span className="opacity-0 group-hover:opacity-100 transition-opacity">
                       <ArrowRight className="w-3 h-3" />
@@ -132,7 +132,7 @@ export default function Footer() {
                 <motion.div variants={linkHoverVariants} whileHover="hover">
                   <Link
                     to="/blogs"
-                    className="text-black hover:text-brand-orange text-[11px] sm:text-xs md:text-sm transition-colors flex items-center gap-2 group"
+                    className="text-black hover:text-brand-orange text-xs sm:text-xs md:text-sm transition-colors flex items-center gap-2 group"
                   >
                     <span className="opacity-0 group-hover:opacity-100 transition-opacity">
                       <ArrowRight className="w-3 h-3" />
@@ -161,7 +161,7 @@ export default function Footer() {
               whileHover={{ y: -4 }}
               transition={{ duration: 0.3 }}
             >
-              <h4 className="text-[9px] sm:text-xs font-bold mb-1 sm:mb-2 uppercase tracking-widest text-black">
+              <h4 className="text-xs sm:text-sm font-bold mb-1 sm:mb-2 uppercase tracking-widest text-black">
                 {SITE_CONTENT.footer.sections.resources.title}
               </h4>
               <div className="h-1 w-8 sm:w-10 bg-gradient-to-r from-brand-orange to-orange-500 mb-1 sm:mb-2 rounded-full" />
@@ -170,7 +170,7 @@ export default function Footer() {
                   <a
                     href={INTERNAL_LINKS.CONTACT}
                     onClick={(event) => handleSectionClick(event, "contact")}
-                    className="text-black hover:text-brand-orange text-[11px] sm:text-xs md:text-sm transition-colors flex items-center gap-2 group"
+                    className="text-black hover:text-brand-orange text-xs sm:text-xs md:text-sm transition-colors flex items-center gap-2 group"
                   >
                     <span className="opacity-0 group-hover:opacity-100 transition-opacity">
                       <ArrowRight className="w-3 h-3" />
@@ -183,7 +183,7 @@ export default function Footer() {
                     href="https://www.linkedin.com/company/danvion"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-black hover:text-brand-orange text-[11px] sm:text-xs md:text-sm transition-colors flex items-center gap-2 group"
+                    className="text-black hover:text-brand-orange text-xs sm:text-xs md:text-sm transition-colors flex items-center gap-2 group"
                   >
                     <span className="opacity-0 group-hover:opacity-100 transition-opacity">
                       <ArrowRight className="w-3 h-3" />
@@ -212,7 +212,7 @@ export default function Footer() {
                 >
                   <Mail className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-orange flex-shrink-0 mt-0.5" />
                   <div className="flex flex-col">
-                    <p className="text-[10px] sm:text-2xs text-black uppercase tracking-wider leading-none">
+                    <p className="text-xs sm:text-2xs text-black uppercase tracking-wider leading-none">
                       Email
                     </p>
                     <p className="text-body-xs text-black group-hover:text-brand-orange transition-colors leading-none break-all">
@@ -228,7 +228,7 @@ export default function Footer() {
                 >
                   <Phone className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-orange flex-shrink-0 mt-0.5" />
                   <div className="flex flex-col">
-                    <p className="text-[10px] sm:text-2xs text-black uppercase tracking-wider leading-none">
+                    <p className="text-xs sm:text-2xs text-black uppercase tracking-wider leading-none">
                       Phone
                     </p>
                     <p className="text-body-xs text-black group-hover:text-brand-orange transition-colors leading-none">
@@ -241,7 +241,7 @@ export default function Footer() {
                 <div className="flex items-start gap-2">
                   <MapPin className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-brand-orange flex-shrink-0 mt-0.5" />
                   <div className="flex flex-col">
-                    <p className="text-[10px] sm:text-2xs text-black uppercase tracking-wider leading-none">
+                    <p className="text-xs sm:text-2xs text-black uppercase tracking-wider leading-none">
                       Location
                     </p>
                     <p className="text-body-xs text-black leading-tight">
