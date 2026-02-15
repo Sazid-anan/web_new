@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Linkedin, ArrowRight, Mail, Phone, MapPin } from "lucide-react";
 import { EXTERNAL_LINKS, INTERNAL_LINKS } from "../../config/links";
 import { SITE_CONTENT } from "../../config/content";
+import Container from "../common/Container";
 
 /**
  * Footer Component
@@ -48,16 +49,16 @@ export default function Footer() {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
-      className="relative mt-3 sm:mt-4 md:mt-6 lg:mt-8 bg-gradient-to-b from-white/40 to-white/20 backdrop-blur-xs border-t border-white/30"
+      className="relative mt-1 sm:mt-2 md:mt-3 lg:mt-4 bg-gradient-to-b from-white/40 to-white/20 backdrop-blur-xs border-t border-white/30"
     >
       {/* Content */}
-      <div className="relative w-full mx-auto px-4 sm:px-6 md:px-8 lg:px-10">
+      <Container className="relative content-maxwidth">
         {/* Top accent line */}
-        <div className="h-px bg-gradient-to-r from-transparent via-brand-orange/40 to-transparent mb-3 sm:mb-5 md:mb-8" />
+        <div className="h-px bg-gradient-to-r from-transparent via-brand-orange/40 to-transparent mb-1.5 sm:mb-2 md:mb-3" />
 
         {/* Main Footer Content */}
-        <div className="pt-1">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-8 mb-3 sm:mb-4 md:mb-6">
+        <div className="pt-0.5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-8 mb-1.5 sm:mb-2 md:mb-3">
             {/* Company Info */}
             <motion.div
               className="lg:col-span-1"
@@ -109,7 +110,10 @@ export default function Footer() {
                     className="text-black hover:text-brand-orange text-[11px] sm:text-xs md:text-sm transition-colors flex items-center gap-2 group"
                   >
                     <span className="opacity-0 group-hover:opacity-100 transition-opacity">
-                      <ArrowRight className="w-3 h-3" />
+                      <ArrowRight
+                        className="w-5 h-5 text-brand-orange"
+                        strokeWidth={2.7}
+                      />
                     </span>
                     Home
                   </Link>
@@ -254,7 +258,7 @@ export default function Footer() {
         <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
         {/* Bottom Footer */}
-        <div className="py-1.5 sm:py-2">
+        <div className="py-1 sm:py-1.5">
           <div className="flex flex-col gap-2 sm:gap-3 text-center">
             <p className="text-label text-black">
               {SITE_CONTENT.footer.bottom.copyright.replace(
@@ -273,7 +277,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </motion.footer>
   );
 }

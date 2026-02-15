@@ -95,22 +95,28 @@ export default function Products() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="py-12 sm:py-16 md:py-20">
-        <Container>
+      <div className="py-8 sm:py-10 md:py-12">
+        <Container className="content-maxwidth">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-left mb-8 sm:mb-10 md:mb-12 lg:mb-16"
+            className="mb-6 sm:mb-7 md:mb-8 lg:mb-10"
           >
-            <div className="rounded-2xl pt-1 pb-1 px-3 md:pt-1 md:pb-1 md:px-4 inline-block mb-4 sm:mb-5"></div>
-            <h1 className="text-left hero-gradient-text text-h1 font-bold leading-tight tracking-tight mb-4 sm:mb-5 md:mb-6">
-              Our Products
-            </h1>
-            <p className="text-justify text-body-sm font-medium text-muted-foreground max-w-3xl">
-              Discover our range of Edge AI solutions designed to enhance your
-              products and operations.
-            </p>
+            <div className="flex flex-row items-start gap-3 md:gap-4">
+              <div className="w-full sm:flex-1 flex flex-col items-start text-left sm:w-auto">
+                <h1 className="capabilities-gradient-text font-semibold leading-[1.25] tracking-tight mb-2 sm:mb-3 md:mb-4 lg:mb-6 text-[18px] sm:text-[24px] md:text-[32px] lg:text-[50px]">
+                  Our Products
+                </h1>
+              </div>
+              <div className="w-full sm:flex-[1.5] flex flex-col items-start text-left mt-4 sm:mt-0 sm:w-auto">
+                <p className="text-justify text-[9px] sm:text-[10px] md:text-[12px] lg:text-[20px] font-semibold text-black">
+                  From hardware design to edge AI deployment, we deliver
+                  complete engineering solutions that bring intelligent products
+                  to life.
+                </p>
+              </div>
+            </div>
           </motion.div>
         </Container>
       </div>
@@ -130,7 +136,7 @@ export default function Products() {
             <h2 className="text-h3 font-bold text-brand-black mb-4">
               Coming Soon
             </h2>
-            <p className="text-gray-600 text-base sm:text-lg mb-8 leading-relaxed">
+            <p className="text-gray-600 text-xs sm:text-sm md:text-base lg:text-lg mb-8 leading-relaxed">
               We're working on some amazing products that will transform your
               business. Check back soon for exciting announcements!
             </p>
@@ -149,12 +155,12 @@ export default function Products() {
               transition={{ duration: 0.5 }}
               className="mb-6 sm:mb-7 md:mb-8 flex flex-wrap items-center gap-2 sm:gap-3"
             >
-              <span className="font-medium text-brand-black text-xs sm:text-sm uppercase tracking-wide">
+              <span className="font-medium text-brand-black text-[10px] sm:text-xs md:text-sm uppercase tracking-wide">
                 Filter by Category:
               </span>
               <button
                 onClick={() => setSelectedCategory("")}
-                className={`px-4 sm:px-5 py-2 rounded-full font-medium transition-all text-xs sm:text-sm ${
+                className={`px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full font-medium transition-all text-[10px] sm:text-xs md:text-sm ${
                   selectedCategory === ""
                     ? "bg-brand-orange text-brand-black shadow-lg"
                     : "bg-gray-100 text-brand-black hover:bg-gray-200"
@@ -166,7 +172,7 @@ export default function Products() {
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 sm:px-5 py-2 rounded-full font-medium transition-all text-xs sm:text-sm orange-pop-hover ${
+                  className={`px-3 sm:px-4 md:px-5 py-1.5 sm:py-2 rounded-full font-medium transition-all text-[10px] sm:text-xs md:text-sm orange-pop-hover ${
                     selectedCategory === cat
                       ? "bg-brand-orange text-brand-black shadow-lg"
                       : "bg-gray-100 text-brand-black hover:bg-gray-200"
@@ -186,7 +192,7 @@ export default function Products() {
               animate={{ opacity: 1 }}
               className="text-center py-8 sm:py-12 px-4 text-gray-600"
             >
-              <p className="text-base sm:text-lg">
+              <p className="text-[11px] sm:text-xs md:text-sm lg:text-base">
                 No products found in this category. Try selecting a different
                 one.
               </p>
@@ -226,10 +232,10 @@ export default function Products() {
 
                 {/* Product Info */}
                 <div className="p-4 sm:p-5 md:p-6 relative z-20">
-                  <h3 className="text-base sm:text-lg md:text-xl font-bold text-brand-black mb-2">
+                  <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-brand-black mb-2">
                     {product.name}
                   </h3>
-                  <p className="text-gray-600 text-xs sm:text-sm mb-3 sm:mb-4 line-clamp-2">
+                  <p className="text-gray-600 text-[10px] sm:text-xs md:text-sm lg:text-base mb-3 sm:mb-4 line-clamp-2">
                     {product.description}
                   </p>
 
@@ -275,7 +281,7 @@ export default function Products() {
               <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                 disabled={currentPage === 1}
-                className="w-full sm:w-auto px-4 py-2 rounded-lg font-medium text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
+                className="w-full sm:w-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium text-[10px] sm:text-xs md:text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
               >
                 Previous
               </button>
@@ -286,7 +292,7 @@ export default function Products() {
                     <button
                       key={page}
                       onClick={() => setCurrentPage(page)}
-                      className={`min-w-[36px] sm:min-w-[40px] h-9 sm:h-10 rounded-lg font-medium text-sm transition-all flex-shrink-0 ${
+                      className={`min-w-[32px] sm:min-w-[36px] md:min-w-[40px] h-8 sm:h-9 md:h-10 rounded-lg font-medium text-[10px] sm:text-xs md:text-sm transition-all flex-shrink-0 ${
                         currentPage === page
                           ? "bg-brand-orange text-white shadow-lg"
                           : "bg-gray-100 text-brand-black hover:bg-gray-200"
@@ -303,7 +309,7 @@ export default function Products() {
                   setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                 }
                 disabled={currentPage === totalPages}
-                className="w-full sm:w-auto px-4 py-2 rounded-lg font-medium text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
+                className="w-full sm:w-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-medium text-[10px] sm:text-xs md:text-sm transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
               >
                 Next
               </button>
@@ -356,10 +362,10 @@ export default function Products() {
               />
 
               <div className="mb-4 sm:mb-6">
-                <h3 className="text-base sm:text-lg font-bold text-brand-black mb-2">
+                <h3 className="text-sm sm:text-base md:text-lg font-bold text-brand-black mb-2">
                   Description
                 </h3>
-                <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
+                <p className="text-gray-600 text-xs sm:text-sm md:text-base leading-relaxed">
                   {activeProduct.description}
                 </p>
               </div>
@@ -370,7 +376,7 @@ export default function Products() {
                     Details
                   </h3>
                   <div
-                    className="markdown-content text-sm sm:text-base"
+                    className="markdown-content text-xs sm:text-sm md:text-base"
                     dangerouslySetInnerHTML={{
                       __html: renderMarkdown(activeProduct.details),
                     }}
@@ -379,10 +385,10 @@ export default function Products() {
               )}
 
               <div className="bg-gray-50 p-4 sm:p-6 rounded-lg mb-4 sm:mb-6">
-                <h3 className="text-base sm:text-lg font-bold text-brand-black mb-2">
+                <h3 className="text-sm sm:text-base md:text-lg font-bold text-brand-black mb-2">
                   Contact Information
                 </h3>
-                <p className="text-gray-600 text-sm sm:text-base break-all">
+                <p className="text-gray-600 text-xs sm:text-sm md:text-base break-all">
                   Email:{" "}
                   <a
                     href={`mailto:${activeProduct.contact_info}`}

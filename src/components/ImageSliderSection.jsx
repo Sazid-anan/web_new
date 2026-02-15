@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import Container from "./common/Container";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 /**
  * Image Slider Section
@@ -30,44 +31,15 @@ export default function ImageSliderSection({
   autoPlay = true,
   interval = 35000,
 }) {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [screenSize, setScreenSize] = useState("md");
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isManualMode, setIsManualMode] = useState(false);
   const sliderRef = useRef(null);
-  const autoPlayTimerRef = useRef(null);
-  const dotTimerRef = useRef(null);
+  const containerRef = useRef(null);
 
-  // Detect screen size for responsive dimensions
-  useEffect(() => {
-    const handleResize = () => {
-      if (typeof window !== "undefined") {
-        if (window.innerWidth < 640) setScreenSize("sm");
-        else if (window.innerWidth < 768) setScreenSize("md");
-        else setScreenSize("lg");
-      }
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  // Get dynamic image dimensions based on screen size
-  const getImageDimensions = () => {
-    switch (screenSize) {
-      case "sm":
-        return { width: 320, gap: 16 };
-      case "md":
-        return { width: 444, gap: 24 };
-      default:
-        return { width: 604, gap: 32 };
-    }
-  };
-
-  // Create and inject animation keyframes
   useEffect(() => {
     if (!autoPlay || images.length === 0) return;
 
+    // Create and inject animation keyframes
     const styleId = "slider-animation-style";
     let style = document.getElementById(styleId);
 
@@ -83,33 +55,43 @@ export default function ImageSliderSection({
             transform: translateX(-50%);
           }
         }
-        
+
         .animate-image-marquee {
           display: flex;
           gap: 16px;
           animation: image-marquee ${interval}ms linear infinite;
           will-change: transform;
         }
-        
+
         @media (min-width: 640px) {
           .animate-image-marquee {
             gap: 24px;
           }
         }
-        
+
         @media (min-width: 768px) {
           .animate-image-marquee {
             gap: 32px;
           }
         }
-        
-        .animate-image-marquee.paused {
+
+        .animate-image-marquee:hover {
           animation-play-state: paused;
         }
-        
+
+        .animate-image-marquee.manual-mode {
+          animation: none;
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .animate-image-marquee {
             animation: none;
+          }
+        }
+
+        @media (max-width: 640px) {
+          .animate-image-marquee {
+            gap: 16px;
           }
         }
       `;
@@ -121,63 +103,64 @@ export default function ImageSliderSection({
     };
   }, [autoPlay, interval, images.length]);
 
-  // Auto-update active dot based on animation progress
+  // Track active dot based on animation progress
   useEffect(() => {
-    if (!autoPlay || images.length === 0 || isPaused) {
-      if (dotTimerRef.current) clearInterval(dotTimerRef.current);
-      return;
-    }
+    if (!autoPlay || images.length === 0 || isManualMode) return;
 
     const updateInterval = interval / images.length;
-    let currentIndex = 0;
+    let currentIdx = 0;
 
-    dotTimerRef.current = setInterval(() => {
-      currentIndex = (currentIndex + 1) % images.length;
-      setActiveIndex(currentIndex);
+    const dotInterval = setInterval(() => {
+      currentIdx = (currentIdx + 1) % images.length;
+      setCurrentIndex(currentIdx);
     }, updateInterval);
 
-    return () => {
-      if (dotTimerRef.current) clearInterval(dotTimerRef.current);
-    };
-  }, [autoPlay, interval, images.length, isPaused]);
+    return () => clearInterval(dotInterval);
+  }, [autoPlay, interval, images.length, isManualMode]);
 
-  // Handle dot click to navigate to specific image
-  const handleDotClick = (index) => {
-    setActiveIndex(index);
-    setIsPaused(true);
-
-    // Clear any existing timers
-    if (autoPlayTimerRef.current) clearTimeout(autoPlayTimerRef.current);
-    if (dotTimerRef.current) clearInterval(dotTimerRef.current);
-
-    if (sliderRef.current) {
-      const { width, gap } = getImageDimensions();
-      const scrollPosition = index * (width + gap);
-
-      // Pause animation and snap to position
-      sliderRef.current.classList.add("paused");
-      sliderRef.current.style.animation = "none";
-      sliderRef.current.style.transform = `translateX(-${scrollPosition}px)`;
-    }
-
-    // Resume animation after 5 seconds
-    autoPlayTimerRef.current = setTimeout(() => {
-      setIsPaused(false);
-      if (sliderRef.current) {
-        sliderRef.current.classList.remove("paused");
-        sliderRef.current.style.animation = "";
-        sliderRef.current.style.transform = "";
-      }
-    }, 5000);
+  // Navigate to previous image
+  const handlePrevious = () => {
+    const newIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
+    navigateToImage(newIndex);
   };
 
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (autoPlayTimerRef.current) clearTimeout(autoPlayTimerRef.current);
-      if (dotTimerRef.current) clearInterval(dotTimerRef.current);
-    };
-  }, []);
+  // Navigate to next image
+  const handleNext = () => {
+    const newIndex = (currentIndex + 1) % images.length;
+    navigateToImage(newIndex);
+  };
+
+  // Navigate to specific image with smooth transition
+  const navigateToImage = (index) => {
+    setCurrentIndex(index);
+    setIsManualMode(true); // Switch to manual mode permanently
+
+    if (sliderRef.current) {
+      // Add manual mode class to stop animation
+      sliderRef.current.classList.add("manual-mode");
+
+      // Get the appropriate width based on screen size
+      const width = window.innerWidth;
+      let imageWidth, gap;
+
+      if (width >= 768) {
+        imageWidth = 360;
+        gap = 32;
+      } else if (width >= 640) {
+        imageWidth = 280;
+        gap = 24;
+      } else {
+        imageWidth = 200;
+        gap = 16;
+      }
+
+      const scrollPosition = index * (imageWidth + gap);
+
+      // Apply smooth transition
+      sliderRef.current.style.transition = "transform 0.5s ease-in-out";
+      sliderRef.current.style.transform = `translateX(-${scrollPosition}px)`;
+    }
+  };
 
   if (!images || images.length === 0) {
     return null;
@@ -187,17 +170,20 @@ export default function ImageSliderSection({
   const duplicatedImages = [...images, ...images];
 
   return (
-    <section className="pt-6 sm:pt-8 md:pt-12 lg:pt-16 xl:pt-20 pb-6 sm:pb-8 md:pb-12 lg:pb-16 xl:pb-20 bg-transparent">
-      <Container>
+    <section className="pt-2 sm:pt-3 md:pt-4 lg:pt-6 xl:pt-8 pb-6 sm:pb-8 md:pb-12 lg:pb-16 xl:pb-20 bg-transparent">
+      <Container className="content-maxwidth image-slider-content">
         <div className="text-left mb-8 sm:mb-10 md:mb-12 lg:mb-16 mt-0 pt-0">
-          <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8">
-            <div className="flex-1">
-              <h1 className="text-left hero-gradient-text text-h2 font-bold leading-tight tracking-tight">
+          <div className="flex flex-col md:flex-row items-start gap-3 md:gap-4">
+            {/* Left: Headline */}
+            <div className="w-full md:flex-1 flex flex-col items-start text-left">
+              <h1 className="capabilities-gradient-text font-semibold leading-[1.25] tracking-tight mb-2 sm:mb-3 md:mb-4 lg:mb-6 text-[18px] sm:text-[24px] md:text-[32px] lg:text-[50px]">
                 {title}
               </h1>
             </div>
-            <div className="flex-1">
-              <p className="text-justify text-body-sm font-medium text-muted-foreground">
+
+            {/* Right: Description */}
+            <div className="w-full md:flex-[1.5] flex flex-col items-start text-left">
+              <p className="text-justify text-[9px] sm:text-[10px] md:text-[12px] lg:text-[20px] font-semibold text-black">
                 Stop worrying about design errors or manufacturing delays. Our
                 comprehensive approach integrates advanced simulation and
                 in-house prototyping to catch issues early, delivering
@@ -209,16 +195,38 @@ export default function ImageSliderSection({
         </div>
 
         {/* Horizontal Scrolling Carousel */}
-        <div className="overflow-hidden relative rounded-xl md:rounded-2xl">
+        <div
+          ref={containerRef}
+          className="overflow-hidden relative rounded-xl md:rounded-2xl group"
+        >
+          {/* Left Arrow Button */}
+          <button
+            onClick={handlePrevious}
+            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 sm:p-3 shadow-lg hover:shadow-xl transition-all duration-300 opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            aria-label="Previous image"
+          >
+            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
+          </button>
+
+          {/* Right Arrow Button */}
+          <button
+            onClick={handleNext}
+            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-10 bg-white/90 hover:bg-white text-gray-800 rounded-full p-2 sm:p-3 shadow-lg hover:shadow-xl transition-all duration-300 opacity-0 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            aria-label="Next image"
+          >
+            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+          </button>
+
           <div
             ref={sliderRef}
-            className="animate-image-marquee py-2"
+            className="animate-image-marquee"
             style={{ width: "max-content" }}
           >
             {duplicatedImages.map((image, index) => (
               <div
                 key={`${index}-${typeof image === "object" ? image.src : image}`}
-                className="shrink-0 w-[320px] h-[180px] sm:w-[444px] sm:h-[250px] md:w-[604px] md:h-[340px] rounded-xl md:rounded-2xl bg-white shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group relative cursor-pointer"
+                className="shrink-0 w-[160px] h-[100px] sm:w-[220px] sm:h-[140px] md:w-[280px] md:h-[180px] lg:w-[360px] lg:h-[240px] rounded-lg md:rounded-xl lg:rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden group relative cursor-pointer flex items-center justify-center"
+                style={{ fontSize: 0, lineHeight: 0 }}
               >
                 <img
                   src={typeof image === "object" ? image.src : image}
@@ -227,18 +235,25 @@ export default function ImageSliderSection({
                       ? image.name
                       : `Product ${(index % images.length) + 1}`
                   }
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  loading="eager"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  style={{
+                    objectPosition: "center",
+                    display: "block",
+                    verticalAlign: "middle",
+                    height: "100%",
+                    width: "100%",
+                  }}
+                  loading="lazy"
                   decoding="async"
                 />
                 {/* Sliding Overlay on Hover */}
                 {typeof image === "object" && image.name && (
-                  <div className="absolute left-0 right-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-transparent text-white text-center py-2 sm:py-3 md:py-4 px-2 text-sm sm:text-base md:text-lg font-semibold tracking-wide flex flex-col items-center rounded-b-xl md:rounded-b-2xl">
-                    <div className="mb-0.5 sm:mb-1 text-xl sm:text-2xl md:text-3xl font-bold drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                  <div className="absolute left-0 right-0 bottom-0 translate-y-full group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-orange-700/90 via-orange-500/80 to-transparent text-white text-center py-1.5 sm:py-2 md:py-3 px-1.5 text-[11px] sm:text-[13px] md:text-[15px] lg:text-[18px] font-semibold tracking-wide flex flex-col items-center rounded-b-lg md:rounded-b-xl lg:rounded-b-2xl">
+                    <div className="mb-0.5 sm:mb-1 text-[12px] sm:text-[14px] md:text-[16px] lg:text-[20px] font-bold drop-shadow-lg">
                       {image.name}
                     </div>
                     {image.description && (
-                      <div className="text-xs sm:text-sm font-normal drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                      <div className="text-[10px] sm:text-[11px] md:text-[12px] lg:text-[14px] font-normal drop-shadow-md">
                         {image.description}
                       </div>
                     )}
@@ -247,22 +262,6 @@ export default function ImageSliderSection({
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Dot Indicators */}
-        <div className="flex justify-center items-center gap-2 sm:gap-3 mt-4 sm:mt-6 md:mt-8">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => handleDotClick(index)}
-              className={`transition-all duration-300 rounded-full ${
-                activeIndex === index
-                  ? "w-2.5 h-2.5 sm:w-3 sm:h-3 bg-orange-600 scale-125"
-                  : "w-1.5 h-1.5 sm:w-2 sm:h-2 bg-gray-400 hover:bg-orange-400"
-              }`}
-              aria-label={`Go to image ${index + 1}`}
-            />
-          ))}
         </div>
       </Container>
     </section>
