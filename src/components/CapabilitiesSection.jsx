@@ -1,16 +1,22 @@
 import { motion } from "framer-motion";
 import Container from "./common/Container";
 import { Card } from "./ui/Card";
-import Badge from "./ui/Badge";
 import {
+  Zap,
   CircuitBoard,
   Cpu,
   Code,
   Brain,
-  Wifi,
+  Smartphone,
   Shield,
-  Activity,
   Battery,
+  Wind,
+  Timer,
+  Terminal,
+  Signal,
+  BatteryCharging,
+  Microchip,
+  Bot,
 } from "lucide-react";
 
 /**
@@ -20,135 +26,130 @@ import {
 export default function CapabilitiesSection({ homePage }) {
   const capabilities = [
     {
+      title: "System Architecture",
+      icon: Zap,
+    },
+    {
       title: "PCB Design & Layout",
-      category: "Hardware",
-      description:
-        "Custom circuit board design from concept to production. Multi-layer PCBs, high-speed signals, and power-efficient layouts.",
       icon: CircuitBoard,
     },
     {
       title: "Embedded Systems",
-      category: "Hardware",
-      description:
-        "Complete embedded system development with ARM, RISC-V, and custom ASIC solutions tailored to your requirements.",
       icon: Cpu,
     },
     {
       title: "Firmware Development",
-      category: "Firmware",
-      description:
-        "Real-time firmware for microcontrollers and processors. RTOS, bare-metal, and custom bootloader development.",
       icon: Code,
     },
     {
+      title: "IoT",
+      icon: Smartphone,
+    },
+    {
       title: "Edge AI Integration",
-      category: "AI",
-      description:
-        "Deploy machine learning models on edge devices. TensorFlow Lite, optimized neural networks, and custom accelerators.",
       icon: Brain,
     },
     {
-      title: "Wireless Connectivity",
-      category: "Hardware",
-      description:
-        "Integrate WiFi, Bluetooth, LoRa, Zigbee, and cellular connectivity. From protocol selection to antenna design.",
-      icon: Wifi,
-    },
-    {
       title: "Security & Encryption",
-      category: "Firmware",
-      description:
-        "Hardware security modules, secure boot, encrypted communication, and compliance with industry standards.",
       icon: Shield,
     },
     {
-      title: "Sensor Integration",
-      category: "Hardware",
-      description:
-        "Multi-sensor fusion, calibration, and signal processing. Environmental, motion, and custom sensor solutions.",
-      icon: Activity,
+      title: "Power Management",
+      icon: Battery,
     },
     {
-      title: "Power Management",
-      category: "Hardware",
-      description:
-        "Ultra-low power designs, battery management systems, energy harvesting, and power optimization strategies.",
-      icon: Battery,
+      title: "Zephyr RTOS",
+      icon: Wind,
+    },
+    {
+      title: "FreeRTOS",
+      icon: Timer,
+    },
+    {
+      title: "Linux",
+      icon: Terminal,
+    },
+    {
+      title: "Signal Integrity",
+      icon: Signal,
+    },
+    {
+      title: "Power Integrity",
+      icon: BatteryCharging,
+    },
+    {
+      title: "ARM",
+      icon: Cpu,
+    },
+    {
+      title: "RISC-V",
+      icon: Microchip,
+    },
+    {
+      title: "Agent SDK AI Agents",
+      icon: Bot,
     },
   ];
 
-  const getCategoryVariant = (category) => {
-    const variants = {
-      Hardware: "default",
-      Firmware: "secondary",
-      AI: "outline",
-    };
-    return variants[category] || "secondary";
-  };
-
   return (
-    <section className="pt-6 sm:pt-8 md:pt-12 lg:pt-16 xl:pt-20 pb-6 sm:pb-8 md:pb-12 lg:pb-16 xl:pb-20">
-      <Container>
-        <div className="text-left mb-4 sm:mb-6 md:mb-8 lg:mb-10 px-2 sm:px-4">
-          <div className="flex flex-col md:flex-row items-start gap-6 md:gap-8">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.05 }}
-              className="flex-1 rounded-2xl pt-0 pb-0 px-0 md:pt-0 md:pb-0 md:px-0"
-            >
-              <h1 className="text-left hero-gradient-text text-h2 font-bold leading-tight tracking-tight">
-                {homePage?.capabilities_title || "Our Engineering Capabilities"}
-              </h1>
-            </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="flex-1 rounded-2xl pt-0 pb-0 px-0 md:pt-0 md:pb-0 md:px-0"
-            >
-              <p className="text-justify text-body-sm font-medium text-muted-foreground">
-                {homePage?.capabilities_subtitle ||
+    <section className="pt-0 sm:pt-3 md:pt-4 lg:pt-6 xl:pt-8 pb-0 sm:pb-4 md:pb-6 lg:pb-8 xl:pb-2 bg-white">
+      <Container className="content-maxwidth capabilities-content">
+        <div className="mb-0 sm:mb-3 md:mb-4 lg:mb-5">
+          <div className="flex flex-row items-start gap-1 sm:gap-3 md:gap-4">
+            {/* Left: Headline */}
+            <div className="w-full sm:flex-1 flex flex-col items-start text-left sm:w-auto">
+              <motion.h1
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.05 }}
+                className="capabilities-gradient-text font-semibold leading-[1.2] tracking-tight mb-0 sm:mb-3 md:mb-4 lg:mb-6 text-[18px] sm:text-[24px] md:text-[32px] lg:text-[50px]"
+              >
+                {homePage?.capabilities_title || "Our Engineering"}
+                <br />
+                Capabilities
+              </motion.h1>
+            </div>
+
+            {/* Right: Description */}
+            {/* <div className="flex-[1.5] flex flex-col items-start text-left mt-2 md:mt-3">
+              <p className="text-justify text-[10px] sm:text-[12px] md:text-[14px] lg:text-[21px] font-semibold text-black mt-2 md:mt-3">
+                {homePage?.capabilities_subtitle2 ||
                   "From hardware design to edge AI deployment, we deliver complete engineering solutions that bring intelligent products to life."}
               </p>
-            </motion.div>
+            </div> */}
+            <div className="w-full sm:flex-[1.5] flex flex-col items-start text-left mt-0 sm:mt-4 sm:w-auto">
+              <p className="text-justify text-[8px] sm:text-[11px] md:text-[14px] lg:text-[20px] font-semibold text-black ">
+                From hardware design to edge AI deployment, we deliver complete
+                engineering solutions that bring intelligent products to life.
+              </p>
+            </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-1 sm:gap-1.5 md:gap-2.5">
-          {capabilities.map((capability, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.06, duration: 0.4 }}
-              whileHover={{ y: -4, scale: 1.02 }}
-              style={{ willChange: "transform, opacity" }}
-            >
-              <Card className="relative h-full hover:shadow-2xl transition-all duration-300 bg-white/50 md:backdrop-blur-lg border border-white/70 shadow-md hover:bg-white/60 hover:border-orange-200/80 hover:-translate-y-2">
-                <div className="p-1 sm:p-1.5 md:p-2.5">
-                  <div className="flex items-center justify-between mb-0.5 sm:mb-1 md:mb-1.5">
-                    <capability.icon className="h-2.5 w-2.5 sm:h-3 sm:w-3 md:h-3.5 md:w-3.5 text-primary" />
-                    <Badge
-                      variant={getCategoryVariant(capability.category)}
-                      className="text-[5px] sm:text-[6px] md:text-[7px] px-0.5 py-0 sm:px-1 sm:py-0.5"
-                    >
-                      {capability.category}
-                    </Badge>
-                  </div>
-                  <h3 className="text-[8px] sm:text-[9px] md:text-[10px] font-semibold mb-0.5 text-foreground leading-tight">
-                    {capability.title}
-                  </h3>
-                  <p className="text-[6px] sm:text-[7px] md:text-[11px] lg:text-xs text-muted-foreground leading-snug">
-                    {capability.description}
-                  </p>
-                </div>
-              </Card>
-            </motion.div>
-          ))}
+        <div className="mb-0 sm:mb-5 md:mb-7">
+          <Card className="relative w-full max-w-[1150px] lg:max-w-[1450px] xl:max-w-[1600px] mx-auto px-0.5 sm:px-1 md:px-1.5 lg:px-2 py-1.5 sm:py-2 md:py-2.5 lg:py-3 bg-white border-2 border-orange-200/60 shadow-lg shadow-orange-100/50">
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-1 sm:gap-1.5 md:gap-2 lg:gap-2.5">
+              {capabilities.map((capability, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.06, duration: 0.4 }}
+                  whileHover={{ y: -4, scale: 1.05 }}
+                  style={{ willChange: "transform, opacity" }}
+                >
+                  <Card className="relative aspect-square w-full flex flex-col items-center justify-center gap-1 sm:gap-1.5 p-1.5 sm:p-2 md:p-2.5 hover:shadow-lg transition-all duration-300 bg-white border border-gray-200 hover:border-orange-500/50 hover:shadow-orange-100/50">
+                    <capability.icon className="h-10 w-10 sm:h-11 sm:w-11 md:h-12 md:w-12 lg:h-11 lg:w-11 text-orange-500" />
+                    <h3 className="text-center text-[10px] sm:text-[11px] md:text-[12px] lg:text-[12px] font-semibold text-foreground leading-tight">
+                      {capability.title}
+                    </h3>
+                  </Card>
+                </motion.div>
+              ))}
+            </div>
+          </Card>
         </div>
       </Container>
     </section>

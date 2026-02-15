@@ -67,22 +67,28 @@ export default function Blogs() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="py-12 sm:py-16 md:py-20">
-        <Container>
+      <div className="py-8 sm:py-10 md:py-12">
+        <Container className="content-maxwidth">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-left mb-8 sm:mb-10 md:mb-12 lg:mb-16"
+            className="mb-6 sm:mb-7 md:mb-8 lg:mb-10"
           >
-            <div className="rounded-2xl pt-2 pb-2 px-4 md:pt-2.5 md:pb-2.5 md:px-5 inline-block mb-4 sm:mb-5"></div>
-            <h1 className="text-left hero-gradient-text text-h1 font-bold leading-tight tracking-tight mb-4 sm:mb-5 md:mb-6">
-              Blog
-            </h1>
-            <p className="text-justify text-body-sm font-medium text-muted-foreground max-w-3xl">
-              Explore our latest thoughts, insights, and updates on Edge AI,
-              product development, and technology innovation
-            </p>
+            <div className="flex flex-row items-start gap-3 md:gap-4">
+              <div className="w-full sm:flex-1 flex flex-col items-start text-left sm:w-auto">
+                <h1 className="capabilities-gradient-text font-semibold leading-[1.25] tracking-tight mb-2 sm:mb-3 md:mb-4 lg:mb-6 text-[18px] sm:text-[24px] md:text-[32px] lg:text-[50px]">
+                  Blogs
+                </h1>
+              </div>
+              <div className="w-full sm:flex-[1.5] flex flex-col items-start text-left mt-4 sm:mt-0 sm:w-auto">
+                <p className="text-justify text-[9px] sm:text-[10px] md:text-[12px] lg:text-[20px] font-semibold text-black">
+                  From hardware design to edge AI deployment, we deliver
+                  complete engineering solutions that bring intelligent products
+                  to life.
+                </p>
+              </div>
+            </div>
           </motion.div>
         </Container>
       </div>
@@ -103,7 +109,7 @@ export default function Blogs() {
               <h2 className="text-h3 font-bold text-foreground mb-4">
                 Coming Soon
               </h2>
-              <p className="text-gray-600 text-base sm:text-lg mb-8 leading-relaxed">
+              <p className="text-gray-600 text-xs sm:text-sm md:text-base lg:text-lg mb-8 leading-relaxed">
                 We're crafting insightful articles and resources on Edge AI,
                 product development, and technology innovation. Stay tuned for
                 exciting content!
@@ -121,7 +127,7 @@ export default function Blogs() {
             <section className="py-6 sm:py-7 md:py-8 border-b border-gray-200">
               <Container>
                 <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-                  <span className="text-sm font-semibold text-muted-foreground">
+                  <span className="text-[11px] sm:text-xs md:text-sm font-semibold text-muted-foreground">
                     Filter by:
                   </span>
                   <motion.button
@@ -131,7 +137,7 @@ export default function Blogs() {
                       setSelectedCategory("");
                       setCurrentPage(1);
                     }}
-                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                    className={`px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-[10px] sm:text-xs md:text-sm font-medium transition-all ${
                       !selectedCategory
                         ? "bg-brand-orange text-white"
                         : "bg-white border border-gray-200 text-gray-700 hover:border-brand-orange"
@@ -148,7 +154,7 @@ export default function Blogs() {
                         setSelectedCategory(category);
                         setCurrentPage(1);
                       }}
-                      className={`px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
+                      className={`px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-full text-[9px] sm:text-[10px] md:text-xs lg:text-sm font-medium transition-all ${
                         selectedCategory === category
                           ? "bg-brand-orange text-white"
                           : "bg-white border border-gray-200 text-gray-700 hover:border-brand-orange"
@@ -204,7 +210,7 @@ export default function Blogs() {
                             </div>
                           )}
                           <div className="p-5 sm:p-6">
-                            <div className="flex items-center gap-3 sm:gap-4 text-xs text-muted-foreground mb-2 sm:mb-3">
+                            <div className="flex items-center gap-2 sm:gap-3 text-[9px] sm:text-xs text-muted-foreground mb-2 sm:mb-3">
                               {blog.published_date && (
                                 <div className="flex items-center gap-1">
                                   <Calendar className="w-3 h-3" />
@@ -218,18 +224,18 @@ export default function Blogs() {
                                 </div>
                               )}
                             </div>
-                            <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2 sm:mb-3 group-hover:text-brand-orange transition-colors">
+                            <h3 className="text-sm sm:text-base md:text-lg lg:text-xl font-bold text-foreground mb-2 sm:mb-3 group-hover:text-brand-orange transition-colors">
                               {blog.title}
                             </h3>
-                            <p className="text-sm sm:text-base text-muted-foreground mb-3 sm:mb-4 line-clamp-3">
+                            <p className="text-[11px] sm:text-xs md:text-sm lg:text-base text-muted-foreground mb-3 sm:mb-4 line-clamp-3">
                               {blog.excerpt || blog.description}
                             </p>
                             {blog.author && (
                               <div className="flex items-center gap-2 mb-3 sm:mb-4">
-                                <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-sm font-semibold">
+                                <div className="w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-full bg-secondary flex items-center justify-center text-[10px] sm:text-xs md:text-sm font-semibold">
                                   {blog.author.charAt(0).toUpperCase()}
                                 </div>
-                                <span className="text-sm text-muted-foreground">
+                                <span className="text-[10px] sm:text-xs md:text-sm text-muted-foreground">
                                   {blog.author}
                                 </span>
                               </div>
@@ -240,7 +246,10 @@ export default function Blogs() {
                               onClick={() => setSelectedBlog(blog)}
                             >
                               Read More
-                              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                              <ArrowRight
+                                className="w-5 h-5 text-brand-orange group-hover:translate-x-1 transition-transform"
+                                strokeWidth={2.7}
+                              />
                             </Button>
                           </div>
                         </CardContent>
@@ -262,7 +271,7 @@ export default function Blogs() {
                       setCurrentPage((prev) => Math.max(prev - 1, 1))
                     }
                     disabled={currentPage === 1}
-                    className="w-full sm:w-auto px-4 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
+                    className="w-full sm:w-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs md:text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
                   >
                     Previous
                   </button>
@@ -273,7 +282,7 @@ export default function Blogs() {
                         <button
                           key={page}
                           onClick={() => setCurrentPage(page)}
-                          className={`min-w-[36px] sm:min-w-[40px] h-9 sm:h-10 rounded-lg font-medium text-sm transition-all flex-shrink-0 ${
+                          className={`min-w-[32px] sm:min-w-[36px] md:min-w-[40px] h-8 sm:h-9 md:h-10 rounded-lg font-medium text-[10px] sm:text-xs md:text-sm transition-all flex-shrink-0 ${
                             currentPage === page
                               ? "bg-brand-orange text-white shadow-lg"
                               : "bg-gray-100 text-brand-black hover:bg-gray-200"
@@ -290,7 +299,7 @@ export default function Blogs() {
                       setCurrentPage((prev) => Math.min(prev + 1, totalPages))
                     }
                     disabled={currentPage === totalPages}
-                    className="w-full sm:w-auto px-4 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
+                    className="w-full sm:w-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-[10px] sm:text-xs md:text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
                   >
                     Next
                   </button>
