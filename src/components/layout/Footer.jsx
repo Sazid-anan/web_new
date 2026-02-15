@@ -49,16 +49,16 @@ export default function Footer() {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true }}
-      className="relative mt-1 sm:mt-2 md:mt-3 lg:mt-4 bg-gradient-to-b from-white/40 to-white/20 backdrop-blur-xs border-t border-white/30"
+      className="relative mt-1 sm:mt-2 md:mt-2 lg:mt-2 bg-gradient-to-b from-white/40 to-white/20 backdrop-blur-xs border-t border-white/30"
     >
       {/* Content */}
       <Container className="relative content-maxwidth">
         {/* Top accent line */}
-        <div className="h-px bg-gradient-to-r from-transparent via-brand-orange/40 to-transparent mb-1.5 sm:mb-2 md:mb-3" />
+        <div className="h-px bg-gradient-to-r from-transparent via-brand-orange/40 to-transparent mb-1.5 sm:mb-2 md:mb-2" />
 
         {/* Main Footer Content */}
         <div className="pt-0.5">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-8 mb-1.5 sm:mb-2 md:mb-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-3 md:gap-4 lg:gap-5 mb-1.5 sm:mb-2 md:mb-2">
             {/* Company Info */}
             <motion.div
               className="lg:col-span-1"
@@ -204,7 +204,7 @@ export default function Footer() {
                 {SITE_CONTENT.footer.sections.getInTouch.title}
               </h4>
               <div className="h-1 w-8 sm:w-10 bg-gradient-to-r from-brand-orange to-orange-500 mb-1 sm:mb-2 rounded-full" />
-              <div className="flex flex-col gap-1.5 sm:gap-2 lg:gap-3">
+              <div className="flex flex-col gap-1.5 sm:gap-2 lg:gap-2">
                 {/* Email */}
                 <a
                   href="mailto:sazid@danvion.com"
@@ -258,15 +258,15 @@ export default function Footer() {
         <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
         {/* Bottom Footer */}
-        <div className="py-1 sm:py-1.5">
-          <div className="flex flex-col gap-2 sm:gap-3 text-center">
+        <div className="py-0.5 sm:py-1">
+          <div className="flex flex-col gap-1 sm:gap-1.5 text-center">
             <p className="text-label text-black">
               {SITE_CONTENT.footer.bottom.copyright.replace(
                 "{year}",
                 currentYear,
               )}
             </p>
-            <div className="flex items-center justify-center gap-2 sm:gap-3 text-label text-black flex-wrap">
+            <div className="flex items-center justify-center gap-1.5 sm:gap-1.5 text-label text-black flex-wrap">
               <a href="#" className="hover:text-brand-orange transition-colors">
                 {SITE_CONTENT.footer.bottom.privacyPolicy}
               </a>
