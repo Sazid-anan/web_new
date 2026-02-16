@@ -27,7 +27,6 @@ import Header from "./components/layout/Header";
 import Footer from "./components/layout/Footer";
 import BackToTop from "./components/common/BackToTop";
 import ScrollToTop from "./components/common/ScrollToTop";
-import BackgroundParticles from "./components/common/BackgroundParticles";
 import StickyContactBar from "./components/common/StickyContactBar";
 
 // Loading component
@@ -124,7 +123,6 @@ function App() {
             path="/*"
             element={
               <>
-                <BackgroundParticles />
                 <Header />
                 <Routes>
                   <Route

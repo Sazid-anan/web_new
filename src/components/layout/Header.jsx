@@ -24,10 +24,10 @@ export default function Header() {
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="sticky top-0 z-50 bg-white/80 backdrop-blur-md shadow-lg border-b border-white/30 hover:shadow-xl transition-shadow duration-300"
+      className="sticky top-0 z-50 bg-white shadow-lg border-b border-gray-200 hover:shadow-xl transition-shadow duration-300"
     >
       <div className="w-full flex justify-center">
-        <div className="w-full max-w-[90%] sm:max-w-[90%] md:max-w-[90%] lg:max-w-[88%] xl:max-w-[85%] xxl:max-w-[88%] px-4 sm:px-6 md:px-8 lg:px-10">
+        <div className="content-maxwidth">
           <div className="flex justify-between items-center h-16">
             {/* Logo */}
             <Link
@@ -57,14 +57,14 @@ export default function Header() {
               />
               <motion.div
                 whileHover={{ scale: 1.05 }}
-                className="font-bold text-brand-black text-xl sm:text-2xl md:text-2xl lg:text-3xl"
+                className="font-bold text-brand-black text-[12px] sm:text-[14px] md:text-[16px] lg:text-[20px]"
               >
                 DANVION
               </motion.div>
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap- lg:gap-8">
+            <div className="hidden md:flex items-center gap-1 lg:gap-8">
               <nav className="flex gap-1 sm:gap-2">
                 {navLinks.map((link) => {
                   if (link.label === "Home") {
@@ -85,7 +85,7 @@ export default function Header() {
                       >
                         <motion.div
                           whileHover={{ scale: 1.05 }}
-                          className={`px-5 py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline text-base sm:text-lg md:text-lg lg:text-xl`}
+                          className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline text-xs sm:text-sm md:text-base lg:text-lg`}
                         >
                           <span className="relative z-10 font-semibold">
                             {link.label}
@@ -116,7 +116,7 @@ export default function Header() {
                       >
                         <motion.div
                           whileHover={{ scale: 1.05 }}
-                          className={`px-5 py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline text-base sm:text-lg md:text-lg lg:text-xl`}
+                          className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline text-xs sm:text-sm md:text-base lg:text-lg`}
                         >
                           <span className="relative z-10 font-semibold">
                             {link.label}
@@ -133,7 +133,7 @@ export default function Header() {
                     >
                       <motion.div
                         whileHover={{ scale: 1.05 }}
-                        className={`px-5 py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline text-base sm:text-lg md:text-lg lg:text-xl`}
+                        className={`px-5 py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline text-[12px] sm:text-[14px] md:text-[14px] lg:text-[16px]`}
                       >
                         <span className="relative z-10 font-semibold">
                           {link.label}
@@ -199,7 +199,7 @@ export default function Header() {
                   className="flex items-center gap-2"
                 >
                   <img src="/logo.png" alt="Danvion" className="h-8 w-8" />
-                  <span className="font-bold text-brand-black text-lg sm:text-xl">
+                  <span className="font-bold text-brand-black text-[14px] sm:text-[16px]">
                     Menu
                   </span>
                 </motion.div>
@@ -234,7 +234,7 @@ export default function Header() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: 0.1 + index * 0.05 }}
                       whileTap={{ scale: 0.97 }}
-                      className="relative group px-6 py-4 rounded-xl font-semibold transition-all duration-300 bg-white/40 hover:bg-white/60 border border-white/40 hover:border-orange-200/60 hover:shadow-lg hover:shadow-orange-100/30 backdrop-blur-sm overflow-hidden text-base sm:text-lg"
+                      className="relative group px-4 sm:px-5 md:px-6 py-2.5 sm:py-3 md:py-4 rounded-xl font-semibold transition-all duration-300 bg-white/40 hover:bg-white/60 border border-white/40 hover:border-orange-200/60 hover:shadow-lg hover:shadow-orange-100/30 backdrop-blur-sm overflow-hidden text-xs sm:text-sm md:text-base lg:text-base"
                     >
                       {/* Shine effect on hover */}
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
@@ -319,7 +319,7 @@ export default function Header() {
                 transition={{ delay: 0.3 }}
                 className="absolute bottom-0 left-0 right-0 p-6 bg-white/30 backdrop-blur-md border-t border-white/30"
               >
-                <div className="text-center text-sm text-gray-500">
+                <div className="text-center text-[12px] sm:text-[13px] md:text-[14px] text-gray-500">
                   <p className="font-semibold text-brand-orange mb-1">
                     Danvion Ltd
                   </p>

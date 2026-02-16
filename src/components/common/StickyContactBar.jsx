@@ -7,7 +7,10 @@ import { SITE_CONTENT } from "../../config/content";
 /**
  * StickyContactBar Component
  * Fixed contact buttons on the right side of the screen
- * Includes: Phone, Email, LinkedIn
+ * Responsive: Shows fewer icons on mobile/tablet to reduce clutter
+ * - Mobile: Phone + Calendar (2 icons)
+ * - Tablet: Phone + Email + Calendar (3 icons)
+ * - Desktop: All 4 icons
  */
 export default function StickyContactBar() {
   const [hoveredItem, setHoveredItem] = useState(null);
@@ -19,6 +22,9 @@ export default function StickyContactBar() {
       detail: SITE_CONTENT.contact.phoneDisplay,
       href: `tel:${SITE_CONTENT.contact.phone}`,
       color: "text-brand-orange",
+      // Show on all devices
+      showOnMobile: true,
+      showOnTablet: true,
     },
     {
       icon: Mail,
@@ -26,6 +32,9 @@ export default function StickyContactBar() {
       detail: SITE_CONTENT.contact.email,
       href: `mailto:${SITE_CONTENT.contact.email}`,
       color: "text-brand-orange",
+      // Hide on mobile, show on tablet+
+      showOnMobile: false,
+      showOnTablet: true,
     },
     {
       icon: Linkedin,
@@ -34,8 +43,10 @@ export default function StickyContactBar() {
       color: "text-brand-orange",
       target: "_blank",
       rel: "noopener noreferrer",
+      // Tablet and desktop (hide only on mobile)
+      showOnMobile: false,
+      showOnTablet: true,
     },
-
     {
       icon: Calendar,
       label: "Book a 30 Minutes Free Consultation Call",
@@ -43,6 +54,9 @@ export default function StickyContactBar() {
       color: "text-brand-orange",
       target: "_blank",
       rel: "noopener noreferrer",
+      // Show on all devices - important CTA
+      showOnMobile: true,
+      showOnTablet: true,
     },
   ];
 
@@ -80,13 +94,24 @@ export default function StickyContactBar() {
 
   return (
     <motion.div
-      className="fixed right-1 sm:right-4 top-1/2 transform -translate-y-1/2 z-40 flex flex-col gap-0.5 sm:gap-1"
+      className="fixed right-0 sm:right-0 md:right-0 lg:right-0 top-1/2 transform -translate-y-1/2 z-40 flex flex-col gap-2 sm:gap-3 md:gap-4 sticky-contact-bar"
       variants={containerVariants}
       initial="hidden"
       animate="visible"
     >
       {contactItems.map((item) => {
         const Icon = item.icon;
+
+        // Build responsive visibility classes
+        const visibilityClass = [
+          // Mobile visibility (base)
+          item.showOnMobile ? "flex" : "hidden",
+          // Tablet visibility (md breakpoint)
+          item.showOnTablet ? "md:flex" : "md:hidden",
+          // Desktop always shows all (lg breakpoint)
+          "lg:flex",
+        ].join(" ");
+
         return (
           <motion.a
             key={item.label}
@@ -95,21 +120,19 @@ export default function StickyContactBar() {
             rel={item.rel}
             variants={itemVariants}
             whileHover="hover"
-            className="group relative"
+            className={`group relative sticky-contact-bar__item ${visibilityClass}`}
             title={item.label}
             onMouseEnter={() => setHoveredItem(item.label)}
             onMouseLeave={() => setHoveredItem(null)}
           >
             <motion.div
               variants={hoverVariants}
-              className="p-2 sm:p-2.5 md:p-3 rounded-lg bg-transparent border-2 border-brand-orange/30 backdrop-blur-sm hover:bg-white/10 hover:border-brand-orange/60 transition-all duration-300 cursor-pointer shadow-[0_0_10px_rgba(255,140,0,0)] hover:shadow-[0_0_10px_rgba(255,140,0,0.2)]"
+              className="sticky-contact-bar__button transition-all duration-300 cursor-pointer"
             >
-              <Icon
-                className={`w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 ${item.color}`}
-              />
+              <Icon className="sticky-contact-bar__icon" />
             </motion.div>
 
-            {/* Tooltip with Slide Animation */}
+            {/* Tooltip with Slide Animation - Hidden on mobile/tablet */}
             <AnimatePresence>
               {hoveredItem === item.label && (
                 <motion.div
@@ -117,16 +140,16 @@ export default function StickyContactBar() {
                   animate={{ opacity: 1, x: 0, scale: 1 }}
                   exit={{ opacity: 0, x: 20, scale: 0.8 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
-                  className="absolute right-10 sm:right-16 top-1/2 -translate-y-1/2 bg-gradient-to-br from-orange-400 via-orange-300 to-orange-400 backdrop-blur-xl text-white px-2 sm:px-4 py-2 sm:py-3 rounded-xl whitespace-nowrap pointer-events-none shadow-[0_4px_16px_rgba(255,140,0,0.3)] border-2 border-orange-300/60 text-xs sm:text-sm"
+                  className="hidden lg:block absolute right-10 sm:right-12 md:right-14 lg:right-16 top-1/2 -translate-y-1/2 bg-gradient-to-br from-orange-400 via-orange-300 to-orange-400 backdrop-blur-xl text-white px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-3 rounded-lg md:rounded-xl whitespace-nowrap pointer-events-none shadow-[0_4px_16px_rgba(255,140,0,0.3)] border-2 border-orange-300/60 text-xs sm:text-xs md:text-sm"
                 >
                   <div className="flex items-center gap-2 mb-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
-                    <p className="font-bold text-sm text-white uppercase tracking-wider">
+                    <p className="font-bold text-[12px] md:text-[14px] text-white uppercase tracking-wider">
                       {item.label}
                     </p>
                   </div>
                   {item.detail && (
-                    <p className="text-base font-semibold text-white ml-3.5 tracking-wide">
+                    <p className="text-[14px] md:text-[16px] font-semibold text-white ml-3.5 tracking-wide">
                       {item.detail}
                     </p>
                   )}

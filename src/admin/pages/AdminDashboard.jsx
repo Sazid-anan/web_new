@@ -82,7 +82,7 @@ export default function AdminDashboard() {
       }}
     >
       {/* Main Content */}
-      <div className="w-full mx-auto px-4 sm:px-6 md:px-8 lg:px-10 py-12">
+      <div className="w-full mx-auto px-4 py-12">
         <div className="admin-header mb-8 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-4">
             <img
