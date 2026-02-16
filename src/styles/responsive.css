@@ -794,6 +794,7 @@
     text-overflow: ellipsis !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 3 !important;
+    line-clamp: 3 !important;
     -webkit-box-orient: vertical !important;
     max-width: 100% !important;
   }
@@ -914,79 +915,6 @@
     line-height: 1.5 !important;
     margin: 0 !important;
     padding: 0 !important;
-  }
-
-  /* Reduce Phase Cards and Arrows size for iPad Pro - make compact and beautiful */
-  .phase-flow-arrow {
-    width: 0.4rem !important;
-    height: 0.4rem !important;
-    stroke-width: 2.5 !important;
-  }
-
-  /* Reduce phase card min-height and padding - ULTRA SPECIFIC SELECTORS */
-  section.bg-black .relative.group.h-full > div.relative.h-full,
-  section.bg-black div.relative.h-full[class*="min-h-"],
-  section.bg-black div[class*="min-h-\\[205px\\]"],
-  section.bg-black div[class*="min-h-\\[225px\\]"],
-  section.bg-black div[class*="min-h-\\[240px\\]"],
-  section.bg-black .group div.relative.h-full {
-    min-height: 85px !important;
-    padding: 0.35rem !important;
-  }
-
-  /* Increase font sizes in phase cards - ULTRA SPECIFIC */
-  section.bg-black .relative.group .relative.h-full h2,
-  section.bg-black div[class*="min-h-\\[205px\\]"] h2,
-  section.bg-black div[class*="min-h-\\[225px\\]"] h2,
-  section.bg-black div[class*="min-h-\\[240px\\]"] h2,
-  section.bg-black .group .animated-gradient-text,
-  section.bg-black .group h2.animated-gradient-text {
-    font-size: 0.85rem !important;
-  }
-
-  section.bg-black .relative.group .relative.h-full p,
-  section.bg-black div[class*="min-h-\\[205px\\]"] p,
-  section.bg-black div[class*="min-h-\\[225px\\]"] p,
-  section.bg-black div[class*="min-h-\\[240px\\]"] p,
-  section.bg-black .space-y-1 p {
-    font-size: 0.65rem !important;
-    line-height: 1.15 !important;
-  }
-
-  /* Increase icon size in phase cards - ULTRA SPECIFIC */
-  section.bg-black .relative.group div[class*="w-9"],
-  section.bg-black .relative.group div[class*="w-10"],
-  section.bg-black .relative.group div[class*="w-11"],
-  section.bg-black svg[class*="w-9"],
-  section.bg-black svg[class*="w-10"],
-  section.bg-black svg[class*="w-11"],
-  section.bg-black .group div[class*="rounded-lg"],
-  section.bg-black .group div[class*="mb-2"] {
-    width: 1.4rem !important;
-    height: 1.4rem !important;
-  }
-
-  /* Also target the SVG icons inside */
-  section.bg-black .relative.group svg,
-  section.bg-black div[class*="bg-blue-500"] svg,
-  section.bg-black div[class*="bg-cyan-500"] svg,
-  section.bg-black div[class*="bg-purple-500"] svg,
-  section.bg-black div[class*="bg-pink-500"] svg,
-  section.bg-black div[class*="bg-orange-500"] svg {
-    width: 1.2rem !important;
-    height: 1.2rem !important;
-  }
-
-  /* Increase number badge size */
-  section.bg-black div[class*="rounded-full"][class*="top-3"] {
-    width: 1.7rem !important;
-    height: 1.7rem !important;
-    font-size: 0.65rem !important;
-  }
-
-  /* Reduce gap between phase cards */
-  section.bg-black .grid[class*="grid-cols-1"][class*="grid-cols-3"] {
-    gap: 3.5rem !important;
   }
 }
 
@@ -1112,64 +1040,6 @@
     padding-right: 0;
   }
 
-  /* Phase Cards - Make smaller for 768-1023px */
-  section.bg-black .relative.group.h-full > div.relative.h-full,
-  section.bg-black div.relative.h-full[class*="min-h-"],
-  section.bg-black div[class*="min-h-\\[205px\\]"],
-  section.bg-black div[class*="min-h-\\[225px\\]"],
-  section.bg-black div[class*="min-h-\\[240px\\]"],
-  section.bg-black .group div.relative.h-full {
-    min-height: 160px !important;
-    padding: 0.6rem !important;
-  }
-
-  /* Phase card title */
-  section.bg-black .relative.group .relative.h-full h3,
-  section.bg-black div[class*="min-h-"] h3 {
-    font-size: 0.9rem !important;
-  }
-
-  /* Phase card description */
-  section.bg-black .relative.group .relative.h-full p,
-  section.bg-black div[class*="min-h-"] p,
-  section.bg-black .space-y-1 p {
-    font-size: 0.7rem !important;
-    line-height: 1.3 !important;
-  }
-
-  /* Phase card icon container */
-  section.bg-black .group div[class*="rounded-lg"],
-  section.bg-black .group div[class*="rounded-xl"],
-  section.bg-black .group div[class*="mb-2"] {
-    width: 2rem !important;
-    height: 2rem !important;
-  }
-
-  /* Phase card SVG icons */
-  section.bg-black .relative.group svg {
-    width: 1rem !important;
-    height: 1rem !important;
-  }
-
-  /* Phase card number badge */
-  section.bg-black div[class*="rounded-full"][class*="top-3"] {
-    width: 1.75rem !important;
-    height: 1.75rem !important;
-    font-size: 0.6rem !important;
-  }
-
-  /* Phase flow arrows - smaller for tablet */
-  .phase-flow-arrow {
-    width: 1.2rem !important;
-    height: 1.2rem !important;
-    stroke-width: 2.5 !important;
-  }
-
-  /* Phase grid gap */
-  section.bg-black .grid[class*="grid-cols-3"] {
-    gap: 0.75rem !important;
-  }
-
   /* Contact Section - Let's Innovate With Danvion */
   #contact .animated-gradient-text,
   #contact .animated-gradient-text-orange {
@@ -1182,21 +1052,21 @@
   }
 
   /* Contact form styling */
-  #contact .grid.md\\:grid-cols-2 {
+  #contact .grid.md\:grid-cols-2 {
     gap: 2rem !important;
   }
 
-  #contact .grid.md\\:grid-cols-2 > div:first-child {
+  #contact .grid.md\:grid-cols-2 > div:first-child {
     overflow: hidden !important;
     max-width: 100% !important;
   }
 
-  #contact .grid.md\\:grid-cols-2 > div:first-child > div {
+  #contact .grid.md\:grid-cols-2 > div:first-child > div {
     max-width: 100% !important;
     overflow: hidden !important;
   }
 
-  #contact .grid.md\\:grid-cols-2 > div:first-child h2 {
+  #contact .grid.md\:grid-cols-2 > div:first-child h2 {
     max-width: 100% !important;
     word-wrap: break-word !important;
     overflow-wrap: break-word !important;
@@ -1703,6 +1573,7 @@
     line-height: 1.18 !important;
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -2314,10 +2185,46 @@
   --container-pad: 1rem;
 }
 
-/* Add 2rem padding for 720p view (1280px width screens) */
+@media (min-width: 768px) {
+  :root {
+    --container-pad: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --container-pad: 2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  section.bg-black
+    .content-maxwidth.w-full
+    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
+    h3 {
+    font-size: clamp(1rem, 0.9rem + 0.4vw, 1.125rem) !important;
+    line-height: 1.2 !important;
+  }
+
+  section.bg-black
+    .content-maxwidth.w-full
+    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
+    p {
+    font-size: 0.875rem !important;
+    line-height: 1.55 !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --container-pad: 2.5rem;
+  }
+}
+
+/* Refine padding for 1200px - 1400px viewports */
 @media (min-width: 1200px) and (max-width: 1400px) {
   :root {
-    --container-pad: 5rem;
+    --container-pad: 2.5rem;
   }
 
   /* Standardize all section headings to match "Our Designed Products" size */
@@ -2378,6 +2285,7 @@
     line-height: 1.45 !important;
     display: -webkit-box !important;
     -webkit-line-clamp: 4 !important;
+    line-clamp: 4 !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
   }
@@ -2482,20 +2390,29 @@ section:has(.image-slider-content) {
 }
 
 .phase-flow-arrow {
-  width: 1.8rem !important;
-  height: 1.8rem !important;
+  width: 1.5rem !important;
+  height: 1.5rem !important;
   color: #ff8c42 !important;
-  opacity: 0.9 !important;
-  filter: drop-shadow(0 1px 4px rgba(255, 140, 66, 0.35)) !important;
+  opacity: 0.95 !important;
+  filter: drop-shadow(0 2px 6px rgba(255, 140, 66, 0.45)) !important;
   stroke-linecap: round !important;
   stroke-linejoin: round !important;
+  animation: pulse-arrow 2s ease-in-out infinite;
+  transition: all 0.3s ease;
 }
 
-/* Override arrow size for iPad Pro view - must come after global */
-@media (min-width: 1024px) and (max-width: 1366px) {
+/* Override arrow size for tablet and desktop views */
+@media (min-width: 768px) {
   .phase-flow-arrow {
-    width: 1.4rem !important;
-    height: 1.4rem !important;
+    width: 1.75rem !important;
+    height: 1.75rem !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .phase-flow-arrow {
+    width: 2rem !important;
+    height: 2rem !important;
   }
 }
 
@@ -3249,7 +3166,6 @@ section:has(.image-slider-content) {
 
   #contact textarea {
     min-height: 60px !important;
-    rows: 3 !important;
   }
 
   #contact button[type="submit"] {
@@ -3465,4 +3381,58 @@ section:has(.image-slider-content) {
     width: 2.5rem !important;
     height: 2.5rem !important;
   }
+}
+
+/* Global paragraph sizing - keep all paragraphs consistent */
+p {
+  font-size: 20px !important;
+  font-family: "Inter", sans-serif !important;
+}
+
+p[class*="text-"][class*="text-"] {
+  font-size: 20px !important;
+  font-family: "Inter", sans-serif !important;
+}
+
+/* Footer typography override - force 16px everywhere */
+footer.footer-uniform-text {
+  font-size: 14px !important;
+  font-family: "Inter", sans-serif !important;
+  padding-bottom: 0.2rem !important;
+}
+
+footer.footer-uniform-text [class*="text-"] {
+  font-size: 14px !important;
+  font-family: "Inter", sans-serif !important;
+}
+
+footer.footer-uniform-text p,
+footer.footer-uniform-text a,
+footer.footer-uniform-text span,
+footer.footer-uniform-text h1,
+footer.footer-uniform-text h2,
+footer.footer-uniform-text h3,
+footer.footer-uniform-text h4,
+footer.footer-uniform-text h5,
+footer.footer-uniform-text h6 {
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+}
+
+footer.footer-uniform-text .content-maxwidth {
+  padding-top: 0.2rem !important;
+  padding-bottom: 0.2rem !important;
+}
+
+footer.footer-uniform-text .grid {
+  gap: 0.6rem !important;
+  margin-bottom: 0.2rem !important;
+}
+
+footer.footer-uniform-text .h-px {
+  margin-bottom: 0.2rem !important;
+}
+
+footer.footer-uniform-text .h-px + div {
+  padding-top: 0.2rem !important;
 }

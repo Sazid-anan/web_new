@@ -45,8 +45,8 @@
   max-width: 1280px;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+  padding-left: var(--container-pad) !important;
+  padding-right: var(--container-pad) !important;
 }
 
 .capabilities-section {
@@ -63,16 +63,16 @@
   width: min(100%, 1280px);
   margin-left: auto;
   margin-right: auto;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+  padding-left: var(--container-pad) !important;
+  padding-right: var(--container-pad) !important;
 }
 
 .image-slider-content {
   width: min(100%, 1280px);
   margin-left: auto;
   margin-right: auto;
-  padding-left: 0 !important;
-  padding-right: 0 !important;
+  padding-left: var(--container-pad) !important;
+  padding-right: var(--container-pad) !important;
 }
 
 .ctnr-topbanner-anim {
@@ -130,6 +130,12 @@
   -webkit-text-fill-color: transparent;
   color: transparent;
   animation: gradientWave 4s ease-in-out infinite;
+}
+
+.section-heading {
+  font-family: var(--font-sans);
+  font-size: 50px !important;
+  line-height: 1.25;
 }
 
 /* Capabilities Section - Bright Gray to Orange gradient */
@@ -466,13 +472,41 @@ a.orange-pop-hover:hover::before {
 }
 
 .phase-flow-arrow {
-  width: 1.8rem !important;
-  height: 1.8rem !important;
+  width: 1.5rem !important;
+  height: 1.5rem !important;
   color: #ff8c42 !important;
-  opacity: 0.9 !important;
-  filter: drop-shadow(0 1px 4px rgba(255, 140, 66, 0.35)) !important;
+  opacity: 0.95 !important;
+  filter: drop-shadow(0 2px 6px rgba(255, 140, 66, 0.45)) !important;
   stroke-linecap: round !important;
   stroke-linejoin: round !important;
+  animation: pulse-arrow 2s ease-in-out infinite;
+  transition: all 0.3s ease;
+}
+
+@keyframes pulse-arrow {
+  0%,
+  100% {
+    opacity: 0.95;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+@media (min-width: 768px) {
+  .phase-flow-arrow {
+    width: 1.75rem !important;
+    height: 1.75rem !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .phase-flow-arrow {
+    width: 2rem !important;
+    height: 2rem !important;
+  }
 }
 
 /* ===== ADMIN AREA STYLES ===== */
