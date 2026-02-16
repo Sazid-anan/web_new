@@ -91,13 +91,13 @@ export default function Home() {
       <ImageSliderSection
         images={[
           {
-            src: "/images/1.jpg",
+            src: "/images/IMIG_1.svg",
           },
           {
-            src: "/images/22.jpg",
+            src: "/images/IMIG_2.svg",
           },
           {
-            src: "/images/33.jpg",
+            src: "/images/IMIG_3.svg",
           },
         ]}
         title="Our Designed Products"

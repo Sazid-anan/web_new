@@ -16,10 +16,8 @@ export const SITE_CONTENT = {
 
   // Contact Information
   contact: {
-    email: "sazid@danvion.com",
-    phone: "+60148914600",
-    phoneDisplay: "+60148914600",
-    location: "79/Ka Siddiqia, Sonabangla Lane, Khulna",
+    email: "support@danvion.com",
+    location: "128 City Road, London, EC1V 2NX, GB",
   },
 
   // Header Navigation

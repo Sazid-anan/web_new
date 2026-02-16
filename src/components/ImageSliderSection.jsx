@@ -9,11 +9,10 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
  * Usage Example:
  * <ImageSliderSection
  *   images={[
- *     { src: "/images/1.jpg", name: "Future Tech", description: "A glimpse into tomorrow's technology." },
- *     { src: "/images/2.png", name: "Smart Device", description: "Smart device for modern living." },
- *     { src: "/images/3.jpg", name: "Innovative Design", description: "Sleek and innovative product design." },
- *     { src: "/images/4.jpg", name: "Cutting-Edge", description: "Experience cutting-edge technology." },
- *   ]}
+ *     { src: "/images/IMIG_1.svg", name: "Future Tech", description: "A glimpse into tomorrow's technology." },
+ *     { src: "/images/IMIG_2.svg", name: "Smart Device", description: "Smart device for modern living." },
+ *     { src: "/images/IMIG_3.svg", name: "Innovative Design", description: "Sleek and innovative product design." },
+ *
  *   title="Our Designed Products"
  *   autoPlay={true}
  *   interval={35000}
@@ -170,7 +169,7 @@ export default function ImageSliderSection({
   const duplicatedImages = [...images, ...images];
 
   return (
-    <section className="pt-2 sm:pt-3 md:pt-4 lg:pt-6 xl:pt-8 pb-6 sm:pb-8 md:pb-12 lg:pb-16 xl:pb-20 bg-transparent">
+    <section className="pt-0 sm:pt-1 md:pt-2 lg:pt-3 xl:pt-4 pb-6 sm:pb-8 md:pb-12 lg:pb-16 xl:pb-20 bg-transparent">
       <Container className="content-maxwidth image-slider-content">
         <div className="text-left mb-8 sm:mb-10 md:mb-12 lg:mb-16 mt-0 pt-0">
           <div className="flex flex-col md:flex-row items-start gap-3 md:gap-4">
@@ -197,7 +196,7 @@ export default function ImageSliderSection({
         {/* Horizontal Scrolling Carousel */}
         <div
           ref={containerRef}
-          className="overflow-hidden relative rounded-xl md:rounded-2xl group"
+          className="overflow-hidden relative rounded-xl md:rounded-2xl group pb-2 sm:pb-3 md:pb-4"
         >
           {/* Left Arrow Button */}
           <button

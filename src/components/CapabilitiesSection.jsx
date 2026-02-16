@@ -4,19 +4,11 @@ import { Card } from "./ui/Card";
 import {
   Zap,
   CircuitBoard,
-  Cpu,
   Code,
   Brain,
   Smartphone,
-  Shield,
-  Battery,
-  Wind,
-  Timer,
-  Terminal,
   Signal,
-  BatteryCharging,
-  Microchip,
-  Bot,
+  Box,
 } from "lucide-react";
 
 /**
@@ -34,15 +26,15 @@ export default function CapabilitiesSection({ homePage }) {
       icon: CircuitBoard,
     },
     {
-      title: "Embedded Systems",
-      icon: Cpu,
+      title: "Signal & Power Integrity",
+      icon: Signal,
     },
     {
       title: "Firmware Development",
       icon: Code,
     },
     {
-      title: "IoT",
+      title: "IoT Connectivity",
       icon: Smartphone,
     },
     {
@@ -50,44 +42,8 @@ export default function CapabilitiesSection({ homePage }) {
       icon: Brain,
     },
     {
-      title: "Security & Encryption",
-      icon: Shield,
-    },
-    {
-      title: "Power Management",
-      icon: Battery,
-    },
-    {
-      title: "Zephyr RTOS",
-      icon: Wind,
-    },
-    {
-      title: "FreeRTOS",
-      icon: Timer,
-    },
-    {
-      title: "Linux",
-      icon: Terminal,
-    },
-    {
-      title: "Signal Integrity",
-      icon: Signal,
-    },
-    {
-      title: "Power Integrity",
-      icon: BatteryCharging,
-    },
-    {
-      title: "ARM",
-      icon: Cpu,
-    },
-    {
-      title: "RISC-V",
-      icon: Microchip,
-    },
-    {
-      title: "Agent SDK AI Agents",
-      icon: Bot,
+      title: "Enclosure Design",
+      icon: Box,
     },
   ];
 
@@ -128,8 +84,8 @@ export default function CapabilitiesSection({ homePage }) {
         </div>
 
         <div className="mb-0 sm:mb-5 md:mb-7">
-          <Card className="relative w-full max-w-[1150px] lg:max-w-[1450px] xl:max-w-[1600px] mx-auto px-0.5 sm:px-1 md:px-1.5 lg:px-2 py-1.5 sm:py-2 md:py-2.5 lg:py-3 bg-white border-2 border-orange-200/60 shadow-lg shadow-orange-100/50">
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-1 sm:gap-1.5 md:gap-2 lg:gap-2.5">
+          <Card className="relative w-full max-w-[1150px] lg:max-w-[1450px] xl:max-w-[1600px] mx-auto px-1 sm:px-2 md:px-3 lg:px-4 py-2 sm:py-3 md:py-4 lg:py-5 bg-white border-2 border-orange-200/60 shadow-lg shadow-orange-100/50">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 sm:gap-3 md:gap-4 lg:gap-3">
               {capabilities.map((capability, index) => (
                 <motion.div
                   key={index}
@@ -140,9 +96,9 @@ export default function CapabilitiesSection({ homePage }) {
                   whileHover={{ y: -4, scale: 1.05 }}
                   style={{ willChange: "transform, opacity" }}
                 >
-                  <Card className="relative aspect-square w-full flex flex-col items-center justify-center gap-1 sm:gap-1.5 p-1.5 sm:p-2 md:p-2.5 hover:shadow-lg transition-all duration-300 bg-white border border-gray-200 hover:border-orange-500/50 hover:shadow-orange-100/50">
-                    <capability.icon className="h-10 w-10 sm:h-11 sm:w-11 md:h-12 md:w-12 lg:h-11 lg:w-11 text-orange-500" />
-                    <h3 className="text-center text-xs sm:text-sm md:text-sm lg:text-sm font-semibold text-foreground leading-tight">
+                  <Card className="relative aspect-square w-full flex flex-col items-center justify-center gap-1.5 sm:gap-2 md:gap-2.5 p-2 sm:p-3 md:p-4 lg:p-3 hover:shadow-lg transition-all duration-300 bg-white border border-gray-200 hover:border-orange-500/50 hover:shadow-orange-100/50">
+                    <capability.icon className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 lg:h-10 lg:w-10 xl:h-12 xl:w-12 text-orange-500" />
+                    <h3 className="text-center text-[10px] sm:text-xs md:text-sm lg:text-xs xl:text-sm font-semibold text-foreground leading-tight px-0.5">
                       {capability.title}
                     </h3>
                   </Card>

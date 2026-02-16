@@ -747,68 +747,74 @@
 @media (min-width: 1024px) and (max-width: 1366px) {
   /* Capability boxes container */
   .capabilities-content div[class*="border-orange-200"] {
-    padding: 0.75rem !important;
+    padding: 1rem 0.875rem !important;
     max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
     border-radius: 0.75rem !important;
   }
 
   /* Individual capability cards - reduce size for iPad Pro */
   .capabilities-content
     .grid[class*="grid-cols-8"]
-    div[class*="border-gray-200"] {
-    padding: 0.75rem !important;
+    div[class*="border-gray-200"],
+  .capabilities-content .aspect-square {
+    padding: 0.875rem !important;
     border-radius: 0.6rem !important;
     width: 100% !important;
     max-width: 100% !important;
     height: auto !important;
-    min-height: 7rem !important;
+    min-height: 8.5rem !important;
     aspect-ratio: 1/1 !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    overflow: hidden !important;
+    overflow: visible !important;
   }
 
-  /* Icons in capability cards - significantly reduce for iPad Pro */
+  /* Icons in capability cards - optimized size for iPad Pro */
   .capabilities-content
     .grid[class*="grid-cols-8"]
     div[class*="border-gray-200"]
     svg,
   .capabilities-content .aspect-square svg {
-    width: 2rem !important;
-    height: 2rem !important;
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+    flex-shrink: 0 !important;
   }
 
-  /* Capability card titles - further reduce font */
+  /* Capability card titles - optimized font */
   .capabilities-content
     .grid[class*="grid-cols-8"]
     div[class*="border-gray-200"]
     h3,
   .capabilities-content .aspect-square h3 {
-    font-size: 0.7rem !important;
-    line-height: 1.1 !important;
+    font-size: 0.75rem !important;
+    line-height: 1.25 !important;
     margin: 0 !important;
+    margin-top: 0.375rem !important;
     word-break: break-word !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-    display: -webkit-box !important;
-    -webkit-line-clamp: 3 !important;
-    line-clamp: 3 !important;
-    -webkit-box-orient: vertical !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    display: block !important;
     max-width: 100% !important;
+    padding: 0 0.25rem !important;
+    text-align: center !important;
   }
 
-  /* Grid layout for iPad Pro - 8 columns to fit in 2 rows */
+  /* Grid layout for iPad Pro - 7 columns to fit all capability boxes */
   .capabilities-content .grid[class*="grid-cols-2"][class*="grid-cols-4"] {
-    grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
-    gap: 0.5rem !important;
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    gap: 0.75rem !important;
+    justify-items: stretch !important;
   }
 
-  /* Override lg:grid-cols-8 specifically for iPad Pro */
-  .capabilities-content .grid[class*="grid-cols-8"] {
-    grid-template-columns: repeat(8, minmax(0, 1fr)) !important;
-    gap: 0.5rem !important;
+  /* Override lg:grid-cols-7 specifically for iPad Pro */
+  .capabilities-content .grid[class*="grid-cols-7"] {
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    gap: 0.75rem !important;
+    justify-items: stretch !important;
   }
 
   /* Adjust capabilities section header */
@@ -923,7 +929,7 @@
 @media (min-width: 768px) and (max-width: 1023px) {
   /* Capability cards container */
   .capabilities-content .card.border-2[class*="border-orange"] {
-    padding: 0.35rem 0.15rem !important;
+    padding: 0.875rem !important;
     border-radius: 0.9rem !important;
     max-width: 100% !important;
   }
@@ -935,40 +941,47 @@
   }
 
   /* Individual capability cards */
-  .capabilities-content .card.border.border-gray-200 {
-    padding: 0.3rem !important;
+  .capabilities-content .card.border.border-gray-200,
+  .capabilities-content .aspect-square {
+    padding: 0.625rem !important;
     border-radius: 0.5rem !important;
     height: auto !important;
-    min-height: 5.5rem !important;
-    min-width: 5.5rem !important;
+    min-height: 7rem !important;
+    min-width: auto !important;
     margin: 0 !important;
-    gap: 0rem !important;
+    gap: 0.375rem !important;
   }
 
   /* Icons in capability cards for iPad/720p */
   .capabilities-content .card.border.border-gray-200 svg,
   .capabilities-content .aspect-square svg {
-    width: 1.3rem !important;
-    height: 1.3rem !important;
+    width: 1.75rem !important;
+    height: 1.75rem !important;
+    flex-shrink: 0 !important;
   }
 
   /* Capability card titles */
   .capabilities-content .card.border.border-gray-200 h3,
   .capabilities-content .aspect-square h3 {
-    font-size: 0.6rem !important;
-    line-height: 1.15 !important;
+    font-size: 0.7rem !important;
+    line-height: 1.25 !important;
+    padding: 0 0.25rem !important;
+    text-align: center !important;
   }
 
-  /* Grid layout - 8 columns for all items in fewer rows */
+  /* Grid layout - 7 columns to fit all capability boxes */
   .capabilities-content .grid[class*="grid-cols-2"][class*="grid-cols-4"] {
-    grid-template-columns: repeat(8, minmax(5rem, 1fr)) !important;
-    gap: 0.15rem !important;
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    gap: 0.75rem !important;
+    justify-items: stretch !important;
   }
 
-  /* Override lg:grid-cols-8 for iPad/720p */
+  /* Override lg:grid-cols-7 for iPad/720p */
+  .capabilities-content .grid[class*="grid-cols-7"],
   .capabilities-content .grid[class*="grid-cols-8"] {
-    grid-template-columns: repeat(8, minmax(5rem, 1fr)) !important;
-    gap: 0.15rem !important;
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    gap: 0.75rem !important;
+    justify-items: stretch !important;
   }
 
   /* Adjust header for iPad/720p */
@@ -1080,13 +1093,13 @@
 
   footer h3,
   footer h4 {
-    font-size: 0.7rem !important;
+    font-size: 12px !important;
   }
 
   footer p,
   footer a,
   footer nav {
-    font-size: 0.65rem !important;
+    font-size: 12px !important;
   }
 }
 
@@ -1402,8 +1415,8 @@
   footer p,
   footer a,
   footer span {
-    font-size: 0.78rem !important;
-    line-height: 1.4 !important;
+    font-size: 12px !important;
+    line-height: 1.35 !important;
   }
 
   .sticky-contact-bar {
@@ -1413,25 +1426,25 @@
   }
 
   .sticky-contact-bar .sticky-contact-bar__button {
-    width: 3.2rem !important;
-    height: 3.2rem !important;
-    border-radius: 0.8rem !important;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    border-radius: 0.6rem !important;
     box-shadow:
       0 8px 24px rgba(255, 106, 0, 0.35),
       inset 0 1px 2px rgba(255, 255, 255, 0.2) !important;
   }
 
   .sticky-contact-bar .sticky-contact-bar__icon {
-    width: 1.3rem !important;
-    height: 1.3rem !important;
+    width: 1rem !important;
+    height: 1rem !important;
   }
 }
 
 /* Sticky contact bar: isolated styles so global mobile utilities do not break it */
 .sticky-contact-bar__button {
-  width: 3rem;
-  height: 3rem;
-  border-radius: 0.75rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.6rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1450,8 +1463,8 @@
 }
 
 .sticky-contact-bar__icon {
-  width: 1.2rem;
-  height: 1.2rem;
+  width: 1rem;
+  height: 1rem;
   color: #ffffff;
 }
 
@@ -1470,9 +1483,9 @@
   }
 
   .sticky-contact-bar .sticky-contact-bar__button {
-    width: 2.8rem !important;
-    height: 2.8rem !important;
-    border-radius: 0.7rem !important;
+    width: 2.3rem !important;
+    height: 2.3rem !important;
+    border-radius: 0.6rem !important;
     border: 1.5px solid rgba(255, 140, 0, 0.4) !important;
     background: linear-gradient(135deg, #ff6a00 0%, #ff7a1a 100%) !important;
     box-shadow:
@@ -1482,8 +1495,8 @@
   }
 
   .sticky-contact-bar .sticky-contact-bar__icon {
-    width: 1.1rem !important;
-    height: 1.1rem !important;
+    width: 0.95rem !important;
+    height: 0.95rem !important;
     color: #ffffff !important;
   }
 }
@@ -1795,8 +1808,8 @@
 @media (max-width: 767px) {
   /* Designed products slider: compact mobile rhythm */
   section:has(.image-slider-content) {
-    padding-top: 0.35rem !important;
-    padding-bottom: 0.5rem !important;
+    padding-top: 25px !important;
+    padding-bottom: 2rem !important;
     margin-top: 0 !important;
     margin-bottom: 0 !important;
   }
@@ -1837,6 +1850,7 @@
   .image-slider-content
     .overflow-hidden.relative.rounded-xl.md\:rounded-2xl.group {
     border-radius: 0.72rem !important;
+    padding-bottom: 0.75rem !important;
   }
 
   .image-slider-content .animate-image-marquee {
@@ -2139,8 +2153,8 @@
   }
 
   section:has(.image-slider-content) {
-    padding-top: 0.15rem !important;
-    padding-bottom: 0.2rem !important;
+    padding-top: 25px !important;
+    padding-bottom: 2.5rem !important;
     margin-top: 0 !important;
     margin-bottom: 0 !important;
   }
@@ -2343,7 +2357,7 @@ section {
 }
 
 section:has(.image-slider-content) {
-  padding-top: var(--section-pad) !important;
+  padding-top: 25px !important;
   padding-bottom: var(--section-pad) !important;
 }
 
@@ -2625,8 +2639,8 @@ section:has(.image-slider-content) {
   }
 
   .sticky-contact-bar__button {
-    width: 3rem !important;
-    height: 3rem !important;
+    width: 2.5rem !important;
+    height: 2.5rem !important;
   }
 
   /* Better touch targets on iPad */
@@ -2639,12 +2653,12 @@ section:has(.image-slider-content) {
 
   /* Footer optimization */
   footer {
-    padding: 1.5rem 1rem !important;
+    padding: 1.2rem 1rem !important;
   }
 
   footer p,
   footer a {
-    font-size: 0.9rem !important;
+    font-size: 12px !important;
   }
 }
 
@@ -2711,14 +2725,14 @@ section:has(.image-slider-content) {
 
   /* Better footer on mobile */
   footer {
-    padding: 1rem 0.9rem !important;
+    padding: 0.9rem 0.8rem !important;
   }
 
   footer p,
   footer a,
   footer span {
-    font-size: 0.85rem !important;
-    line-height: 1.4 !important;
+    font-size: 12px !important;
+    line-height: 1.35 !important;
   }
 
   /* Grid single column on mobile */
@@ -2750,14 +2764,14 @@ section:has(.image-slider-content) {
   }
 
   .sticky-contact-bar__button {
-    width: 2.7rem !important;
-    height: 2.7rem !important;
-    border-radius: 0.65rem !important;
+    width: 2.3rem !important;
+    height: 2.3rem !important;
+    border-radius: 0.6rem !important;
   }
 
   .sticky-contact-bar__icon {
-    width: 1rem !important;
-    height: 1rem !important;
+    width: 0.95rem !important;
+    height: 0.95rem !important;
   }
 }
 
@@ -2865,11 +2879,11 @@ section:has(.image-slider-content) {
     margin-bottom: 0 !important;
   }
 
-  /* Capabilities card container - wider */
+  /* Capabilities card container - optimized */
   .capabilities-content .relative.w-full {
-    padding: 0.15rem !important;
-    border-radius: 0.4rem !important;
-    margin-top: -0.1rem !important;
+    padding: 0.375rem !important;
+    border-radius: 0.5rem !important;
+    margin-top: 0 !important;
     max-width: 100% !important;
   }
 
@@ -2877,32 +2891,35 @@ section:has(.image-slider-content) {
     margin-bottom: 0 !important;
   }
 
-  /* Capabilities grid - 4 columns for 4 rows on iPhone */
-  .capabilities-content .grid.grid-cols-2.sm\:grid-cols-4.lg\:grid-cols-8 {
-    grid-template-columns: repeat(4, 1fr) !important;
-    gap: 0.15rem !important;
+  /* Capabilities grid - 2 columns for better mobile display */
+  .capabilities-content .grid.grid-cols-2.sm\:grid-cols-4.lg\:grid-cols-8,
+  .capabilities-content .grid[class*="grid-cols"] {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.375rem !important;
   }
 
-  /* Individual capability boxes - fill the grid cells */
-  .capabilities-content .aspect-square.w-full {
+  /* Individual capability boxes - optimized sizing */
+  .capabilities-content .aspect-square.w-full,
+  .capabilities-content .aspect-square {
     max-width: 100% !important;
     width: 100% !important;
     min-height: auto !important;
     max-height: none !important;
     aspect-ratio: 1 !important;
-    border-radius: 0.3rem !important;
-    padding: 0.15rem !important;
-    gap: 0.1rem !important;
+    border-radius: 0.4rem !important;
+    padding: 0.5rem !important;
+    gap: 0.25rem !important;
   }
 
   .capabilities-content .aspect-square svg {
-    width: 1.2rem !important;
-    height: 1.2rem !important;
+    width: 1.75rem !important;
+    height: 1.75rem !important;
   }
 
   .capabilities-content .aspect-square h3 {
-    font-size: 0.5rem !important;
-    line-height: 1.15 !important;
+    font-size: 0.625rem !important;
+    line-height: 1.2 !important;
+    padding: 0 0.125rem !important;
   }
 
   /* ===== DEVELOPMENT PHASES SECTION ===== */
@@ -3022,8 +3039,8 @@ section:has(.image-slider-content) {
 
   /* ===== IMAGE SLIDER SECTION ===== */
   section:has(.image-slider-content) {
-    padding-top: 0.5rem !important;
-    padding-bottom: 1rem !important;
+    padding-top: 25px !important;
+    padding-bottom: 2rem !important;
   }
 
   .image-slider-content {
@@ -3049,6 +3066,7 @@ section:has(.image-slider-content) {
   .image-slider-content
     .overflow-hidden.relative.rounded-xl.md\:rounded-2xl.group {
     border-radius: 0.6rem !important;
+    padding-bottom: 1rem !important;
   }
 
   .image-slider-content .animate-image-marquee {
@@ -3202,12 +3220,12 @@ section:has(.image-slider-content) {
   }
 
   footer h3 {
-    font-size: 0.55rem !important;
+    font-size: 12px !important;
     margin-bottom: 0.2rem !important;
   }
 
   footer h4 {
-    font-size: 0.5rem !important;
+    font-size: 12px !important;
     margin-bottom: 0.2rem !important;
   }
 
@@ -3220,7 +3238,7 @@ section:has(.image-slider-content) {
   footer p,
   footer a,
   footer span {
-    font-size: 0.45rem !important;
+    font-size: 12px !important;
     line-height: 1.3 !important;
   }
 
@@ -3247,7 +3265,7 @@ section:has(.image-slider-content) {
   }
 
   footer nav a {
-    font-size: 0.45rem !important;
+    font-size: 12px !important;
   }
 
   /* Contact info section in footer */
@@ -3266,7 +3284,7 @@ section:has(.image-slider-content) {
   }
 
   footer .flex.items-start.gap-2 p {
-    font-size: 0.4rem !important;
+    font-size: 12px !important;
     line-height: 1.2 !important;
   }
 
@@ -3381,9 +3399,35 @@ section:has(.image-slider-content) {
     width: 2.5rem !important;
     height: 2.5rem !important;
   }
+
+  /* Capability boxes optimization for ultra-small screens */
+  .capabilities-content .relative.w-full {
+    padding: 0.25rem !important;
+  }
+
+  .capabilities-content .grid[class*="grid-cols"] {
+    gap: 0.25rem !important;
+  }
+
+  .capabilities-content .aspect-square {
+    padding: 0.375rem !important;
+    gap: 0.125rem !important;
+  }
+
+  .capabilities-content .aspect-square svg {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+  }
+
+  .capabilities-content .aspect-square h3 {
+    font-size: 0.55rem !important;
+    line-height: 1.15 !important;
+  }
 }
 
-/* Global paragraph sizing - keep all paragraphs consistent */
+/* Global paragraph sizing - removed to allow component-specific sizing */
+/* Commented out to prevent override of footer and other component text sizes */
+/* 
 p {
   font-size: 20px !important;
   font-family: "Inter", sans-serif !important;
@@ -3393,16 +3437,17 @@ p[class*="text-"][class*="text-"] {
   font-size: 20px !important;
   font-family: "Inter", sans-serif !important;
 }
+*/
 
-/* Footer typography override - force 16px everywhere */
+/* Footer typography override - force small fonts everywhere */
 footer.footer-uniform-text {
-  font-size: 14px !important;
+  font-size: 12px !important;
   font-family: "Inter", sans-serif !important;
   padding-bottom: 0.2rem !important;
 }
 
 footer.footer-uniform-text [class*="text-"] {
-  font-size: 14px !important;
+  font-size: 12px !important;
   font-family: "Inter", sans-serif !important;
 }
 
