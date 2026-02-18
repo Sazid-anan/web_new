@@ -3,6 +3,7 @@ import {
   Routes,
   Route,
   Navigate,
+  useLocation,
 } from "react-router-dom";
 import { useEffect, useState, Suspense } from "react";
 import { lazy } from "react";
@@ -17,6 +18,7 @@ import { setAuthUser } from "./redux/slices/authSlice";
 const Home = lazy(() => import("./pages/Home"));
 const Products = lazy(() => import("./pages/Products"));
 const Blogs = lazy(() => import("./pages/Blogs"));
+const MobileNav = lazy(() => import("./pages/MobileNav"));
 
 // Admin Pages - Lazy loaded
 const AdminLogin = lazy(() => import("./admin/pages/AdminLogin"));
@@ -28,6 +30,7 @@ import Footer from "./components/layout/Footer";
 import BackToTop from "./components/common/BackToTop";
 import ScrollToTop from "./components/common/ScrollToTop";
 import StickyContactBar from "./components/common/StickyContactBar";
+import { MobileNavPill } from "./components/layout/MobileNavBar";
 
 // Loading component
 const PageLoader = () => (
@@ -38,6 +41,22 @@ const PageLoader = () => (
     </div>
   </div>
 );
+
+/**
+ * Conditional Mobile Navigation
+ * Simple 3-icon navigation for mobile devices (Home, Products, Blogs)
+ * Only shows on pages that are not the demo page
+ */
+function ConditionalMobileNav() {
+  const location = useLocation();
+
+  // Don't show on demo page (it has its own navigation variants)
+  if (location.pathname === "/mobile-nav") {
+    return null;
+  }
+
+  return <MobileNavPill theme="light" />;
+}
 
 /**
  * App Component
@@ -149,9 +168,19 @@ function App() {
                       </Suspense>
                     }
                   />
+                  <Route
+                    path="/mobile-nav"
+                    element={
+                      <Suspense fallback={<PageLoader />}>
+                        <MobileNav />
+                      </Suspense>
+                    }
+                  />
                   <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
                 <Footer />
+                {/* Mobile Navigation Bar - Only shows on mobile devices */}
+                <ConditionalMobileNav />
               </>
             }
           />

@@ -10,10 +10,55 @@
     />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    <title>Danvion Ltd.</title>
+
+    <!-- SEO Meta Tags -->
+    <meta
+      name="description"
+      content="Danvion - Leading provider of Edge AI solutions, embedded systems, and complete product development services from concept to production."
+    />
+    <meta
+      name="keywords"
+      content="Edge AI, AI solutions, embedded systems, product development, IoT, machine learning"
+    />
+    <meta name="author" content="Danvion Ltd." />
+    <meta name="theme-color" content="#000000" />
+
+    <!-- Open Graph Tags -->
+    <meta property="og:site_name" content="Danvion" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Verification Tags -->
+    <meta name="google-site-verification" content="" />
+    <meta name="msvalidate.01" content="" />
+
+    <!-- Performance optimizations -->
+    <!-- DNS prefetch for Firebase -->
+    <link rel="dns-prefetch" href="https://firebaseapp.com" />
+    <link rel="dns-prefetch" href="https://googleapis.com" />
+    <!-- Preconnect to Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Prefetch sitemap and robots -->
+    <link rel="prefetch" href="/sitemap.xml" />
+
+    <title>Danvion - Edge AI Solutions & Product Development</title>
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- Service Worker registration for caching -->
+    <script>
+      if (
+        "serviceWorker" in navigator &&
+        !window.location.hash.includes("no-sw")
+      ) {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("/sw.js").catch(() => {
+            // Silently fail if service worker registration fails
+          });
+        });
+      }
+    </script>
   </body>
 </html>

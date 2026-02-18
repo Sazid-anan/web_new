@@ -129,7 +129,7 @@ const PhaseCard = ({ process, index }) => {
           ></div>
 
           <p
-            className="text-[0.875rem] md:text-[0.875rem] lg:text-[0.875rem] leading-relaxed flex-1 text-white/90"
+            className="leading-relaxed flex-1 text-white/90"
             style={{ textAlign: "justify" }}
           >
             {process.description}
@@ -207,11 +207,30 @@ const getGridColumnCount = (gridElement) => {
 };
 
 const PhaseSection = () => {
-  const total = phases.length;
   const gridRef = useRef(null);
   const cardRefs = useRef([]);
   const [connectors, setConnectors] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
   const connectorPadding = 4; // Keep arrows visible when grid gaps are tight
+
+  // Detect mobile view and sort phases accordingly
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Sort phases by number for mobile, keep original order for desktop
+  const displayPhases = isMobile
+    ? [...phases].sort((a, b) => parseInt(a.number) - parseInt(b.number))
+    : phases;
+
+  const total = displayPhases.length;
 
   useEffect(() => {
     const gridElement = gridRef.current;
@@ -298,7 +317,7 @@ const PhaseSection = () => {
       if (resizeObserver) resizeObserver.disconnect();
       window.removeEventListener("resize", rafUpdate);
     };
-  }, [total]);
+  }, [total, isMobile]);
 
   return (
     <section className="w-full bg-black font-sans py-8 sm:py-10 md:py-12 lg:py-16">
@@ -367,7 +386,7 @@ const PhaseSection = () => {
           })}
 
           {/* Phase Cards */}
-          {phases.map((process, index) => {
+          {displayPhases.map((process, index) => {
             const phaseId = `phase-section-${index}`;
 
             return (

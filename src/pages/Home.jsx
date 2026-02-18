@@ -10,7 +10,7 @@ import HeroTextSection from "../components/HeroTextSection";
 import CapabilitiesSection from "../components/CapabilitiesSection";
 import PhasesSection from "../components/PhasesSection";
 import { Link } from "react-router-dom";
-import Badge from "../components/ui/Badge";
+import SEO from "../components/SEO";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../services/firebaseClient";
 
@@ -81,6 +81,41 @@ export default function Home() {
   // Default: show full Home page
   return (
     <div className="min-h-screen">
+      <SEO
+        title="Home"
+        description="Transform your business with Danvion's cutting-edge digital solutions, web development, mobile apps, and expert IT services."
+        image="https://danvion.com/og-image.png"
+        url="https://danvion.com"
+        keywords="web development, mobile apps, IT services, digital solutions, software development, technology consulting"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@graph": [
+            {
+              "@type": "WebSite",
+              url: "https://danvion.com",
+              name: "Danvion Ltd",
+              potentialAction: {
+                "@type": "SearchAction",
+                target: "https://danvion.com?s={search_term_string}",
+                "query-input": "required name=search_term_string",
+              },
+            },
+            {
+              "@type": "LocalBusiness",
+              name: "Danvion Ltd",
+              description: "Digital solutions and IT services company",
+              url: "https://danvion.com",
+              areaServed: "Worldwide",
+              serviceType: [
+                "Web Development",
+                "Mobile App Development",
+                "IT Consulting",
+                "Software Development",
+              ],
+            },
+          ],
+        }}
+      />
       {/* Hero Text Section */}
       <HeroTextSection />
       {/* Capabilities Section */}

@@ -134,7 +134,21 @@
   /* Better spacing for readability on mobile */
   p {
     line-height: 1.7 !important;
-    margin-bottom: 1rem !important;
+    margin-bottom: 0.5rem !important;
+    font-size: 0.9375rem !important;
+    text-align: justify !important;
+  }
+
+  /* Override Tailwind text-sm, text-base for mobile */
+  p.text-sm,
+  p.text-base,
+  p.text-lg,
+  p.text-xl,
+  p[class*="text-sm"],
+  p[class*="text-base"],
+  p[class*="text-justify"] {
+    font-size: 0.9375rem !important;
+    text-align: justify !important;
   }
 
   h1,
@@ -360,9 +374,10 @@
   }
 
   p {
-    font-size: clamp(0.85rem, 2vw, 1rem) !important;
+    font-size: 0.9375rem !important;
     line-height: 1.6 !important;
     margin-bottom: 0.75rem !important;
+    text-align: justify !important;
   }
 
   /* Minimum text sizes - never below 12px for readability */
@@ -687,7 +702,20 @@
   }
 
   p {
-    font-size: 0.85rem !important;
+    font-size: 0.9375rem !important;
+    text-align: justify !important;
+  }
+
+  /* Override Tailwind text classes for landscape */
+  p.text-sm,
+  p.text-base,
+  p.text-lg,
+  p.text-xl,
+  p[class*="text-sm"],
+  p[class*="text-base"],
+  p[class*="text-justify"] {
+    font-size: 0.9375rem !important;
+    text-align: justify !important;
   }
 
   button {
@@ -822,6 +850,7 @@
     font-size: 1.6rem !important;
     line-height: 1.2 !important;
     margin-bottom: 0.35rem !important;
+    text-align: left !important;
   }
 
   /* Fix header alignment - left and right text same level */
@@ -837,10 +866,11 @@
 
   /* Make capability section paragraph same size as hero section */
   .capabilities-content > div:first-child p {
-    font-size: 0.75rem !important;
+    font-size: 0.9375rem !important;
     line-height: 1.45 !important;
     margin: 0 !important;
     padding: 0 !important;
+    text-align: justify !important;
   }
 
   /* Improve spacing between sections on iPad Pro */
@@ -906,10 +936,11 @@
   section.bg-black .content-maxwidth > div > div > div.sm\:flex-\[1\.5\] p,
   section.bg-black p[class*="text-justify"][class*="lg:text-\[20px\]"],
   section.bg-black div[class*="flex-\[1.5\]"] p {
-    font-size: 0.9rem !important;
+    font-size: 0.9375rem !important;
     line-height: 1.5 !important;
     margin: 0 !important;
     padding: 0 !important;
+    text-align: justify !important;
   }
 
   /* Make image slider section description same size as phases section */
@@ -917,10 +948,11 @@
   .image-slider-content div[class*="md:flex-\[1.5\]"] p,
   .image-slider-content p[class*="text-justify"][class*="lg:text-\[20px\]"],
   .image-slider-content p.text-justify.font-semibold {
-    font-size: 0.9rem !important;
+    font-size: 0.9375rem !important;
     line-height: 1.5 !important;
     margin: 0 !important;
     padding: 0 !important;
+    text-align: justify !important;
   }
 }
 
@@ -989,10 +1021,12 @@
     font-size: 1.6rem !important;
     line-height: 1.2 !important;
     margin-bottom: 0.35rem !important;
+    text-align: left !important;
   }
 
   .capabilities-content [class*="flex-"] p {
-    font-size: 0.75rem !important;
+    font-size: 0.9375rem !important;
+    text-align: justify !important;
   }
 }
 /* ===== TABLET & 720P OPTIMIZATIONS (768px - 1023px) ===== */
@@ -1012,8 +1046,9 @@
   }
 
   .topbanner p {
-    font-size: 0.95rem !important;
+    font-size: 0.9375rem !important;
     line-height: 1.55 !important;
+    text-align: justify !important;
   }
 
   .topbanner button {
@@ -1099,7 +1134,8 @@
   footer p,
   footer a,
   footer nav {
-    font-size: 12px !important;
+    font-size: 0.9375rem !important;
+    text-align: justify !important;
   }
 }
 
@@ -1236,6 +1272,7 @@
     line-height: 1.52 !important;
     text-align: left !important;
     margin-bottom: 0 !important;
+    text-align: justify !important;
   }
 
   /* Mobile button only - specific selector for button below description */
@@ -1318,11 +1355,12 @@
     > div.flex.flex-wrap
     > div:last-child
     p {
-    font-size: 0.9rem !important;
+    font-size: 0.9375rem !important;
     line-height: 1.5 !important;
     text-wrap: pretty;
     margin: 0 !important;
     padding: 0 !important;
+    text-align: justify !important;
   }
 
   section {
@@ -1356,9 +1394,22 @@
   }
 
   p {
-    font-size: 0.98rem !important;
+    font-size: 0.9375rem !important;
     line-height: 1.58 !important;
-    margin-bottom: 0.66rem !important;
+    margin-bottom: 0.25rem !important;
+    text-align: justify !important;
+  }
+
+  /* Override Tailwind text classes */
+  p.text-sm,
+  p.text-base,
+  p.text-lg,
+  p.text-xl,
+  p[class*="text-sm"],
+  p[class*="text-base"],
+  p[class*="text-justify"] {
+    font-size: 0.9375rem !important;
+    text-align: justify !important;
   }
 
   .card,
@@ -1502,223 +1553,146 @@
 }
 
 @media (max-width: 767px) {
-  /* Development phases: compact 3-column mobile layout (6 cards = 2 rows) */
-  .content-maxwidth.w-full > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 {
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 0.9rem !important;
-    margin-top: 1rem !important;
+  /* Development phases: single-column mobile layout for better readability - HIGHEST PRIORITY */
+  section.w-full.bg-black.font-sans
+    .content-maxwidth.w-full
+    > .relative.grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    margin-top: 1.5rem !important;
     margin-bottom: 2rem !important;
     overflow: visible !important;
   }
 
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
+  section.w-full.bg-black.font-sans
+    .content-maxwidth.w-full
+    > .relative.grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
     > .relative {
     overflow: visible !important;
   }
 
-  .content-maxwidth.w-full > .mb-6.sm\:mb-7.md\:mb-8.lg\:mb-10 {
-    margin-bottom: 1.05rem !important;
+  /* Phases section header styling */
+  section.w-full.bg-black.font-sans .content-maxwidth.w-full > div.mb-8 {
+    margin-bottom: 1.5rem !important;
   }
 
-  .content-maxwidth.w-full > .mb-6.sm\:mb-7.md\:mb-8.lg\:mb-10 > .flex {
-    gap: 1.2rem !important;
+  section.w-full.bg-black.font-sans
+    .content-maxwidth.w-full
+    > div[class*="mb-"]
+    > .flex {
+    gap: 1.5rem !important;
   }
 
-  .content-maxwidth.w-full > .mb-6.sm\:mb-7.md\:mb-8.lg\:mb-10 h1 {
-    font-size: clamp(1.55rem, 6.3vw, 1.95rem) !important;
-    margin-bottom: 0.55rem !important;
-    line-height: 1.14 !important;
+  section.w-full.bg-black.font-sans
+    .content-maxwidth.w-full
+    .animated-gradient-text {
+    font-size: clamp(1.75rem, 7vw, 2.25rem) !important;
+    margin-bottom: 0.75rem !important;
+    line-height: 1.2 !important;
   }
 
-  .content-maxwidth.w-full > .mb-6.sm\:mb-7.md\:mb-8.lg\:mb-10 p {
-    font-size: 0.78rem !important;
-    line-height: 1.35 !important;
+  section.w-full.bg-black.font-sans
+    .content-maxwidth.w-full
+    > div[class*="mb-"]
+    p {
+    font-size: 1rem !important;
+    line-height: 1.5 !important;
     margin-bottom: 0 !important;
+    text-align: justify !important;
   }
 
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    .group.h-full
-    > div {
-    min-height: 142px !important;
-    padding: 0.42rem !important;
-    border-radius: 0.62rem !important;
+  /* Phase card container */
+  section.w-full.bg-black.font-sans
+    .content-maxwidth.w-full
+    .group.h-full.w-full
+    > div.relative {
+    min-height: 180px !important;
+    padding: 1rem !important;
+    border-radius: 1rem !important;
   }
 
   /* Icon container sizing for mobile */
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    .group.h-full
-    > div
-    > div[class*="rounded"] {
-    width: 1.8rem !important;
-    height: 1.8rem !important;
-    min-width: 1.8rem !important;
-    min-height: 1.8rem !important;
-    max-width: 1.8rem !important;
-    max-height: 1.8rem !important;
+  section.w-full.bg-black.font-sans
+    .content-maxwidth.w-full
+    .group.h-full.w-full
+    > div.relative
+    > div[class*="w-12"] {
+    width: 3rem !important;
+    height: 3rem !important;
+    min-width: 3rem !important;
+    min-height: 3rem !important;
+    max-width: 3rem !important;
+    max-height: 3rem !important;
     flex-shrink: 0 !important;
   }
 
   /* Number badge sizing for mobile */
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    .group.h-full
-    > div
-    > div[class*="absolute"][class*="top"] {
-    width: 1.4rem !important;
-    height: 1.4rem !important;
-    font-size: 0.5rem !important;
+  section.w-full.bg-black.font-sans
+    .content-maxwidth.w-full
+    .group.h-full.w-full
+    > div.relative
+    > div.absolute[class*="top-3"] {
+    width: 2rem !important;
+    height: 2rem !important;
+    font-size: 0.75rem !important;
+    top: 1rem !important;
+    right: 1rem !important;
   }
 
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
+  /* Phase card title */
+  section.w-full.bg-black.font-sans
+    .content-maxwidth.w-full
+    .group.h-full.w-full
     h3 {
-    font-size: 0.62rem !important;
-    line-height: 1.18 !important;
+    font-size: 1.125rem !important;
+    line-height: 1.3 !important;
+    font-weight: 700 !important;
   }
 
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
+  /* Phase card description */
+  section.w-full.bg-black.font-sans
+    .content-maxwidth.w-full
+    .group.h-full.w-full
     p {
-    font-size: 0.52rem !important;
-    line-height: 1.18 !important;
+    font-size: 0.9375rem !important;
+    line-height: 1.5 !important;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    text-align: justify !important;
   }
 
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
+  /* Phase card icons */
+  section.w-full.bg-black.font-sans
+    .content-maxwidth.w-full
+    .group.h-full.w-full
     svg {
-    width: 0.9rem !important;
-    height: 0.9rem !important;
-    min-width: 0.9rem !important;
-    min-height: 0.9rem !important;
-    max-width: 0.9rem !important;
-    max-height: 0.9rem !important;
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    min-width: 1.5rem !important;
+    min-height: 1.5rem !important;
+    max-width: 1.5rem !important;
+    max-height: 1.5rem !important;
   }
 
-  /* Keep 3-column mobile flow (6 cards => 2 rows) and show snake arrows */
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    > .relative
-    > [class*="md:hidden"][class*="-bottom-14"] {
+  /* Hide arrow connectors on mobile */
+  section.w-full.bg-black.font-sans .phase-flow-arrow {
     display: none !important;
   }
 
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    > .relative
-    > [class*="md:block"][class*="lg:hidden"] {
-    display: none !important;
-  }
-
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    > .relative
-    > [class*="lg:block"] {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    z-index: 30 !important;
-  }
-
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    > .relative
-    > [class*="lg:block"][class*="-right-10"] {
-    right: -0.45rem !important;
-    width: 0.9rem !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    > .relative
-    > [class*="lg:block"][class*="-left-10"] {
-    left: -0.45rem !important;
-    width: 0.9rem !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    > .relative
-    > [class*="lg:block"][class*="-bottom-11"] {
-    bottom: -0.45rem !important;
-    height: 0.9rem !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    .phase-arrow {
-    display: inline-block !important;
-    width: 1.32rem !important;
-    height: 1.52rem !important;
-    color: #ff8c42 !important;
-    opacity: 0.9 !important;
-    filter: drop-shadow(0 2px 6px rgba(255, 140, 66, 0.5)) !important;
-    stroke-linecap: round !important;
-    stroke-linejoin: round !important;
-  }
-
-  /* Phase color divider: show as thin full-width colored line */
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    .group.h-full
-    .space-y-1
-    > div.rounded-full {
-    width: 100% !important;
-    height: 1px !important;
-    min-height: 1px !important;
-    max-height: 1px !important;
-    border-radius: 0 !important;
-    opacity: 0.6 !important;
+  /* Phase color divider: show as medium-width colored line */
+  section.w-full.bg-black.font-sans .content-maxwidth.w-full .group div.h-0\.5 {
+    width: 3rem !important;
+    height: 2px !important;
+    min-height: 2px !important;
+    max-height: 2px !important;
+    border-radius: 2px !important;
+    opacity: 0.8 !important;
     padding: 0 !important;
-    margin-top: 0.15rem !important;
-    margin-bottom: 0.15rem !important;
-    transform: none !important;
-  }
-
-  /* Ensure colored divider line is full width on mobile */
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    .group.h-full
-    > div
-    > .space-y-1
-    > div[class*="rounded-full"],
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    .group
-    div[class*="h-0.5"],
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    .group
-    div[class*="h-1"] {
-    width: 100% !important;
-    height: 1px !important;
-    min-height: 1px !important;
-    max-height: 1px !important;
-    border-radius: 0 !important;
-    opacity: 0.6 !important;
-  }
-
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    h3 {
-    font-size: 0.62rem !important;
-    line-height: 1.18 !important;
+    margin-top: 0.25rem !important;
+    margin-bottom: 0.25rem !important;
   }
 }
 
@@ -1755,6 +1729,7 @@
     font-size: clamp(1.45rem, 5.9vw, 1.8rem) !important;
     line-height: 1.14 !important;
     margin-bottom: 0.25rem !important;
+    text-align: left !important;
   }
 
   .capabilities-content .flex-\[1\.5\] {
@@ -1762,8 +1737,9 @@
   }
 
   .capabilities-content .flex-\[1\.5\] p {
-    font-size: 0.82rem !important;
+    font-size: 0.9375rem !important;
     line-height: 1.45 !important;
+    text-align: justify !important;
     margin-bottom: 0 !important;
   }
 
@@ -1842,8 +1818,9 @@
   }
 
   .image-slider-content .flex-\[1\.5\] p {
-    font-size: 0.78rem !important;
+    font-size: 0.9375rem !important;
     line-height: 1.42 !important;
+    text-align: justify !important;
     margin-bottom: 0 !important;
   }
 
@@ -2024,8 +2001,9 @@
     .content-maxwidth.w-full
     > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
     p {
-    font-size: 0.82rem !important;
+    font-size: 0.9375rem !important;
     line-height: 1.38 !important;
+    text-align: justify !important;
   }
 
   section.w-full.bg-black.font-sans
@@ -2188,8 +2166,9 @@
 
   #contact .text-left.mb-6.sm\:mb-6.md\:mb-6.mt-0.pt-0 .flex-\[1\.5\] p {
     margin-bottom: 0 !important;
-    font-size: 0.78rem !important;
+    font-size: 0.9375rem !important;
     line-height: 1.38 !important;
+    text-align: justify !important;
   }
 }
 
@@ -2302,6 +2281,8 @@
     line-clamp: 4 !important;
     -webkit-box-orient: vertical !important;
     overflow: hidden !important;
+    font-size: 0.9375rem !important;
+    text-align: justify !important;
   }
 
   /* Phase card number badge - reposition for horizontal layout */
@@ -2686,6 +2667,11 @@ section:has(.image-slider-content) {
     font-size: clamp(0.95rem, 3vw, 1.2rem) !important;
   }
 
+  /* Hide sticky contact bar on mobile */
+  .sticky-contact-bar {
+    display: none !important;
+  }
+
   /* Improved touch targets */
   button,
   a[role="button"],
@@ -2844,82 +2830,135 @@ section:has(.image-slider-content) {
 
   /* ===== CAPABILITIES SECTION ===== */
   section:has(.capabilities-content) {
-    padding-top: 0.75rem !important;
-    padding-bottom: 1rem !important;
-    padding-left: 0.25rem !important;
-    padding-right: 0.25rem !important;
-  }
-
-  .capabilities-content {
-    padding-left: 0.25rem !important;
-    padding-right: 0.25rem !important;
-  }
-
-  .capabilities-content h1.capabilities-gradient-text {
-    font-size: 1.4rem !important;
-    line-height: 1.2 !important;
-    margin-bottom: 0.5rem !important;
-    padding-left: 0.5rem !important;
-  }
-
-  .capabilities-content .flex-\[1\.5\] p {
-    font-size: 0.75rem !important;
-    line-height: 1.45 !important;
-    margin-bottom: 0 !important;
+    padding-top: 1rem !important;
+    padding-bottom: 1.25rem !important;
     padding-left: 0.5rem !important;
     padding-right: 0.5rem !important;
   }
 
+  .capabilities-content {
+    padding-left: 0.5rem !important;
+    padding-right: 0.5rem !important;
+  }
+
+  .capabilities-content h1.capabilities-gradient-text {
+    font-size: 1.35rem !important;
+    line-height: 1.25 !important;
+    margin-bottom: 0.4rem !important;
+    padding-left: 0 !important;
+    text-align: left !important;
+  }
+
+  .capabilities-content .flex-\[1\.5\] p {
+    font-size: 0.72rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    text-align: center !important;
+  }
+
+  /* Header flex container - stack vertically on mobile */
+  .capabilities-content > div:first-child .flex.flex-row {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
   /* Reduce gap between title/description and the card */
   .capabilities-content > .mb-0 {
-    margin-bottom: 0 !important;
+    margin-bottom: 0.75rem !important;
   }
 
   .capabilities-content .mb-0.sm\:mb-3.md\:mb-1.lg\:mb-5 {
-    margin-bottom: 0 !important;
+    margin-bottom: 0.75rem !important;
   }
 
   /* Capabilities card container - optimized */
   .capabilities-content .relative.w-full {
-    padding: 0.375rem !important;
-    border-radius: 0.5rem !important;
+    padding: 0.3rem !important;
+    border-radius: 0.6rem !important;
     margin-top: 0 !important;
-    max-width: 100% !important;
+    max-width: 60% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 
   .capabilities-content .mb-0.sm\:mb-5.md\:mb-1 {
     margin-bottom: 0 !important;
   }
 
-  /* Capabilities grid - 2 columns for better mobile display */
+  /* Capabilities grid - Single column centered layout for mobile */
   .capabilities-content .grid.grid-cols-2.sm\:grid-cols-4.lg\:grid-cols-8,
   .capabilities-content .grid[class*="grid-cols"] {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 0.375rem !important;
+    grid-template-columns: repeat(1, 1fr) !important;
+    gap: 0.6rem !important;
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    padding: 0 !important;
+    justify-items: stretch !important;
   }
 
-  /* Individual capability boxes - optimized sizing */
+  .capabilities-content .grid > div {
+    width: 100% !important;
+  }
+
+  .capabilities-content .grid > div > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    align-self: stretch !important;
+  }
+
+  .capabilities-content .grid > div > div {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    align-self: stretch !important;
+  }
+
+  /* Main container card - reduced padding for mobile */
+  .capabilities-content .relative.w-full.max-w-\[1150px\] {
+    padding: 0.5rem !important;
+    border-radius: 0.6rem !important;
+    max-width: 60% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  /* Individual capability boxes - wide rectangular design */
   .capabilities-content .aspect-square.w-full,
   .capabilities-content .aspect-square {
     max-width: 100% !important;
     width: 100% !important;
     min-height: auto !important;
     max-height: none !important;
-    aspect-ratio: 1 !important;
-    border-radius: 0.4rem !important;
-    padding: 0.5rem !important;
-    gap: 0.25rem !important;
+    aspect-ratio: 3/1 !important;
+    border-radius: 0.5rem !important;
+    padding: 0.65rem 1rem !important;
+    gap: 0.5rem !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
   }
 
   .capabilities-content .aspect-square svg {
-    width: 1.75rem !important;
-    height: 1.75rem !important;
+    width: 2rem !important;
+    height: 2rem !important;
+    flex-shrink: 0 !important;
   }
 
   .capabilities-content .aspect-square h3 {
-    font-size: 0.625rem !important;
-    line-height: 1.2 !important;
-    padding: 0 0.125rem !important;
+    font-size: 0.75rem !important;
+    line-height: 1.3 !important;
+    padding: 0 !important;
+    font-weight: 600 !important;
+    text-align: left !important;
   }
 
   /* ===== DEVELOPMENT PHASES SECTION ===== */
@@ -3315,6 +3354,7 @@ section:has(.image-slider-content) {
 
   /* ===== STICKY CONTACT BAR ===== */
   .sticky-contact-bar {
+    display: none !important;
     right: 0.35rem !important;
     gap: 0.15rem !important;
   }
@@ -3402,25 +3442,38 @@ section:has(.image-slider-content) {
 
   /* Capability boxes optimization for ultra-small screens */
   .capabilities-content .relative.w-full {
-    padding: 0.25rem !important;
+    padding: 0.5rem !important;
+    max-width: 64% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 
   .capabilities-content .grid[class*="grid-cols"] {
-    gap: 0.25rem !important;
+    gap: 0.6rem !important;
+    padding: 0 !important;
+    justify-items: stretch !important;
+  }
+
+  .capabilities-content .grid > div {
+    width: 100% !important;
   }
 
   .capabilities-content .aspect-square {
-    padding: 0.375rem !important;
-    gap: 0.125rem !important;
+    padding: 0.65rem 1rem !important;
+    gap: 0.5rem !important;
+    aspect-ratio: 3/1 !important;
+    flex-direction: row !important;
+    justify-content: flex-start !important;
   }
 
   .capabilities-content .aspect-square svg {
-    width: 1.5rem !important;
-    height: 1.5rem !important;
+    width: 2rem !important;
+    height: 2rem !important;
   }
 
   .capabilities-content .aspect-square h3 {
-    font-size: 0.55rem !important;
+    font-size: 0.72rem !important;
+    text-align: left !important;
     line-height: 1.15 !important;
   }
 }
@@ -3480,4 +3533,22 @@ footer.footer-uniform-text .h-px {
 
 footer.footer-uniform-text .h-px + div {
   padding-top: 0.2rem !important;
+}
+
+/* Mobile: force section headings to 25px */
+@media (max-width: 767px) {
+  .topbanner h1,
+  .capabilities-content h1.capabilities-gradient-text,
+  .image-slider-content h1.capabilities-gradient-text,
+  section.bg-black .animated-gradient-text.section-heading,
+  #contact h1.animated-gradient-text,
+  #contact .grid.md\:grid-cols-2 > div:first-child h2,
+  #contact h2,
+  .content-maxwidth h1.capabilities-gradient-text,
+  .content-maxwidth h1.animated-gradient-text,
+  .content-maxwidth h2.text-2xl,
+  h2.text-h3 {
+    font-size: 25px !important;
+    line-height: 1.2 !important;
+  }
 }

@@ -60,6 +60,7 @@ export default function CapabilitiesSection({ homePage }) {
                 viewport={{ once: true }}
                 transition={{ delay: 0.05 }}
                 className="capabilities-gradient-text font-semibold leading-[1.2] tracking-tight mb-0 sm:mb-3 md:mb-4 lg:mb-6 text-[18px] sm:text-[24px] md:text-[32px] lg:text-[50px]"
+                style={{ textAlign: "left" }}
               >
                 {homePage?.capabilities_title || "Our Engineering"}
                 <br />
@@ -84,8 +85,8 @@ export default function CapabilitiesSection({ homePage }) {
         </div>
 
         <div className="mb-0 sm:mb-5 md:mb-7">
-          <Card className="relative w-full max-w-[1150px] lg:max-w-[1450px] xl:max-w-[1600px] mx-auto px-1 sm:px-2 md:px-3 lg:px-4 py-2 sm:py-3 md:py-4 lg:py-5 bg-white border-2 border-orange-200/60 shadow-lg shadow-orange-100/50">
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2 sm:gap-3 md:gap-4 lg:gap-3">
+          <Card className="relative w-full max-w-[1150px] lg:max-w-[1450px] xl:max-w-[1600px] mx-auto px-3 sm:px-2 md:px-3 lg:px-4 py-3 sm:py-3 md:py-4 lg:py-5 bg-white border-2 border-orange-200/60 shadow-lg shadow-orange-100/50">
+            <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-3 md:gap-4 lg:gap-3">
               {capabilities.map((capability, index) => (
                 <motion.div
                   key={index}
@@ -96,9 +97,9 @@ export default function CapabilitiesSection({ homePage }) {
                   whileHover={{ y: -4, scale: 1.05 }}
                   style={{ willChange: "transform, opacity" }}
                 >
-                  <Card className="relative aspect-square w-full flex flex-col items-center justify-center gap-1.5 sm:gap-2 md:gap-2.5 p-2 sm:p-3 md:p-4 lg:p-3 hover:shadow-lg transition-all duration-300 bg-white border border-gray-200 hover:border-orange-500/50 hover:shadow-orange-100/50">
-                    <capability.icon className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 lg:h-10 lg:w-10 xl:h-12 xl:w-12 text-orange-500" />
-                    <h3 className="text-center text-[10px] sm:text-xs md:text-sm lg:text-xs xl:text-sm font-semibold text-foreground leading-tight px-0.5">
+                  <Card className="relative aspect-square w-full flex flex-col items-center justify-center gap-2 sm:gap-2 md:gap-2.5 p-4 sm:p-3 md:p-4 lg:p-3 hover:shadow-lg transition-all duration-300 bg-white border border-gray-200 hover:border-orange-500/50 hover:shadow-orange-100/50">
+                    <capability.icon className="h-10 w-10 sm:h-10 sm:w-10 md:h-12 md:w-12 lg:h-10 lg:w-10 xl:h-12 xl:w-12 text-orange-500" />
+                    <h3 className="text-center text-xs sm:text-xs md:text-sm lg:text-xs xl:text-sm font-semibold text-foreground leading-tight px-0.5">
                       {capability.title}
                     </h3>
                   </Card>
