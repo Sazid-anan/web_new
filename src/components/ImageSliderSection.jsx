@@ -45,57 +45,59 @@ export default function ImageSliderSection({
     if (!style) {
       style = document.createElement("style");
       style.id = styleId;
-      style.textContent = `
-        @keyframes image-marquee {
-          0% {
-            transform: translateX(0);
-          }
-          100% {
-            transform: translateX(-50%);
-          }
-        }
-
-        .animate-image-marquee {
-          display: flex;
-          gap: 16px;
-          animation: image-marquee ${interval}ms linear infinite;
-          will-change: transform;
-        }
-
-        @media (min-width: 640px) {
-          .animate-image-marquee {
-            gap: 24px;
-          }
-        }
-
-        @media (min-width: 768px) {
-          .animate-image-marquee {
-            gap: 32px;
-          }
-        }
-
-        .animate-image-marquee:hover {
-          animation-play-state: paused;
-        }
-
-        .animate-image-marquee.manual-mode {
-          animation: none;
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-          .animate-image-marquee {
-            animation: none;
-          }
-        }
-
-        @media (max-width: 640px) {
-          .animate-image-marquee {
-            gap: 16px;
-          }
-        }
-      `;
       document.head.appendChild(style);
     }
+
+    // Update style content with current interval
+    style.textContent = `
+      @keyframes image-marquee {
+        0% {
+          transform: translateX(0);
+        }
+        100% {
+          transform: translateX(-50%);
+        }
+      }
+
+      .animate-image-marquee {
+        display: flex;
+        gap: 16px;
+        animation: image-marquee ${interval}ms linear infinite;
+        will-change: transform;
+      }
+
+      @media (min-width: 640px) {
+        .animate-image-marquee {
+          gap: 24px;
+        }
+      }
+
+      @media (min-width: 768px) {
+        .animate-image-marquee {
+          gap: 32px;
+        }
+      }
+
+      .animate-image-marquee:hover {
+        animation-play-state: paused;
+      }
+
+      .animate-image-marquee.manual-mode {
+        animation: none;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .animate-image-marquee {
+          animation: none;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .animate-image-marquee {
+          gap: 16px;
+        }
+      }
+    `;
 
     return () => {
       // Don't remove the style to avoid flickering on re-renders

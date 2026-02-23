@@ -48,10 +48,10 @@ export default function CapabilitiesSection({ homePage }) {
   ];
 
   return (
-    <section className="pt-0 sm:pt-3 md:pt-4 lg:pt-6 xl:pt-8 pb-0 sm:pb-4 md:pb-6 lg:pb-8 xl:pb-2 bg-white">
+    <section className="pt-6 sm:pt-3 md:pt-4 lg:pt-6 xl:pt-8 pb-0 sm:pb-4 md:pb-6 lg:pb-8 xl:pb-2 bg-white">
       <Container className="content-maxwidth capabilities-content">
-        <div className="mb-0 sm:mb-3 md:mb-4 lg:mb-5">
-          <div className="flex flex-row items-start gap-1 sm:gap-3 md:gap-4">
+        <div className="mb-3 sm:mb-3 md:mb-4 lg:mb-5">
+          <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-3 md:gap-4">
             {/* Left: Headline */}
             <div className="w-full sm:flex-1 flex flex-col items-start text-left sm:w-auto">
               <motion.h1
