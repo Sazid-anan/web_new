@@ -13,6 +13,11 @@ import { Link } from "react-router-dom";
 import SEO from "../components/SEO";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "../services/firebaseClient";
+import { useResponsive } from "../hooks/useResponsive";
+import { useToast } from "../hooks/useToast";
+import { useFormValidation } from "../hooks/useFormValidation";
+import { errorLogger } from "../services/errorLogger";
+import { analyticsService } from "../services/analyticsService";
 
 /**
  * Home Page
@@ -21,14 +26,92 @@ import { db } from "../services/firebaseClient";
 export default function Home() {
   const location = useLocation();
   const { homePage } = useSelector((state) => state.content);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
+  const { isMobile, isTablet } = useResponsive();
+  const toast = useToast();
   const [formSubmitted, setFormSubmitted] = useState(false);
-  const [loading, setLoading] = useState(false);
+
+  // Form validation setup
+  const validateForm = (values) => {
+    const errors = {};
+    
+    // Name validation
+    if (!values.name || values.name.trim().length === 0) {
+      errors.name = "Name is required";
+    } else if (values.name.trim().length < 2) {
+      errors.name = "Name must be at least 2 characters";
+    }
+    
+    // Email validation
+    if (!values.email || values.email.trim().length === 0) {
+      errors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
+      errors.email = "Please enter a valid email address";
+    }
+    
+    // Message validation
+    if (!values.message || values.message.trim().length === 0) {
+      errors.message = "Message is required";
+    } else if (values.message.trim().length < 10) {
+      errors.message = "Message must be at least 10 characters";
+    }
+    
+    return errors;
+  };
+
+  const form = useFormValidation(
+    { name: "", email: "", phone: "", message: "" },
+    async (values) => {
+      try {
+        // Check rate limiting on client side (server-side check also happens)
+        const lastSubmission = localStorage.getItem('lastContactSubmission');
+        const oneHourAgo = Date.now() - 60 * 60 * 1000;
+        
+        if (lastSubmission && parseInt(lastSubmission) > oneHourAgo) {
+          toast.error("⏱️ Please wait before submitting another message.");
+          return;
+        }
+
+        const payload = {
+          name: values.name.trim(),
+          email: values.email.trim(),
+          phone: values.phone.trim() || null,
+          message: values.message.trim(),
+          created_at: serverTimestamp(),
+          consent_timestamp: serverTimestamp(), // GDPR: Track consent
+        };
+
+        await addDoc(collection(db, "contact_messages"), payload);
+        
+        // Store submission time for rate limiting
+        localStorage.setItem('lastContactSubmission', Date.now().toString());
+        
+        // Track conversion
+        analyticsService.trackConversion('contact_form_submission', 1, {
+          source: 'home_page',
+        });
+        
+        setFormSubmitted(true);
+        form.reset();
+        toast.success("✅ Thank you! We'll get back to you soon.");
+        
+        // Clear success message after 5 seconds
+        setTimeout(() => setFormSubmitted(false), 5000);
+      } catch (error) {
+        errorLogger.captureException(error, { 
+          where: "home-contact-form",
+          action: "submit_contact_form"
+        });
+        
+        // Handle rate limiting error
+        if (error.code === 'resource-exhausted') {
+          toast.error("⏱️ Too many submissions. Please try again in 1 hour.");
+        } else {
+          toast.error("❌ Failed to submit form. Please try again.");
+        }
+      }
+    },
+    validateForm
+  );
 
   // Section 2 variables
   const section2Title = homePage?.section2_title || "";
@@ -51,69 +134,46 @@ export default function Home() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    form.handleChange(e);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      const payload = {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone || null,
-        message: formData.message,
-        created_at: serverTimestamp(),
-      };
-
-      await addDoc(collection(db, "contact_messages"), payload);
-      setFormSubmitted(true);
-      setFormData({ name: "", email: "", phone: "", message: "" });
-      setTimeout(() => setFormSubmitted(false), 5000);
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    } finally {
-      setLoading(false);
-    }
+  const handleBlur = (e) => {
+    const { name } = e.target;
+    form.setTouched((prev) => ({ ...prev, [name]: true }));
+    const fieldErrors = validateForm(form.values);
+    form.setErrors(fieldErrors);
   };
 
   // Default: show full Home page
   return (
     <div className="min-h-screen">
       <SEO
-        title="Home"
-        description="Transform your business with Danvion's cutting-edge digital solutions, web development, mobile apps, and expert IT services."
+        title="Edge AI Solutions & Product Development | Danvion"
+        description="Danvion specializes in Edge AI solutions, embedded systems, and complete product development from concept to production. IoT, machine learning, and innovative technology."
         image="https://danvion.com/og-image.png"
-        url="https://danvion.com"
-        keywords="web development, mobile apps, IT services, digital solutions, software development, technology consulting"
+        url="/"
+        keywords="Edge AI, AI solutions, machine learning, embedded systems, IoT development, product development, AI optimization, edge computing"
         structuredData={{
           "@context": "https://schema.org",
-          "@graph": [
-            {
-              "@type": "WebSite",
-              url: "https://danvion.com",
-              name: "Danvion Ltd",
-              potentialAction: {
-                "@type": "SearchAction",
-                target: "https://danvion.com?s={search_term_string}",
-                "query-input": "required name=search_term_string",
-              },
-            },
-            {
-              "@type": "LocalBusiness",
-              name: "Danvion Ltd",
-              description: "Digital solutions and IT services company",
-              url: "https://danvion.com",
-              areaServed: "Worldwide",
-              serviceType: [
-                "Web Development",
-                "Mobile App Development",
-                "IT Consulting",
-                "Software Development",
-              ],
-            },
-          ],
+          "@type": "Organization",
+          name: "Danvion Ltd",
+          url: "https://danvion.com",
+          logo: "https://danvion.com/logo.png",
+          description: "Leading provider of Edge AI solutions and complete product development services",
+          sameAs: ["https://www.linkedin.com/company/danvion"],
+          address: {
+            "@type": "PostalAddress",
+            streetAddress: "128 City Road",
+            addressLocality: "London",
+            postalCode: "EC1V 2NX",
+            addressCountry: "GB",
+          },
+          contact: {
+            "@type": "ContactPoint",
+            contactType: "Customer Support",
+            email: "support@danvion.com",
+          },
+          serviceArea: "WW",
         }}
       />
       {/* Hero Text Section */}
@@ -140,10 +200,7 @@ export default function Home() {
         interval={35000}
       />
       {/* Contact Section */}
-      <section
-        id="contact"
-        className="pt-2 pb-5 xl:pb-2 xxl:pb-5 font-sans bg-black"
-      >
+      <section id="contact" className="pt-2 pb-5 xl:pb-2 xxl:pb-5 font-sans bg-black">
         <div className="max-w-[1280px] w-full mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-16 xxl:px-4">
           {/* Header */}
           <motion.div
@@ -160,9 +217,8 @@ export default function Home() {
               </div>
               <div className="w-full sm:flex-[1.5] flex flex-col items-start text-left mt-3 sm:mt-0 sm:w-auto">
                 <p className="text-justify text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-white">
-                  From hardware design to edge AI deployment, we deliver
-                  complete engineering solutions that bring intelligent products
-                  to life.
+                  From hardware design to edge AI deployment, we deliver complete engineering
+                  solutions that bring intelligent products to life.
                 </p>
               </div>
             </div>
@@ -224,15 +280,9 @@ export default function Home() {
                   className="font-bold leading-[0.9] tracking-tighter"
                   style={{ fontSize: "clamp(18px, 4.5vw, 70px)" }}
                 >
-                  <span className="block mb-2 animated-gradient-text">
-                    Let's Innovate
-                  </span>
-                  <span className="block mb-2 animated-gradient-text-orange">
-                    With
-                  </span>
-                  <span className="block animated-gradient-text-orange">
-                    Danvion
-                  </span>
+                  <span className="block mb-2 animated-gradient-text">Let's Innovate</span>
+                  <span className="block mb-2 animated-gradient-text-orange">With</span>
+                  <span className="block animated-gradient-text-orange">Danvion</span>
                 </h2>
               </div>
             </motion.div>
@@ -242,7 +292,7 @@ export default function Home() {
               initial={{ opacity: 0, x: 40 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.7, delay: 0.2 }}
-              className="md:-ml-6 lg:ml-0"
+              className="lg:-ml-6 xl:ml-0"
             >
               <div>
                 <h2
@@ -253,7 +303,7 @@ export default function Home() {
                 </h2>
 
                 <form
-                  onSubmit={handleSubmit}
+                  onSubmit={form.handleSubmit}
                   className="space-y-5 sm:space-y-6 md:space-y-0 lg:space-y-6 xl:space-y-0 xxl:space-y-6"
                 >
                   {/* Name */}
@@ -273,13 +323,20 @@ export default function Home() {
                       id="name"
                       name="name"
                       type="text"
-                      required
                       autoComplete="name"
-                      value={formData.name}
-                      onChange={handleChange}
+                      value={form.values.name}
+                      onChange={form.handleChange}
+                      onBlur={handleBlur}
                       placeholder=""
-                      className="w-full px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-2 xl:py-1 xxl:py-2 border-2 border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all duration-300 bg-gray-900 text-white shadow-sm hover:shadow-md text-[13px] sm:text-sm md:text-base xl:text-sm xxl:text-base placeholder-gray-500"
+                      className={`w-full px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-2 xl:py-1 xxl:py-2 border-2 rounded-lg focus:outline-none focus:ring-2 transition-all duration-300 bg-gray-900 text-white shadow-sm hover:shadow-md text-[13px] sm:text-sm md:text-base xl:text-sm xxl:text-base placeholder-gray-500 ${
+                        form.touched.name && form.errors.name
+                          ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
+                          : 'border-gray-700 focus:border-orange-500 focus:ring-orange-500/20'
+                      }`}
                     />
+                    {form.touched.name && form.errors.name && (
+                      <p className="text-red-400 text-xs sm:text-sm mt-1">{form.errors.name}</p>
+                    )}
                   </motion.div>
                   {/* Email */}
                   <motion.div
@@ -298,13 +355,20 @@ export default function Home() {
                       id="email"
                       name="email"
                       type="email"
-                      required
                       autoComplete="email"
-                      value={formData.email}
-                      onChange={handleChange}
+                      value={form.values.email}
+                      onChange={form.handleChange}
+                      onBlur={handleBlur}
                       placeholder=""
-                      className="w-full px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-2 xl:py-1 xxl:py-2 border-2 border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all duration-300 bg-gray-900 text-white shadow-sm hover:shadow-md text-[13px] sm:text-sm md:text-base xl:text-sm xxl:text-base placeholder-gray-500"
+                      className={`w-full px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-2 xl:py-1 xxl:py-2 border-2 rounded-lg focus:outline-none focus:ring-2 transition-all duration-300 bg-gray-900 text-white shadow-sm hover:shadow-md text-[13px] sm:text-sm md:text-base xl:text-sm xxl:text-base placeholder-gray-500 ${
+                        form.touched.email && form.errors.email
+                          ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
+                          : 'border-gray-700 focus:border-orange-500 focus:ring-orange-500/20'
+                      }`}
                     />
+                    {form.touched.email && form.errors.email && (
+                      <p className="text-red-400 text-xs sm:text-sm mt-1">{form.errors.email}</p>
+                    )}
                   </motion.div>
                   {/* Phone */}
                   <motion.div
@@ -317,15 +381,15 @@ export default function Home() {
                       htmlFor="phone"
                       className="block text-xs sm:text-sm md:text-base lg:text-lg xl:text-sm xxl:text-lg font-semibold text-white mb-2 md:mb-0.5 lg:mb-2 xl:mb-0.5 xxl:mb-2"
                     >
-                      Phone Number
+                      Phone Number (Optional)
                     </label>
                     <input
                       id="phone"
                       name="phone"
                       type="tel"
                       autoComplete="tel"
-                      value={formData.phone}
-                      onChange={handleChange}
+                      value={form.values.phone}
+                      onChange={form.handleChange}
                       placeholder=""
                       className="w-full px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-2 xl:py-1 xxl:py-2 border-2 border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all duration-300 bg-gray-900 text-white shadow-sm hover:shadow-md text-[13px] sm:text-sm md:text-base xl:text-sm xxl:text-base placeholder-gray-500"
                     />
@@ -346,13 +410,20 @@ export default function Home() {
                     <textarea
                       id="message"
                       name="message"
-                      required
                       rows="3"
-                      value={formData.message}
-                      onChange={handleChange}
+                      value={form.values.message}
+                      onChange={form.handleChange}
+                      onBlur={handleBlur}
                       placeholder=""
-                      className="w-full px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-2 xl:py-1 xxl:py-2 border-2 border-gray-700 rounded-lg focus:outline-none focus:border-orange-500 focus:ring-2 focus:ring-orange-500/20 transition-all duration-300 bg-gray-900 text-white shadow-sm hover:shadow-md resize-none text-[13px] sm:text-sm md:text-base xl:text-sm xxl:text-base placeholder-gray-500"
+                      className={`w-full px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-2 xl:py-1 xxl:py-2 border-2 rounded-lg focus:outline-none focus:ring-2 transition-all duration-300 bg-gray-900 text-white shadow-sm hover:shadow-md resize-none text-[13px] sm:text-sm md:text-base xl:text-sm xxl:text-base placeholder-gray-500 ${
+                        form.touched.message && form.errors.message
+                          ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
+                          : 'border-gray-700 focus:border-orange-500 focus:ring-orange-500/20'
+                      }`}
                     />
+                    {form.touched.message && form.errors.message && (
+                      <p className="text-red-400 text-xs sm:text-sm mt-1">{form.errors.message}</p>
+                    )}
                   </motion.div>
                   {/* Submit Button */}
                   <motion.button
@@ -362,11 +433,11 @@ export default function Home() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.98 }}
                     type="submit"
-                    disabled={loading}
+                    disabled={form.isSubmitting}
                     className="group w-full bg-orange-500 hover:bg-white border border-orange-500 hover:shadow-lg font-bold rounded-full py-2.5 md:py-2 lg:py-3.5 px-8 transition-all duration-300 disabled:opacity-70 cursor-pointer"
                   >
                     <span className="text-[12px] sm:text-xs md:text-sm lg:text-base text-white group-hover:text-orange-500 transition-colors duration-300">
-                      {loading ? "Sending..." : "Send Message"}
+                      {form.isSubmitting ? 'Sending...' : 'Send Message'}
                     </span>
                   </motion.button>
                   {/* Success Message */}

@@ -2,16 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import {
-  BarChart3,
-  Package,
-  FileText,
-  Users,
-  Star,
-  Mail,
-  User,
-  LogOut,
-} from "lucide-react";
+import { BarChart3, Package, FileText, Users, Star, Mail, User, LogOut } from "lucide-react";
 import { logoutAdmin } from "../../redux/slices/authSlice";
 import { setActiveTab } from "../../redux/slices/adminSlice";
 import { fetchContent } from "../../redux/slices/contentSlice";
@@ -32,8 +23,7 @@ export default function AdminDashboard() {
   const { isLoggedIn, adminEmail } = useSelector((state) => state.auth);
   const { activeTab } = useSelector((state) => state.admin);
   const storageBucket =
-    import.meta.env.VITE_FIREBASE_STORAGE_BUCKET ||
-    "danvion-ltd.firebasestorage.app";
+    import.meta.env.VITE_FIREBASE_STORAGE_BUCKET || "danvion-ltd.firebasestorage.app";
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -91,12 +81,8 @@ export default function AdminDashboard() {
               className="h-12 w-12 rounded-xl border border-gray-200 bg-white p-2"
             />
             <div>
-              <p className="text-xs uppercase tracking-[0.3em] text-gray-500">
-                Danvion Admin
-              </p>
-              <h1 className="text-h2 font-bold text-brand-black mt-2">
-                Content Control Center
-              </h1>
+              <p className="text-xs uppercase tracking-[0.3em] text-gray-500">Danvion Admin</p>
+              <h1 className="text-h2 font-bold text-brand-black mt-2">Content Control Center</h1>
               <p className="text-sm text-gray-600 mt-1">
                 Update pages, assets, and messages with confidence.
               </p>
@@ -116,12 +102,8 @@ export default function AdminDashboard() {
           >
             <div className="admin-panel sticky top-28 rounded-2xl p-5">
               <div className="mb-6">
-                <p className="text-xs uppercase tracking-[0.3em] text-gray-500">
-                  Navigation
-                </p>
-                <h2 className="text-2xl font-bold text-brand-black mt-2">
-                  Dashboard
-                </h2>
+                <p className="text-xs uppercase tracking-[0.3em] text-gray-500">Navigation</p>
+                <h2 className="text-2xl font-bold text-brand-black mt-2">Dashboard</h2>
                 <p className="text-sm text-gray-600 mt-1">
                   Manage your content and publish updates.
                 </p>
@@ -158,15 +140,11 @@ export default function AdminDashboard() {
               <div className="mt-8 border-t-2 border-gray-200 pt-4 space-y-3">
                 <div className="flex items-center gap-2 text-xs text-gray-500">
                   <span>Storage:</span>
-                  <span className="font-semibold text-brand-black">
-                    {storageBucket}
-                  </span>
+                  <span className="font-semibold text-brand-black">{storageBucket}</span>
                 </div>
                 <div className="flex items-center gap-3 bg-white/80 border border-gray-200 px-3 py-2 rounded-xl">
                   <User className="h-4 w-4 text-brand-orange" />
-                  <span className="text-xs text-brand-black truncate">
-                    {adminEmail}
-                  </span>
+                  <span className="text-xs text-brand-black truncate">{adminEmail}</span>
                 </div>
                 <motion.button
                   whileHover={{ scale: 1.02 }}

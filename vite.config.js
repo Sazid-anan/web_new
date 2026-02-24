@@ -10,51 +10,91 @@ export default defineConfig({
     terserOptions: {
       compress: {
         drop_console: true,
-        drop_debugger: true,
+        dead_code: true,
+        passes: 2,
       },
+      mangle: true,
     },
     rollupOptions: {
       output: {
         entryFileNames: "assets/[name]-[hash].js",
         chunkFileNames: "assets/[name]-[hash].js",
         assetFileNames: "assets/[name]-[hash][extname]",
-        // Smart code splitting strategy
-        manualChunks: {
-          // Vendor chunks
-          "vendor-react": ["react", "react-dom"],
-          "vendor-redux": ["@reduxjs/toolkit", "react-redux"],
-          "vendor-firebase": ["firebase"],
-          "vendor-router": ["react-router-dom"],
-          "vendor-ui": ["framer-motion", "lucide-react"],
-          // Common chunks
-          "common-utils": ["marked", "dompurify"],
+        // Optimized code splitting - separate chunks by type
+        manualChunks(id) {
+          // Vendor: React ecosystem (core)
+          if (id.includes("node_modules/react") || id.includes("node_modules/react-dom")) {
+            return "vendor-react";
+          }
+          // Vendor: State management
+          if (id.includes("@reduxjs/toolkit") || id.includes("react-redux")) {
+            return "vendor-state";
+          }
+          // Vendor: Firebase (lazy-loaded)
+          if (id.includes("firebase")) {
+            return "vendor-firebase";
+          }
+          // Vendor: Routing
+          if (id.includes("react-router-dom")) {
+            return "vendor-router";
+          }
+          // Vendor: UI & Animations (heavy - load later)
+          if (id.includes("framer-motion") || id.includes("lucide-react")) {
+            return "vendor-ui";
+          }
+          // Vendor: Utilities (markdown, sanitization)
+          if (id.includes("marked") || id.includes("dompurify")) {
+            return "vendor-utils";
+          }
+          // Admin: Separate chunk - only load when admin section accessed
+          if (id.includes("/admin/")) {
+            return "chunk-admin";
+          }
+          // Pages: Route-specific chunks (don't mix with main)
+          if (id.includes("/pages/")) {
+            const pageName = id.match(/pages\/(\w+)/)?.[1] || "page";
+            return `page-${pageName.toLowerCase()}`;
+          }
+          // Components: Separate UI components
+          if (id.includes("/components/") && !id.includes("ErrorBoundary")) {
+            return "components";
+          }
+          // Redux slices
+          if (id.includes("/redux/slices/")) {
+            return "redux-slices";
+          }
+          // Keep ErrorBoundary, hooks and services near main for critical functionality
         },
       },
     },
-    // Performance optimization
-    chunkSizeWarningLimit: 500,
-    splitVendorChunkPlugin: true,
-    // CSS code splitting
+    // Performance tweaks
+    chunkSizeWarningLimit: 600,
     cssCodeSplit: true,
-    // Rollup inlining
     assetsInlineLimit: 4096,
+    // Rollup optimizations
+    polyfillModulePreload: false,
+    // Target modern browsers only (reduces polyfills)
+    target: ["es2020", "edge88", "firefox78", "chrome90", "safari14"],
   },
   // Base optimization
   base: "/",
-  // Optimization for dependencies
+  // Optimization for dependencies - pre-bundle heavy dependencies
   optimizeDeps: {
+    // Include heavy dependencies for pre-bundling
     include: [
       "react",
       "react-dom",
       "@reduxjs/toolkit",
       "react-redux",
-      "firebase",
       "react-router-dom",
       "framer-motion",
       "lucide-react",
       "marked",
       "dompurify",
       "react-helmet-async",
+      "@reduxjs/toolkit/query",
     ],
+    // Exclude to reduce pre-bundle size
+    exclude: ["firebase"],
   },
 });

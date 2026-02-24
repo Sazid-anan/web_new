@@ -1,13 +1,16 @@
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useResponsive } from "../../hooks/useResponsive";
 
 /**
  * Header Component
  * Main navigation for the website
  * Desktop navigation only - Mobile uses bottom navigation bar
+ * Enhanced with responsive utilities for better device-specific behavior
  */
 export default function Header() {
   const location = useLocation();
+  const { isMobile, isTablet } = useResponsive();
 
   const navLinks = [
     { path: "/", label: "Home" },
@@ -20,7 +23,7 @@ export default function Header() {
     <motion.header
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: isMobile ? 0.3 : 0.5 }} // Faster animation on mobile
       className="sticky top-0 z-50 bg-white shadow-lg border-b border-gray-200 hover:shadow-xl transition-shadow duration-300"
     >
       <div className="w-full flex justify-center">
@@ -43,13 +46,17 @@ export default function Header() {
                 src="/logo.png"
                 alt="Danvion Logo"
                 className="h-8 w-8 sm:h-10 sm:w-10"
-                whileHover={{
-                  scale: 1.1,
-                  rotate: [0, -10, 10, -10, 0],
-                }}
+                whileHover={
+                  !isMobile
+                    ? {
+                        scale: 1.1,
+                        rotate: [0, -10, 10, -10, 0],
+                      }
+                    : { scale: 1.05 } // Simpler animation on mobile
+                }
                 transition={{
                   scale: { duration: 0.2 },
-                  rotate: { duration: 0.6 },
+                  rotate: { duration: isMobile ? 0 : 0.6 },
                 }}
               />
               <motion.div
@@ -60,9 +67,9 @@ export default function Header() {
               </motion.div>
             </Link>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center gap-1 lg:gap-8">
-              <nav className="flex gap-1 sm:gap-2">
+            {/* Desktop Navigation - Hidden on small mobile, visible on sm and up (tablets+) */}
+            <div className="hidden sm:flex items-center gap-2 md:gap-4 lg:gap-8">
+              <nav className="flex gap-1 md:gap-2">
                 {navLinks.map((link) => {
                   if (link.label === "Home") {
                     return (
@@ -83,9 +90,7 @@ export default function Header() {
                           whileHover={{ scale: 1.05 }}
                           className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline text-xs sm:text-sm md:text-base lg:text-lg`}
                         >
-                          <span className="relative z-10 font-semibold">
-                            {link.label}
-                          </span>
+                          <span className="relative z-10 font-semibold">{link.label}</span>
                         </motion.div>
                       </a>
                     );
@@ -98,9 +103,7 @@ export default function Header() {
                         className="relative group"
                         onClick={(e) => {
                           e.preventDefault();
-                          const el = document.getElementById(
-                            link.path.substring(1),
-                          );
+                          const el = document.getElementById(link.path.substring(1));
                           if (el) {
                             el.scrollIntoView({ behavior: "smooth" });
                           }
@@ -113,26 +116,18 @@ export default function Header() {
                           whileHover={{ scale: 1.05 }}
                           className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline text-xs sm:text-sm md:text-base lg:text-lg`}
                         >
-                          <span className="relative z-10 font-semibold">
-                            {link.label}
-                          </span>
+                          <span className="relative z-10 font-semibold">{link.label}</span>
                         </motion.div>
                       </a>
                     );
                   }
                   return (
-                    <Link
-                      key={link.path}
-                      to={link.path}
-                      className="relative group"
-                    >
+                    <Link key={link.path} to={link.path} className="relative group">
                       <motion.div
                         whileHover={{ scale: 1.05 }}
-                        className={`px-5 py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline text-[12px] sm:text-[14px] md:text-[14px] lg:text-[16px]`}
+                        className={`px-4 sm:px-5 py-1.5 sm:py-2 rounded-full font-medium transition-all duration-300 glass-orange-outline text-xs sm:text-sm md:text-base lg:text-lg`}
                       >
-                        <span className="relative z-10 font-semibold">
-                          {link.label}
-                        </span>
+                        <span className="relative z-10 font-semibold">{link.label}</span>
                       </motion.div>
                     </Link>
                   );

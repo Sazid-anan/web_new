@@ -3,6 +3,39 @@
  * All media queries and responsive breakpoint styles
  */
 
+/* ===== TOUCH OPTIMIZATION - UNIVERSAL STYLES ===== */
+/* Applied to all devices for better touch interaction */
+
+/* Enable smooth tap feedback and prevent delay */
+button,
+a[role="button"],
+input[type="button"],
+input[type="submit"],
+input[type="checkbox"],
+input[type="radio"],
+select,
+textarea {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Links are tappable but allow text selection in content */
+a[href]:not(.btn):not([role="button"]) {
+  -webkit-tap-highlight-color: rgba(243, 113, 6, 0.1);
+}
+
+/* Improve form input tap experience */
+input,
+textarea,
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  font-size: 16px; /* Prevents iOS auto-zoom */
+}
+
 /* ===== MOBILE-FIRST BREAKPOINT REFERENCE ===== */
 /* Mobile (Base): 0 - 480px - Default styles, vertical stacking, 44px touch targets */
 /* Tablet/iPad: 481px - 768px - 2-column grids, hamburger menu */
@@ -167,17 +200,35 @@
     user-select: none;
   }
 
-  /* Optimize tap feedback on mobile */
+  /* Optimize tap feedback on mobile with active states */
   button,
-  a[role="button"] {
+  a[role="button"],
+  input[type="button"],
+  input[type="submit"],
+  .btn-responsive {
     transition:
-      background-color 0.2s,
-      border-color 0.2s;
+      background-color 0.15s ease-out,
+      border-color 0.15s ease-out,
+      transform 0.1s ease-out,
+      box-shadow 0.15s ease-out;
   }
 
   button:active,
-  a[role="button"]:active {
-    opacity: 0.9;
+  a[role="button"]:active,
+  input[type="button"]:active,
+  input[type="submit"]:active,
+  .btn-responsive:active {
+    transform: scale(0.98);
+    opacity: 0.95;
+  }
+
+  button:focus,
+  a[role="button"]:focus,
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: 2px solid #f37106;
+    outline-offset: 2px;
   }
 
   /* Improve form input accessibility on mobile */
@@ -282,6 +333,47 @@
     line-height: 1.5;
   }
 }
+
+/* ===== TOUCH DEVICE OPTIMIZATION - DISABLE HOVER EFFECTS ===== */
+/* On touch devices (no hovering capability), remove hover states */
+@media (hover: none) and (pointer: coarse) {
+  /* Hide hover overlays on product cards */
+  .orange-pop-hover::before,
+  .orange-pop-hover:hover::before,
+  button.orange-pop-hover:hover::before,
+  a.orange-pop-hover:hover::before {
+    opacity: 0 !important;
+    pointer-events: none;
+  }
+
+  /* Disable glass mor hover effects */
+  .glass-orange:hover::before,
+  .glass-orange-outline:hover::before {
+    opacity: 0 !important;
+    transform: none !important;
+  }
+
+  .glass-orange:hover,
+  .glass-orange-outline:hover {
+    box-shadow: none;
+    background: var(--original-bg);
+  }
+
+  /* Disable hover state backgrounds */
+  [class*="hover:opacity"],
+  [class*="hover:bg"],
+  [class*="md:hover"] {
+    opacity: auto;
+    background-color: auto !important;
+  }
+
+  /* Keep active states but disable hover */
+  button:not(:active),
+  a[role="button"]:not(:active) {
+    filter: none;
+  }
+}
+
 /* ===== COMPREHENSIVE MOBILE OPTIMIZATION (NO DESKTOP CHANGES) ===== */
 
 /* MOBILE GRID LAYOUTS - Collapse multi-column to single column on mobile */
@@ -513,6 +605,22 @@
     gap: clamp(1rem, 3vw, 1.25rem) !important;
   }
 
+  /* Ensure single column layout on mobile - 7 rows */
+  .capabilities-content .grid[class*="grid-cols-1"] {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto;
+    gap: 0.75rem !important;
+  }
+
+  /* Limit text on mobile view only */
+  .capabilities-content .aspect-square h3 {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2 !important;
+    -webkit-box-orient: vertical !important;
+  }
+
   /* Phase Section */
   .phases-section {
     padding-left: 1rem !important;
@@ -695,6 +803,27 @@
   .hide-xs {
     display: none !important;
   }
+
+  /* iPhone SE - Icon and text on same line */
+  .capabilities-content .aspect-square {
+    flex-direction: row !important;
+    gap: 0.5rem !important;
+    min-height: auto !important;
+    padding: 0.75rem !important;
+  }
+
+  .capabilities-content .aspect-square svg {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    flex-shrink: 0 !important;
+  }
+
+  .capabilities-content .aspect-square h3 {
+    font-size: 0.65rem !important;
+    line-height: 1.2 !important;
+    text-align: left !important;
+    margin: 0 !important;
+  }
 }
 
 /* LANDSCAPE MODE OPTIMIZATION */
@@ -783,6 +912,37 @@
   }
 }
 
+/* ===== TABLET OPTIMIZATION (640px - 1024px) ===== */
+@media (min-width: 640px) and (max-width: 1023px) {
+  /* Tablet capabilities - 2 columns */
+  .capabilities-content .grid[class*="grid-cols-2"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 1rem !important;
+  }
+
+  /* Consistent card sizing for tablets */
+  .capabilities-content .aspect-square {
+    min-height: 10rem !important;
+    max-width: none !important;
+  }
+
+  /* Show full text on 720p view */
+  .capabilities-content .aspect-square h3 {
+    font-size: 0.875rem !important;
+    line-height: 1.35 !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    display: block !important;
+    word-wrap: break-word !important;
+    white-space: normal !important;
+  }
+
+  .capabilities-content .aspect-square svg {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+  }
+}
+
 /* ===== IPAD PRO & LANDSCAPE OPTIMIZATION (1024px - 1366px) ===== */
 /* Fine-tune capability boxes and overall layout for iPad Pro */
 @media (min-width: 1024px) and (max-width: 1366px) {
@@ -796,9 +956,7 @@
   }
 
   /* Individual capability cards - reduce size for iPad Pro */
-  .capabilities-content
-    .grid[class*="grid-cols-8"]
-    div[class*="border-gray-200"],
+  .capabilities-content .grid[class*="grid-cols-8"] div[class*="border-gray-200"],
   .capabilities-content .aspect-square {
     padding: 0.875rem !important;
     border-radius: 0.6rem !important;
@@ -815,10 +973,7 @@
   }
 
   /* Icons in capability cards - optimized size for iPad Pro */
-  .capabilities-content
-    .grid[class*="grid-cols-8"]
-    div[class*="border-gray-200"]
-    svg,
+  .capabilities-content .grid[class*="grid-cols-8"] div[class*="border-gray-200"] svg,
   .capabilities-content .aspect-square svg {
     width: 2.25rem !important;
     height: 2.25rem !important;
@@ -826,10 +981,7 @@
   }
 
   /* Capability card titles - optimized font */
-  .capabilities-content
-    .grid[class*="grid-cols-8"]
-    div[class*="border-gray-200"]
-    h3,
+  .capabilities-content .grid[class*="grid-cols-8"] div[class*="border-gray-200"] h3,
   .capabilities-content .aspect-square h3 {
     font-size: 0.75rem !important;
     line-height: 1.25 !important;
@@ -842,6 +994,7 @@
     max-width: 100% !important;
     padding: 0 0.25rem !important;
     text-align: center !important;
+    white-space: normal !important;
   }
 
   /* Grid layout for iPad Pro - 7 columns to fit all capability boxes */
@@ -1061,6 +1214,16 @@
     gap: 1.5rem !important;
   }
 }
+
+/* ===== IPAD MINI OPTIMIZATION (744px - 833px) ===== */
+/* Specific optimization for iPad mini 7.9" portrait (767x858) */
+@media (min-width: 744px) and (max-width: 833px) {
+  .capabilities-content .grid[class*="grid-cols"] {
+    grid-template-columns: repeat(7, minmax(0, 1fr)) !important;
+    gap: 0.4rem !important;
+  }
+}
+
 /* ===== TABLET & 720P OPTIMIZATIONS (768px - 1023px) ===== */
 /* Fine-tune layout and spacing for small tablets and 720P displays */
 @media (min-width: 768px) and (max-width: 1023px) {
@@ -1360,39 +1523,21 @@
     min-width: 0 !important;
   }
 
-  .topbanner
-    .hero-topbanner-content
-    > div
-    > div.flex.flex-wrap
-    > div:first-child {
+  .topbanner .hero-topbanner-content > div > div.flex.flex-wrap > div:first-child {
     max-width: 21.5rem !important;
   }
 
-  .topbanner
-    .hero-topbanner-content
-    > div
-    > div.flex.flex-wrap
-    > div:first-child
-    button {
+  .topbanner .hero-topbanner-content > div > div.flex.flex-wrap > div:first-child button {
     margin-top: 0.12rem !important;
   }
 
-  .topbanner
-    .hero-topbanner-content
-    > div
-    > div.flex.flex-wrap
-    > div:last-child {
+  .topbanner .hero-topbanner-content > div > div.flex.flex-wrap > div:last-child {
     margin-top: 0 !important;
     padding-right: 0 !important;
     max-width: 100% !important;
   }
 
-  .topbanner
-    .hero-topbanner-content
-    > div
-    > div.flex.flex-wrap
-    > div:last-child
-    p {
+  .topbanner .hero-topbanner-content > div > div.flex.flex-wrap > div:last-child p {
     font-size: 0.9375rem !important;
     line-height: 1.5 !important;
     text-wrap: pretty;
@@ -1614,25 +1759,17 @@
     margin-bottom: 1.5rem !important;
   }
 
-  section.w-full.bg-black.font-sans
-    .content-maxwidth.w-full
-    > div[class*="mb-"]
-    > .flex {
+  section.w-full.bg-black.font-sans .content-maxwidth.w-full > div[class*="mb-"] > .flex {
     gap: 1.5rem !important;
   }
 
-  section.w-full.bg-black.font-sans
-    .content-maxwidth.w-full
-    .animated-gradient-text {
+  section.w-full.bg-black.font-sans .content-maxwidth.w-full .animated-gradient-text {
     font-size: clamp(1.75rem, 7vw, 2.25rem) !important;
     margin-bottom: 0.75rem !important;
     line-height: 1.2 !important;
   }
 
-  section.w-full.bg-black.font-sans
-    .content-maxwidth.w-full
-    > div[class*="mb-"]
-    p {
+  section.w-full.bg-black.font-sans .content-maxwidth.w-full > div[class*="mb-"] p {
     font-size: 1rem !important;
     line-height: 1.5 !important;
     margin-bottom: 0 !important;
@@ -1640,10 +1777,7 @@
   }
 
   /* Phase card container */
-  section.w-full.bg-black.font-sans
-    .content-maxwidth.w-full
-    .group.h-full.w-full
-    > div.relative {
+  section.w-full.bg-black.font-sans .content-maxwidth.w-full .group.h-full.w-full > div.relative {
     min-height: 180px !important;
     padding: 1rem !important;
     border-radius: 1rem !important;
@@ -1678,20 +1812,14 @@
   }
 
   /* Phase card title */
-  section.w-full.bg-black.font-sans
-    .content-maxwidth.w-full
-    .group.h-full.w-full
-    h3 {
+  section.w-full.bg-black.font-sans .content-maxwidth.w-full .group.h-full.w-full h3 {
     font-size: 1.125rem !important;
     line-height: 1.3 !important;
     font-weight: 700 !important;
   }
 
   /* Phase card description */
-  section.w-full.bg-black.font-sans
-    .content-maxwidth.w-full
-    .group.h-full.w-full
-    p {
+  section.w-full.bg-black.font-sans .content-maxwidth.w-full .group.h-full.w-full p {
     font-size: 0.9375rem !important;
     line-height: 1.5 !important;
     display: -webkit-box;
@@ -1703,10 +1831,7 @@
   }
 
   /* Phase card icons */
-  section.w-full.bg-black.font-sans
-    .content-maxwidth.w-full
-    .group.h-full.w-full
-    svg {
+  section.w-full.bg-black.font-sans .content-maxwidth.w-full .group.h-full.w-full svg {
     width: 1.5rem !important;
     height: 1.5rem !important;
     min-width: 1.5rem !important;
@@ -1850,9 +1975,7 @@
     padding-top: 0 !important;
   }
 
-  .image-slider-content
-    > .text-left.mb-8.sm\:mb-10.md\:mb-12.lg\:mb-16
-    > .flex {
+  .image-slider-content > .text-left.mb-8.sm\:mb-10.md\:mb-12.lg\:mb-16 > .flex {
     gap: 0.85rem !important;
   }
 
@@ -1873,8 +1996,7 @@
     margin-bottom: 0 !important;
   }
 
-  .image-slider-content
-    .overflow-hidden.relative.rounded-xl.md\:rounded-2xl.group {
+  .image-slider-content .overflow-hidden.relative.rounded-xl.md\:rounded-2xl.group {
     border-radius: 0.72rem !important;
     padding-bottom: 0.75rem !important;
   }
@@ -1947,21 +2069,13 @@
     h1.animated-gradient-text {
     font-size: clamp(1.85rem, 3.5vw, 2.35rem) !important;
     line-height: 1.15 !important;
-    background: linear-gradient(
-      90deg,
-      #ffb66f 0%,
-      #ff7a12 50%,
-      #ffd6a7 100%
-    ) !important;
+    background: linear-gradient(90deg, #ffb66f 0%, #ff7a12 50%, #ffd6a7 100%) !important;
     background-clip: text !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
   }
 
-  section.w-full.bg-black.font-sans
-    .content-maxwidth.w-full
-    > .mb-4.sm\:mb-5.md\:mb-6.lg\:mb-7
-    p {
+  section.w-full.bg-black.font-sans .content-maxwidth.w-full > .mb-4.sm\:mb-5.md\:mb-6.lg\:mb-7 p {
     font-size: 0.95rem !important;
     line-height: 1.5 !important;
     margin: 0 !important;
@@ -1974,10 +2088,7 @@
     margin-bottom: 0.9rem !important;
   }
 
-  section.w-full.bg-black.font-sans
-    .content-maxwidth.w-full
-    > div:first-child
-    > .flex {
+  section.w-full.bg-black.font-sans .content-maxwidth.w-full > div:first-child > .flex {
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
@@ -2013,10 +2124,7 @@
     margin-bottom: 0.35rem !important;
   }
 
-  section.w-full.bg-black.font-sans
-    .content-maxwidth.w-full
-    > div:first-child
-    p {
+  section.w-full.bg-black.font-sans .content-maxwidth.w-full > div:first-child p {
     font-size: 0.95rem !important;
     line-height: 1.45 !important;
     margin: 0 !important;
@@ -2240,18 +2348,12 @@
 }
 
 @media (min-width: 768px) {
-  section.bg-black
-    .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    h3 {
+  section.bg-black .content-maxwidth.w-full > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 h3 {
     font-size: clamp(1rem, 0.9rem + 0.4vw, 1.125rem) !important;
     line-height: 1.2 !important;
   }
 
-  section.bg-black
-    .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    p {
+  section.bg-black .content-maxwidth.w-full > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 p {
     font-size: 0.875rem !important;
     line-height: 1.55 !important;
   }
@@ -3041,10 +3143,7 @@ section:has(.image-slider-content) {
   }
 
   /* Phase card styling - website style */
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    .group.h-full
-    > div {
+  .content-maxwidth.w-full > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 .group.h-full > div {
     min-height: 115px !important;
     padding: 0.5rem !important;
     border-radius: 0.75rem !important;
@@ -3091,9 +3190,7 @@ section:has(.image-slider-content) {
   }
 
   /* Phase card title */
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    h3 {
+  .content-maxwidth.w-full > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 h3 {
     font-size: 0.6rem !important;
     line-height: 1.15 !important;
     margin-bottom: 0.1rem !important;
@@ -3101,9 +3198,7 @@ section:has(.image-slider-content) {
   }
 
   /* Phase card description */
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    p {
+  .content-maxwidth.w-full > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 p {
     font-size: 0.42rem !important;
     line-height: 1.3 !important;
     margin-top: 0.1rem !important;
@@ -3111,9 +3206,7 @@ section:has(.image-slider-content) {
   }
 
   /* Underline decoration */
-  .content-maxwidth.w-full
-    > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3
-    .h-0\.5 {
+  .content-maxwidth.w-full > .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 .h-0\.5 {
     height: 1.5px !important;
     width: 1rem !important;
     margin-top: 0.1rem !important;
@@ -3151,8 +3244,7 @@ section:has(.image-slider-content) {
     line-height: 1.4 !important;
   }
 
-  .image-slider-content
-    .overflow-hidden.relative.rounded-xl.md\:rounded-2xl.group {
+  .image-slider-content .overflow-hidden.relative.rounded-xl.md\:rounded-2xl.group {
     border-radius: 0.6rem !important;
     padding-bottom: 1rem !important;
   }
@@ -3655,6 +3747,30 @@ footer.footer-uniform-text .h-px + div {
     padding-left: 0 !important;
     padding-right: 0 !important;
   }
+}
+
+/* ===== CONSISTENT CAPABILITIES CARD SIZING ===== */
+/* Ensure all capability cards have uniform sizing and text handling */
+.capabilities-content .aspect-square {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 7.5rem !important;
+  overflow: hidden !important;
+}
+
+/* Show full text on web view (desktop) and 720p */
+.capabilities-content .aspect-square h3 {
+  overflow: visible !important;
+  text-overflow: clip !important;
+  display: block !important;
+  word-wrap: break-word !important;
+  white-space: normal !important;
+}
+
+.capabilities-content .aspect-square svg {
+  flex-shrink: 0 !important;
 }
 
 /* iPad Pro: heading overrides after 1200-1400 rules */

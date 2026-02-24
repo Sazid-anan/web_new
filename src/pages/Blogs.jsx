@@ -9,6 +9,10 @@ import Badge from "../components/ui/Badge";
 import { Card, CardContent } from "../components/ui/Card";
 import { Calendar, Clock, ArrowRight, X, FileText } from "lucide-react";
 import { renderMarkdown } from "../utils/markdown";
+import { useResponsive } from "../hooks/useResponsive";
+import SEO from "../components/SEO";
+import { SkeletonCard } from "../components/Skeleton";
+import { analyticsService } from "../services/analyticsService";
 
 /**
  * Blogs Page
@@ -16,11 +20,12 @@ import { renderMarkdown } from "../utils/markdown";
  */
 export default function Blogs() {
   const dispatch = useDispatch();
-  const { blogs } = useSelector((state) => state.content);
+  const { blogs, loading } = useSelector((state) => state.content);
+  const { isMobile, isTablet } = useResponsive();
   const [selectedBlog, setSelectedBlog] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const blogsPerPage = 6;
+  const blogsPerPage = isMobile ? 4 : isTablet ? 6 : 6; // Responsive items per page
 
   useEffect(() => {
     dispatch(fetchContent());
@@ -29,9 +34,7 @@ export default function Blogs() {
   // Get unique categories from blogs
   const categories = useMemo(() => {
     if (!blogs || blogs.length === 0) return [];
-    return Array.from(
-      new Set(blogs.map((b) => b.category).filter((c) => c)),
-    ).sort();
+    return Array.from(new Set(blogs.map((b) => b.category).filter((c) => c))).sort();
   }, [blogs]);
 
   // Filter blogs by category
@@ -43,10 +46,7 @@ export default function Blogs() {
   // Pagination logic
   const totalPages = Math.ceil(filteredBlogs.length / blogsPerPage);
   const startIndex = (currentPage - 1) * blogsPerPage;
-  const paginatedBlogs = filteredBlogs.slice(
-    startIndex,
-    startIndex + blogsPerPage,
-  );
+  const paginatedBlogs = filteredBlogs.slice(startIndex, startIndex + blogsPerPage);
 
   const formatDate = (dateString) => {
     if (!dateString) return "";
@@ -66,6 +66,14 @@ export default function Blogs() {
 
   return (
     <div className="min-h-screen">
+      <SEO
+        title="Blog | Edge AI & Product Development Insights | Danvion"
+        description="Read insights about Edge AI, embedded systems, product development, and technology trends from Danvion's expert engineers and thought leaders."
+        keywords="Edge AI blog, AI insights, embedded systems, IoT technology, machine learning trends, product development, technology articles"
+        url="/blogs"
+        image="https://danvion.com/og-blogs.png"
+        pageType="website"
+      />
       {/* Hero Section */}
       <div className="py-8 sm:py-10 md:py-12">
         <Container className="content-maxwidth">
@@ -83,9 +91,8 @@ export default function Blogs() {
               </div>
               <div className="w-full sm:flex-[1.5] flex flex-col items-start text-left mt-4 sm:mt-0 sm:w-auto">
                 <p className="text-justify text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-black">
-                  From hardware design to edge AI deployment, we deliver
-                  complete engineering solutions that bring intelligent products
-                  to life.
+                  From hardware design to edge AI deployment, we deliver complete engineering
+                  solutions that bring intelligent products to life.
                 </p>
               </div>
             </div>
@@ -106,13 +113,10 @@ export default function Blogs() {
               <div className="mb-6 inline-flex items-center justify-center w-20 h-20 rounded-full bg-gray-100">
                 <FileText className="w-10 h-10 text-gray-400" />
               </div>
-              <h2 className="text-h3 font-bold text-foreground mb-4">
-                Coming Soon
-              </h2>
+              <h2 className="text-h3 font-bold text-foreground mb-4">Coming Soon</h2>
               <p className="text-gray-600 text-xs sm:text-sm md:text-base lg:text-lg mb-8 leading-relaxed">
-                We're crafting insightful articles and resources on Edge AI,
-                product development, and technology innovation. Stay tuned for
-                exciting content!
+                We're crafting insightful articles and resources on Edge AI, product development,
+                and technology innovation. Stay tuned for exciting content!
               </p>
               <Link to="/">
                 <Button className="mt-4">Back to Home</Button>
@@ -171,11 +175,24 @@ export default function Blogs() {
           {/* Blog Posts Grid */}
           <section className="py-12 sm:py-16 md:py-20">
             <Container>
-              {filteredBlogs.length === 0 ? (
+              {loading ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 md:gap-8">
+                  {Array.from({ length: isMobile ? 4 : isTablet ? 6 : 6 }).map((_, i) => (
+                    <motion.div
+                      key={i}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: i * 0.05, duration: 0.4 }}
+                      className="bg-white rounded-2xl overflow-hidden shadow-lg border border-gray-200"
+                    >
+                      <SkeletonCard />
+                    </motion.div>
+                  ))}
+                </div>
+              ) : filteredBlogs.length === 0 ? (
                 <div className="text-center py-12 sm:py-16 md:py-20">
                   <p className="text-body-sm text-muted-foreground px-4">
-                    No blog posts found in this category. Try selecting a
-                    different one!
+                    No blog posts found in this category. Try selecting a different one!
                   </p>
                 </div>
               ) : (
@@ -243,7 +260,10 @@ export default function Blogs() {
                             <Button
                               size="sm"
                               className="group"
-                              onClick={() => setSelectedBlog(blog)}
+                              onClick={() => {
+                                setSelectedBlog(blog);
+                                analyticsService.trackBlogInteraction(blog.id, blog.title, "read");
+                              }}
                             >
                               Read More
                               <ArrowRight
@@ -267,9 +287,7 @@ export default function Blogs() {
                   className="flex flex-col sm:flex-row justify-center items-center gap-3 sm:gap-2 mt-12"
                 >
                   <button
-                    onClick={() =>
-                      setCurrentPage((prev) => Math.max(prev - 1, 1))
-                    }
+                    onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                     disabled={currentPage === 1}
                     className="w-full sm:w-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-xs md:text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
                   >
@@ -277,27 +295,23 @@ export default function Blogs() {
                   </button>
 
                   <div className="flex gap-1.5 sm:gap-2 overflow-x-auto max-w-full pb-2 sm:pb-0">
-                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-                      (page) => (
-                        <button
-                          key={page}
-                          onClick={() => setCurrentPage(page)}
-                          className={`min-w-[32px] sm:min-w-[36px] md:min-w-[40px] h-8 sm:h-9 md:h-10 rounded-lg font-medium text-xs sm:text-xs md:text-sm transition-all flex-shrink-0 ${
-                            currentPage === page
-                              ? "bg-brand-orange text-white shadow-lg"
-                              : "bg-gray-100 text-brand-black hover:bg-gray-200"
-                          }`}
-                        >
-                          {page}
-                        </button>
-                      ),
-                    )}
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => setCurrentPage(page)}
+                        className={`min-w-[32px] sm:min-w-[36px] md:min-w-[40px] h-8 sm:h-9 md:h-10 rounded-lg font-medium text-xs sm:text-xs md:text-sm transition-all flex-shrink-0 ${
+                          currentPage === page
+                            ? "bg-brand-orange text-white shadow-lg"
+                            : "bg-gray-100 text-brand-black hover:bg-gray-200"
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    ))}
                   </div>
 
                   <button
-                    onClick={() =>
-                      setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                    }
+                    onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                     disabled={currentPage === totalPages}
                     className="w-full sm:w-auto px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-xs md:text-sm font-medium transition-all disabled:opacity-40 disabled:cursor-not-allowed bg-gray-100 text-brand-black hover:bg-brand-orange hover:text-white"
                   >
@@ -373,9 +387,7 @@ export default function Blogs() {
                   </div>
                 )}
                 {selectedBlog.category && (
-                  <Badge className="bg-secondary text-foreground">
-                    {selectedBlog.category}
-                  </Badge>
+                  <Badge className="bg-secondary text-foreground">{selectedBlog.category}</Badge>
                 )}
               </div>
 

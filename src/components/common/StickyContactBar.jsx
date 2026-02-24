@@ -3,6 +3,7 @@ import { Phone, Mail, Linkedin, Calendar } from "lucide-react";
 import { useState } from "react";
 import { EXTERNAL_LINKS } from "../../config/links";
 import { SITE_CONTENT } from "../../config/content";
+import { useResponsive } from "../../hooks/useResponsive";
 
 /**
  * StickyContactBar Component
@@ -14,6 +15,7 @@ import { SITE_CONTENT } from "../../config/content";
  */
 export default function StickyContactBar() {
   const [hoveredItem, setHoveredItem] = useState(null);
+  const { isMobile, isTablet } = useResponsive();
 
   const contactItems = [
     // {

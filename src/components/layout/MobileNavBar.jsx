@@ -109,7 +109,7 @@ export function MobileNavPill({ theme = "dark" }) {
     <motion.nav
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 md:hidden"
+      className="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 sm:hidden"
     >
       <div
         className={`
@@ -135,11 +135,7 @@ export function MobileNavPill({ theme = "dark" }) {
               : { to: item.path };
 
           return (
-            <LinkComponent
-              key={item.path}
-              {...linkProps}
-              className="flex-1 flex justify-center"
-            >
+            <LinkComponent key={item.path} {...linkProps} className="flex-1 flex justify-center">
               <motion.div
                 whileTap={{ scale: 0.9 }}
                 whileHover={{ scale: 1.05 }}
@@ -162,13 +158,7 @@ export function MobileNavPill({ theme = "dark" }) {
                 <span
                   className={`
                     text-[10px] font-semibold transition-colors
-                    ${
-                      active
-                        ? "text-[#ff6600]"
-                        : isDark
-                          ? "text-gray-400"
-                          : "text-gray-600"
-                    }
+                    ${active ? "text-[#ff6600]" : isDark ? "text-gray-400" : "text-gray-600"}
                   `}
                 >
                   {item.label}
@@ -202,7 +192,7 @@ export function MobileNavWithProfile({ theme = "dark" }) {
     <motion.nav
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 md:hidden"
+      className="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 sm:hidden"
     >
       <div
         className={`
@@ -287,7 +277,7 @@ export function MobileNavWithLabels({ theme = "dark" }) {
     <motion.nav
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 md:hidden"
+      className="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 sm:hidden"
     >
       <div
         className={`
@@ -325,13 +315,7 @@ export function MobileNavWithLabels({ theme = "dark" }) {
                 <span
                   className={`
                     text-xs font-semibold transition-colors
-                    ${
-                      active
-                        ? "text-[#ff6600]"
-                        : isDark
-                          ? "text-gray-400"
-                          : "text-gray-600"
-                    }
+                    ${active ? "text-[#ff6600]" : isDark ? "text-gray-400" : "text-gray-600"}
                   `}
                 >
                   {item.label}
@@ -365,7 +349,7 @@ export function MobileNavCompact({ theme = "dark" }) {
     <motion.nav
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
-      className="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 md:hidden"
+      className="fixed bottom-0 left-1/2 -translate-x-1/2 z-50 sm:hidden"
     >
       <div
         className={`

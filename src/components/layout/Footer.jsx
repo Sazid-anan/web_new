@@ -4,14 +4,17 @@ import { Linkedin, ArrowRight, Mail, MapPin } from "lucide-react";
 import { EXTERNAL_LINKS, INTERNAL_LINKS } from "../../config/links";
 import { SITE_CONTENT } from "../../config/content";
 import Container from "../common/Container";
+import { useResponsive } from "../../hooks/useResponsive";
 
 /**
  * Footer Component
  * Professional glass-morphism footer with social media, links, and contact info
+ * Enhanced with responsive optimizations
  */
 export default function Footer() {
   const currentYear = new Date().getFullYear();
   const location = useLocation();
+  const { isMobile } = useResponsive();
 
   const handleSectionClick = (event, sectionId) => {
     event.preventDefault();
@@ -35,11 +38,11 @@ export default function Footer() {
   };
 
   const linkHoverVariants = {
-    hover: { x: 4, color: "#FF8C00" },
+    hover: !isMobile ? { x: 4, color: "#FF8C00" } : {}, // Disable on mobile
   };
 
   const socialIconVariants = {
-    hover: { scale: 1.15, rotate: 5 },
+    hover: !isMobile ? { scale: 1.15, rotate: 5 } : {}, // Disable on mobile
     tap: { scale: 0.95 },
   };
 

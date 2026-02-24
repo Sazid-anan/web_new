@@ -109,33 +109,33 @@ class AnalyticsService {
 
   /**
    * Initialize Google Analytics 4
-   * Uncomment and configure when ready
+   * Automatically detects measurement ID from window or env
    */
   private initializeGA4(): void {
-    // Install: npm install @react-google-analytics/core
-    // Example implementation:
-    /*
-    const ga4MeasurementId = this.config.ga4MeasurementId || 
-      import.meta.env.VITE_GA4_MEASUREMENT_ID;
-    
-    if (!ga4MeasurementId) {
-      console.warn("[GA4] Measurement ID not configured");
-      return;
-    }
+    try {
+      const ga4MeasurementId =
+        (window as any).__VITE_GA_MEASUREMENT_ID__ ||
+        this.config.ga4MeasurementId ||
+        import.meta.env.VITE_GA_MEASUREMENT_ID;
 
-    // Insert GA4 script
-    const script = document.createElement("script");
-    script.async = true;
-    script.src = `https://www.googletagmanager.com/gtag/js?id=${ga4MeasurementId}`;
-    document.head.appendChild(script);
+      if (!ga4MeasurementId) {
+        console.warn("[GA4] Measurement ID not configured");
+        return;
+      }
 
-    window.dataLayer = window.dataLayer || [];
-    function gtag(...args: any[]) {
-      window.dataLayer.push(arguments);
+      // Configure gtag with the measurement ID
+      if ((window as any).gtag) {
+        (window as any).gtag("config", ga4MeasurementId, {
+          page_path: window.location.pathname,
+          page_title: document.title,
+        });
+        console.log(`[GA4] Initialized with measurement ID: ${ga4MeasurementId}`);
+      } else {
+        console.warn("[GA4] gtag not available - ensure gtag script is loaded in HTML");
+      }
+    } catch (error) {
+      console.error("[GA4] Initialization error:", error);
     }
-    gtag("js", new Date());
-    gtag("config", ga4MeasurementId);
-    */
   }
 
   /**
@@ -256,9 +256,38 @@ class AnalyticsService {
   /**
    * Send event to Google Analytics
    */
-  private sendToGA4(_event: AnalyticsEvent): void {
-    // Implement GA4 event tracking
-    // Example: gtag("event", _event.name, { ..._event.properties });
+  private sendToGA4(event: AnalyticsEvent): void {
+    try {
+      if (!(window as any).gtag) {
+        return; // gtag not available
+      }
+
+      // Special handling for page_view events
+      if (event.name === "page_view") {
+        (window as any).gtag("event", "page_view", {
+          page_path: event.properties?.page_path,
+          page_title: event.properties?.page_title,
+          page_location: window.location.href,
+        });
+      } else if (event.name === "error") {
+        // Track errors as GA4 exception events
+        (window as any).gtag("event", "exception", {
+          description: event.label,
+          fatal: false,
+          ...event.properties,
+        });
+      } else {
+        // Generic event tracking
+        (window as any).gtag("event", event.name, {
+          event_category: event.category,
+          event_label: event.label,
+          value: event.value,
+          ...event.properties,
+        });
+      }
+    } catch (error) {
+      console.error("[GA4] Event send failed:", error);
+    }
   }
 
   /**

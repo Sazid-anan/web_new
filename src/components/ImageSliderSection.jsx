@@ -1,6 +1,8 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import Container from "./common/Container";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useResponsive } from "../hooks/useResponsive";
+import { useSwipe } from "../hooks/useSwipe";
 
 /**
  * Image Slider Section
@@ -34,6 +36,9 @@ export default function ImageSliderSection({
   const [isManualMode, setIsManualMode] = useState(false);
   const sliderRef = useRef(null);
   const containerRef = useRef(null);
+
+  // Use responsive hook for device detection
+  const { width, isMobile, isTablet } = useResponsive();
 
   useEffect(() => {
     if (!autoPlay || images.length === 0) return;
@@ -120,16 +125,19 @@ export default function ImageSliderSection({
   }, [autoPlay, interval, images.length, isManualMode]);
 
   // Navigate to previous image
-  const handlePrevious = () => {
+  const handlePrevious = useCallback(() => {
     const newIndex = currentIndex === 0 ? images.length - 1 : currentIndex - 1;
     navigateToImage(newIndex);
-  };
+  }, [currentIndex, images.length]);
 
   // Navigate to next image
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     const newIndex = (currentIndex + 1) % images.length;
     navigateToImage(newIndex);
-  };
+  }, [currentIndex, images.length]);
+
+  // Set up swipe gesture handling
+  const { ref: swipeRef } = useSwipe(handleNext, handlePrevious, 40);
 
   // Navigate to specific image with smooth transition
   const navigateToImage = (index) => {
@@ -140,8 +148,7 @@ export default function ImageSliderSection({
       // Add manual mode class to stop animation
       sliderRef.current.classList.add("manual-mode");
 
-      // Get the appropriate width based on screen size
-      const width = window.innerWidth;
+      // Get the appropriate width based on screen size using responsive hook
       let imageWidth, gap;
 
       if (width >= 768) {
@@ -185,11 +192,10 @@ export default function ImageSliderSection({
             {/* Right: Description */}
             <div className="w-full md:flex-[1.5] flex flex-col items-start text-left">
               <p className="text-justify text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-black">
-                Stop worrying about design errors or manufacturing delays. Our
-                comprehensive approach integrates advanced simulation and
-                in-house prototyping to catch issues early, delivering
-                high-performance PCB designs that are optimized for cost and
-                rapid production.
+                Stop worrying about design errors or manufacturing delays. Our comprehensive
+                approach integrates advanced simulation and in-house prototyping to catch issues
+                early, delivering high-performance PCB designs that are optimized for cost and rapid
+                production.
               </p>
             </div>
           </div>
@@ -197,7 +203,10 @@ export default function ImageSliderSection({
 
         {/* Horizontal Scrolling Carousel */}
         <div
-          ref={containerRef}
+          ref={(el) => {
+            containerRef.current = el;
+            swipeRef.current = el;
+          }}
           className="overflow-hidden relative rounded-xl md:rounded-2xl group pb-2 sm:pb-3 md:pb-4"
         >
           {/* Left Arrow Button */}
@@ -218,11 +227,7 @@ export default function ImageSliderSection({
             <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
           </button>
 
-          <div
-            ref={sliderRef}
-            className="animate-image-marquee"
-            style={{ width: "max-content" }}
-          >
+          <div ref={sliderRef} className="animate-image-marquee" style={{ width: "max-content" }}>
             {duplicatedImages.map((image, index) => (
               <div
                 key={`${index}-${typeof image === "object" ? image.src : image}`}

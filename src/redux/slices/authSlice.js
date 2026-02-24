@@ -30,18 +30,15 @@ export const loginAdmin = createAsyncThunk(
   },
 );
 
-export const logoutAdmin = createAsyncThunk(
-  "auth/logoutAdmin",
-  async (_, { rejectWithValue }) => {
-    try {
-      await signOut(auth);
-      return true;
-    } catch (error) {
-      const message = error?.message || "Failed to sign out";
-      return rejectWithValue(message);
-    }
-  },
-);
+export const logoutAdmin = createAsyncThunk("auth/logoutAdmin", async (_, { rejectWithValue }) => {
+  try {
+    await signOut(auth);
+    return true;
+  } catch (error) {
+    const message = error?.message || "Failed to sign out";
+    return rejectWithValue(message);
+  }
+});
 
 const authSlice = createSlice({
   name: "auth",
@@ -98,7 +95,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { setLoginError, clearLoginError, setAuthUser } =
-  authSlice.actions;
+export const { setLoginError, clearLoginError, setAuthUser } = authSlice.actions;
 
 export default authSlice.reducer;

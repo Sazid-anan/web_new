@@ -1,6 +1,9 @@
+import { useResponsive } from "../../hooks/useResponsive";
+
 /**
  * Button Component
  * Modern button with multiple variants and sizes
+ * Responsive tap effects for mobile
  */
 export default function Button({
   children,
@@ -9,6 +12,7 @@ export default function Button({
   className = "",
   ...props
 }) {
+  const { isMobile } = useResponsive();
   const variants = {
     default: "glass-orange-outline",
     outline: "glass-orange-outline",

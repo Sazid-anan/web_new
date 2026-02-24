@@ -12,6 +12,7 @@ import {
   ArrowDown,
 } from "lucide-react";
 import Container from "./common/Container";
+import { useResponsive } from "../hooks/useResponsive";
 
 const phases = [
   {
@@ -128,10 +129,7 @@ const PhaseCard = ({ process, index }) => {
             className={`h-0.5 rounded-full transition-all duration-300 ${isHovered ? "w-12" : "w-8"} ${process.color}`}
           ></div>
 
-          <p
-            className="leading-relaxed flex-1 text-white/90"
-            style={{ textAlign: "justify" }}
-          >
+          <p className="leading-relaxed flex-1 text-white/90" style={{ textAlign: "justify" }}>
             {process.description}
           </p>
         </div>
@@ -199,9 +197,7 @@ const getDirection = (from, to, columns) => {
 
 const getGridColumnCount = (gridElement) => {
   if (!gridElement) return 1;
-  const templateColumns = window
-    .getComputedStyle(gridElement)
-    .gridTemplateColumns.trim();
+  const templateColumns = window.getComputedStyle(gridElement).gridTemplateColumns.trim();
   if (!templateColumns) return 1;
   return Math.max(1, templateColumns.split(" ").length);
 };
@@ -210,20 +206,10 @@ const PhaseSection = () => {
   const gridRef = useRef(null);
   const cardRefs = useRef([]);
   const [connectors, setConnectors] = useState([]);
-  const [isMobile, setIsMobile] = useState(false);
   const connectorPadding = 4; // Keep arrows visible when grid gaps are tight
 
-  // Detect mobile view and sort phases accordingly
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  // Use responsive hook for device detection
+  const { isMobile } = useResponsive();
 
   // Sort phases by number for mobile, keep original order for desktop
   const displayPhases = isMobile
@@ -350,8 +336,8 @@ const PhaseSection = () => {
                 className="text-white/90 text-sm sm:text-base md:text-lg lg:text-xl font-medium leading-relaxed"
                 style={{ textAlign: "justify" }}
               >
-                We streamline your success by handling every detail from initial
-                schematics to in-house prototyping and testing
+                We streamline your success by handling every detail from initial schematics to
+                in-house prototyping and testing
               </p>
             </div>
           </div>

@@ -15,7 +15,7 @@ export default {
       screens: {
         xs: "0px", // Mobile (default/base)
         sm: "576px", // Tablet start
-        md: "768px", // Tablet mid-point
+        md: "750px", // Tablet mid-point & iPad mini portrait (750x858)
         lg: "992px", // Laptop/Desktop start
         xl: "1200px", // Desktop 1080p
         xxl: "1400px", // Ultra-wide/4K

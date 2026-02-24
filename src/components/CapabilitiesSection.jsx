@@ -1,15 +1,7 @@
 import { motion } from "framer-motion";
 import Container from "./common/Container";
 import { Card } from "./ui/Card";
-import {
-  Zap,
-  CircuitBoard,
-  Code,
-  Brain,
-  Smartphone,
-  Signal,
-  Box,
-} from "lucide-react";
+import { Zap, CircuitBoard, Code, Brain, Smartphone, Signal, Box } from "lucide-react";
 
 /**
  * CapabilitiesSection Component
@@ -77,8 +69,8 @@ export default function CapabilitiesSection({ homePage }) {
             </div> */}
             <div className="w-full sm:flex-[1.5] flex flex-col items-start text-left mt-0 sm:mt-4 sm:w-auto">
               <p className="text-justify text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-black">
-                From hardware design to edge AI deployment, we deliver complete
-                engineering solutions that bring intelligent products to life.
+                From hardware design to edge AI deployment, we deliver complete engineering
+                solutions that bring intelligent products to life.
               </p>
             </div>
           </div>
@@ -86,7 +78,7 @@ export default function CapabilitiesSection({ homePage }) {
 
         <div className="mb-0 sm:mb-5 md:mb-7">
           <Card className="relative w-full max-w-[1150px] lg:max-w-[1450px] xl:max-w-[1600px] mx-auto px-3 sm:px-2 md:px-3 lg:px-4 py-3 sm:py-3 md:py-4 lg:py-5 bg-white border-2 border-orange-200/60 shadow-lg shadow-orange-100/50">
-            <div className="grid grid-cols-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 sm:gap-3 md:gap-4 lg:gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-7 gap-3 sm:gap-3 md:gap-4 lg:gap-3">
               {capabilities.map((capability, index) => (
                 <motion.div
                   key={index}
@@ -97,8 +89,8 @@ export default function CapabilitiesSection({ homePage }) {
                   whileHover={{ y: -4, scale: 1.05 }}
                   style={{ willChange: "transform, opacity" }}
                 >
-                  <Card className="relative aspect-square w-full flex flex-col items-center justify-center gap-2 sm:gap-2 md:gap-2.5 p-4 sm:p-3 md:p-4 lg:p-3 hover:shadow-lg transition-all duration-300 bg-white border border-gray-200 hover:border-orange-500/50 hover:shadow-orange-100/50">
-                    <capability.icon className="h-10 w-10 sm:h-10 sm:w-10 md:h-12 md:w-12 lg:h-10 lg:w-10 xl:h-12 xl:w-12 text-orange-500" />
+                  <Card className="relative aspect-square w-full flex flex-col items-center justify-center gap-2 sm:gap-2 md:gap-2.5 p-4 sm:p-4 md:p-3 lg:p-3 hover:shadow-lg transition-all duration-300 bg-white border border-gray-200 hover:border-orange-500/50 hover:shadow-orange-100/50">
+                    <capability.icon className="h-10 w-10 sm:h-10 sm:w-10 md:h-11 md:w-11 lg:h-10 lg:w-10 xl:h-12 xl:w-12 text-orange-500 flex-shrink-0" />
                     <h3 className="text-center text-xs sm:text-xs md:text-sm lg:text-xs xl:text-sm font-semibold text-foreground leading-tight px-0.5">
                       {capability.title}
                     </h3>

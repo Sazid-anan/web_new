@@ -1,13 +1,16 @@
 import Container from "./common/Container";
 import { Calendar } from "lucide-react";
 import { motion } from "framer-motion";
+import { useResponsive } from "../hooks/useResponsive";
 
 /**
  * Hero Text Section
  * Displays the main headline and description on a white background
+ * Enhanced with responsive optimizations for better mobile performance
  */
 
 export default function HeroTextSection() {
+  const { isMobile } = useResponsive();
   return (
     <section className="relative bg-black container-fluid topbanner overflow-hidden">
       <Container className="content-maxwidth hero-topbanner-content">
@@ -22,8 +25,8 @@ export default function HeroTextSection() {
               </h1>
               {/* Button - hidden on mobile, shown on desktop */}
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.2 }}
+                whileHover={!isMobile ? { scale: 1.05 } : {}} // Disable hover animation on mobile
+                transition={{ duration: isMobile ? 0.1 : 0.2 }} // Faster transition on mobile
                 onClick={() => window.open("https://calendly.com/", "_blank")}
                 className="hidden sm:flex group mt-1.5 sm:mt-2 md:mt-4 lg:mt-6 px-1.5 sm:px-4 md:px-5 lg:px-6 py-0.5 sm:py-2 md:py-2.5 lg:py-3 bg-orange-500 font-bold rounded-full transition-all duration-300 items-center gap-0.5 sm:gap-2 hover:shadow-lg hover:bg-white border border-orange-500 cursor-pointer text-xs sm:text-sm md:text-base lg:text-lg"
               >
@@ -48,8 +51,8 @@ export default function HeroTextSection() {
 
           {/* Button - shown only on mobile, below description */}
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            transition={{ duration: 0.2 }}
+            whileTap={{ scale: 0.95 }} // Tap effect for mobile instead of hover
+            transition={{ duration: 0.1 }}
             onClick={() => window.open("https://calendly.com/", "_blank")}
             className="flex sm:hidden group mt-2 px-2.5 py-1 bg-orange-500 font-bold rounded-full transition-all duration-300 items-center gap-1 hover:shadow-lg hover:bg-white border border-orange-500 cursor-pointer text-xs"
           >
