@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { useResponsive } from "../hooks/useResponsive";
-import { ResponsiveLayout, ShowOn, HideOn } from "../components/common/ResponsiveLayout";
+import {
+  ResponsiveLayout as ResponsiveContainer,
+  ShowOn,
+  HideOn,
+} from "../components/common/ResponsiveLayout";
 import Container from "../components/common/Container";
 import { Card } from "../components/ui/Card";
 import { Smartphone, Tablet, Monitor, Info, CheckCircle2, XCircle } from "lucide-react";
@@ -242,13 +246,13 @@ export default function ResponsiveLayout() {
             description="Different components for different devices"
             showCode={showCode["layout"]}
             onToggleCode={() => toggleCode("layout")}
-            code={`<ResponsiveLayout
+            code={`<ResponsiveContainer
   mobile={<MobileVersion />}
   tablet={<TabletVersion />}
   desktop={<DesktopVersion />}
 />`}
           >
-            <ResponsiveLayout
+            <ResponsiveContainer
               mobile={
                 <Card className="p-8 bg-gradient-to-br from-green-400 to-green-600 text-white">
                   <Smartphone className="w-16 h-16 mb-4 mx-auto" />

@@ -2,7 +2,22 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { BarChart3, Package, FileText, Users, Star, Mail, User, LogOut } from "lucide-react";
+import {
+  BarChart3,
+  Package,
+  FileText,
+  Users,
+  Star,
+  Mail,
+  Settings,
+  History,
+  User,
+  LogOut,
+  Image as ImageIcon,
+  Calendar,
+  Palette,
+  Search,
+} from "lucide-react";
 import { logoutAdmin } from "../../redux/slices/authSlice";
 import { setActiveTab } from "../../redux/slices/adminSlice";
 import { fetchContent } from "../../redux/slices/contentSlice";
@@ -12,6 +27,13 @@ import MessagesTab from "../components/MessagesTab";
 import AnalyticsWidget from "../components/AnalyticsWidget";
 import TestimonialsTab from "../components/TestimonialsTab";
 import BlogsTab from "../components/BlogsTab";
+import SiteSettingsTab from "../components/SiteSettingsTab";
+import EmailTemplatesTab from "../components/EmailTemplatesTab";
+import ActivityLogsTab from "../components/ActivityLogsTab";
+import MediaLibraryTab from "../components/MediaLibraryTab";
+import ContentSchedulerTab from "../components/ContentSchedulerTab";
+import ThemeCustomizerTab from "../components/ThemeCustomizerTab";
+import SEOManagerTab from "../components/SEOManagerTab";
 
 /**
  * Admin Dashboard
@@ -48,7 +70,13 @@ export default function AdminDashboard() {
     { id: "blogs", label: "Blog Posts", icon: FileText },
     { id: "team", label: "Leadership Team", icon: Users },
     { id: "testimonials", label: "Testimonials", icon: Star },
-    { id: "messages", label: "Messages", icon: Mail },
+    { id: "media", label: "Media Library", icon: ImageIcon },
+    { id: "scheduler", label: "Content Scheduler", icon: Calendar },
+    { id: "theme", label: "Theme Customizer", icon: Palette },
+    { id: "seo", label: "SEO Manager", icon: Search },
+    { id: "settings", label: "Settings", icon: Settings },
+    { id: "email", label: "Email Templates", icon: Mail },
+    { id: "activity", label: "Activity Logs", icon: History },
   ];
 
   const tabGroups = [
@@ -58,7 +86,19 @@ export default function AdminDashboard() {
     },
     {
       title: "Content",
-      items: ["products", "blogs", "team", "testimonials", "messages"],
+      items: ["products", "blogs", "team", "testimonials"],
+    },
+    {
+      title: "Tools",
+      items: ["media", "scheduler"],
+    },
+    {
+      title: "Advanced",
+      items: ["theme", "seo"],
+    },
+    {
+      title: "Administration",
+      items: ["settings", "email", "activity"],
     },
   ];
 
@@ -68,7 +108,7 @@ export default function AdminDashboard() {
     <div
       className="min-h-screen admin-area text-brand-black"
       style={{
-        fontFamily: "'Comfortaa', cursive",
+        fontFamily: "Inter",
       }}
     >
       {/* Main Content */}
@@ -201,6 +241,13 @@ export default function AdminDashboard() {
               {activeTab === "team" && <EditTeamTab />}
               {activeTab === "testimonials" && <TestimonialsTab />}
               {activeTab === "messages" && <MessagesTab />}
+              {activeTab === "media" && <MediaLibraryTab />}
+              {activeTab === "scheduler" && <ContentSchedulerTab />}
+              {activeTab === "theme" && <ThemeCustomizerTab />}
+              {activeTab === "seo" && <SEOManagerTab />}
+              {activeTab === "settings" && <SiteSettingsTab />}
+              {activeTab === "email" && <EmailTemplatesTab />}
+              {activeTab === "activity" && <ActivityLogsTab />}
             </motion.div>
           </div>
         </div>

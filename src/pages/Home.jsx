@@ -33,28 +33,28 @@ export default function Home() {
   // Form validation setup
   const validateForm = (values) => {
     const errors = {};
-    
+
     // Name validation
     if (!values.name || values.name.trim().length === 0) {
       errors.name = "Name is required";
     } else if (values.name.trim().length < 2) {
       errors.name = "Name must be at least 2 characters";
     }
-    
+
     // Email validation
     if (!values.email || values.email.trim().length === 0) {
       errors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
       errors.email = "Please enter a valid email address";
     }
-    
+
     // Message validation
     if (!values.message || values.message.trim().length === 0) {
       errors.message = "Message is required";
     } else if (values.message.trim().length < 10) {
       errors.message = "Message must be at least 10 characters";
     }
-    
+
     return errors;
   };
 
@@ -63,11 +63,11 @@ export default function Home() {
     async (values) => {
       try {
         // Check rate limiting on client side (server-side check also happens)
-        const lastSubmission = localStorage.getItem('lastContactSubmission');
-        const oneHourAgo = Date.now() - 60 * 60 * 1000;
-        
-        if (lastSubmission && parseInt(lastSubmission) > oneHourAgo) {
-          toast.error("⏱️ Please wait before submitting another message.");
+        const lastSubmission = localStorage.getItem("lastContactSubmission");
+        const fiveMinutesAgo = Date.now() - 5 * 60 * 1000;
+
+        if (lastSubmission && parseInt(lastSubmission) > fiveMinutesAgo) {
+          toast.error("⏱️ Please wait 5 minutes before submitting another message.");
           return;
         }
 
@@ -76,41 +76,42 @@ export default function Home() {
           email: values.email.trim(),
           phone: values.phone.trim() || null,
           message: values.message.trim(),
+          is_read: false, // Mark as unread when first created
           created_at: serverTimestamp(),
           consent_timestamp: serverTimestamp(), // GDPR: Track consent
         };
 
         await addDoc(collection(db, "contact_messages"), payload);
-        
+
         // Store submission time for rate limiting
-        localStorage.setItem('lastContactSubmission', Date.now().toString());
-        
+        localStorage.setItem("lastContactSubmission", Date.now().toString());
+
         // Track conversion
-        analyticsService.trackConversion('contact_form_submission', 1, {
-          source: 'home_page',
+        analyticsService.trackConversion("contact_form_submission", 1, {
+          source: "home_page",
         });
-        
+
         setFormSubmitted(true);
         form.reset();
         toast.success("✅ Thank you! We'll get back to you soon.");
-        
+
         // Clear success message after 5 seconds
         setTimeout(() => setFormSubmitted(false), 5000);
       } catch (error) {
-        errorLogger.captureException(error, { 
+        errorLogger.captureException(error, {
           where: "home-contact-form",
-          action: "submit_contact_form"
+          action: "submit_contact_form",
         });
-        
+
         // Handle rate limiting error
-        if (error.code === 'resource-exhausted') {
-          toast.error("⏱️ Too many submissions. Please try again in 1 hour.");
+        if (error.code === "resource-exhausted") {
+          toast.error("⏱️ Too many submissions. Please try again in 5 minutes.");
         } else {
           toast.error("❌ Failed to submit form. Please try again.");
         }
       }
     },
-    validateForm
+    validateForm,
   );
 
   // Section 2 variables
@@ -159,7 +160,8 @@ export default function Home() {
           name: "Danvion Ltd",
           url: "https://danvion.com",
           logo: "https://danvion.com/logo.png",
-          description: "Leading provider of Edge AI solutions and complete product development services",
+          description:
+            "Leading provider of Edge AI solutions and complete product development services",
           sameAs: ["https://www.linkedin.com/company/danvion"],
           address: {
             "@type": "PostalAddress",
@@ -330,8 +332,8 @@ export default function Home() {
                       placeholder=""
                       className={`w-full px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-2 xl:py-1 xxl:py-2 border-2 rounded-lg focus:outline-none focus:ring-2 transition-all duration-300 bg-gray-900 text-white shadow-sm hover:shadow-md text-[13px] sm:text-sm md:text-base xl:text-sm xxl:text-base placeholder-gray-500 ${
                         form.touched.name && form.errors.name
-                          ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
-                          : 'border-gray-700 focus:border-orange-500 focus:ring-orange-500/20'
+                          ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                          : "border-gray-700 focus:border-orange-500 focus:ring-orange-500/20"
                       }`}
                     />
                     {form.touched.name && form.errors.name && (
@@ -362,8 +364,8 @@ export default function Home() {
                       placeholder=""
                       className={`w-full px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-2 xl:py-1 xxl:py-2 border-2 rounded-lg focus:outline-none focus:ring-2 transition-all duration-300 bg-gray-900 text-white shadow-sm hover:shadow-md text-[13px] sm:text-sm md:text-base xl:text-sm xxl:text-base placeholder-gray-500 ${
                         form.touched.email && form.errors.email
-                          ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
-                          : 'border-gray-700 focus:border-orange-500 focus:ring-orange-500/20'
+                          ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                          : "border-gray-700 focus:border-orange-500 focus:ring-orange-500/20"
                       }`}
                     />
                     {form.touched.email && form.errors.email && (
@@ -417,8 +419,8 @@ export default function Home() {
                       placeholder=""
                       className={`w-full px-2 sm:px-3 md:px-4 py-1.5 sm:py-2 md:py-2 xl:py-1 xxl:py-2 border-2 rounded-lg focus:outline-none focus:ring-2 transition-all duration-300 bg-gray-900 text-white shadow-sm hover:shadow-md resize-none text-[13px] sm:text-sm md:text-base xl:text-sm xxl:text-base placeholder-gray-500 ${
                         form.touched.message && form.errors.message
-                          ? 'border-red-500 focus:border-red-500 focus:ring-red-500/20'
-                          : 'border-gray-700 focus:border-orange-500 focus:ring-orange-500/20'
+                          ? "border-red-500 focus:border-red-500 focus:ring-red-500/20"
+                          : "border-gray-700 focus:border-orange-500 focus:ring-orange-500/20"
                       }`}
                     />
                     {form.touched.message && form.errors.message && (
@@ -437,7 +439,7 @@ export default function Home() {
                     className="group w-full bg-orange-500 hover:bg-white border border-orange-500 hover:shadow-lg font-bold rounded-full py-2.5 md:py-2 lg:py-3.5 px-8 transition-all duration-300 disabled:opacity-70 cursor-pointer"
                   >
                     <span className="text-[12px] sm:text-xs md:text-sm lg:text-base text-white group-hover:text-orange-500 transition-colors duration-300">
-                      {form.isSubmitting ? 'Sending...' : 'Send Message'}
+                      {form.isSubmitting ? "Sending..." : "Send Message"}
                     </span>
                   </motion.button>
                   {/* Success Message */}
